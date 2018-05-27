@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatToolbarModule, MatButtonModule, MatDividerModule, MatListModule, MatIconModule } from '@angular/material';
+import { MatToolbarModule, MatButtonModule, MatDividerModule, MatListModule, MatIconModule, MatCheckboxModule } from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -20,7 +20,8 @@ import { LessonListComponent } from './lessons/lesson-list/lesson-list.component
     MatToolbarModule,
     MatDividerModule,
     MatListModule,
-    MatIconModule
+    MatIconModule,
+    MatCheckboxModule
   ],
   providers: [],
   bootstrap: [AppComponent]
