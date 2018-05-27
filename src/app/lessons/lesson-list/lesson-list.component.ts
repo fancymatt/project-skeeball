@@ -8,6 +8,9 @@ import { Lesson } from '../lesson.model';
 })
 export class LessonListComponent {
   lessons: Lesson[] = [
-    new Lesson('lesson title', 'lesson detail')
+    new Lesson('5 Most Important Nouns', 'Vocabulary'),
+    new Lesson('Existence verb aru', 'Grammar'),
+    new Lesson('Subject Marker ga', 'Grammar'),
+    new Lesson('Introduction to masu form', 'Grammar'),
   ];
 }
