@@ -19,9 +19,8 @@ export class AddLessonComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    const newLesson = new Lesson(form.form.value.name, form.form.value.type, false);
+    const newLesson = new Lesson(form.form.value.name, form.form.value.type, false, []);
     this.lessonService.createLesson(newLesson);
     this.router.navigate(['../lessons']);
-    // TODO: Why does content of lessonService.lessons reset when I navigate back?
   }
 }

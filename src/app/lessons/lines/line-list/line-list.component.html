@@ -1,0 +1,11 @@
+<mat-nav-list>
+  <h3 mat-subheader>Lines</h3>
+  <mat-list-item *ngFor="let line of lines">
+    <h4 mat-line>{{line.content}}</h4>
+    <p mat-line> {{line.type}} </p>
+  </mat-list-item>
+</mat-nav-list>
+<br>
+<div class="button-row">
+  <button mat-raised-button color="primary" routerLink="add-line">Add Line</button>
+</div>

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Lesson} from '../lesson.model';
 import {LessonService} from '../lesson.service';
 
@@ -12,11 +12,16 @@ export class EditLessonComponent implements OnInit {
   index: number;
   lesson: Lesson;
 
-  constructor(private activatedRoute: ActivatedRoute, private lessonService: LessonService) { }
+  constructor(private activatedRoute: ActivatedRoute, private lessonService: LessonService, private router: Router) { }
 
   ngOnInit() {
     this.index = this.activatedRoute.snapshot.params.id;
     this.lesson = this.lessonService.getLessonById(this.index);
+  }
+
+  onDelete() {
+    this.lessonService.deleteLessonById(this.index);
+    this.router.navigate(['../lessons']);
   }
 
 }

@@ -1,2 +1,8 @@
-<a routerLink="/">Back to Lesson List</a>
-<h3>{{ lesson.name }}</h3>
+<section class="mat-typography">
+  <h3 >Lesson: {{ lesson.name }} ({{ lesson.type }})</h3>
+  <app-line-list></app-line-list>
+  <hr>
+  <button mat-raised-button color="warn" (click)="onDelete()">Delete Lesson</button>
+  <br><br>
+  <a routerLink="/">Back to Lesson List</a>
+</section>

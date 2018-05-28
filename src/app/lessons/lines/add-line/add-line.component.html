@@ -1,0 +1,20 @@
+<section class="create-form mat-typography">
+  <form fxLayout="column" #f="ngForm" (ngSubmit)="onSubmit(f)">
+    <h3>Add Lesson</h3>
+    <mat-form-field>
+      <mat-select placeholder="Type" ngModel name="type">
+        <mat-option *ngFor="let type of possibleLineTypes" [value]="type">
+          {{ type }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <input type="textarea" matInput placeholder="Content" ngModel name="content">
+    </mat-form-field>
+    <button mat-raised-button color="primary" type="submit">Create Line</button>
+    <br>
+    <button mat-raised-button color="warn" routerLink="..">Cancel</button>
+  </form>
+</section>
+<br><br>
+<a routerLink="..">Back to Lesson</a>

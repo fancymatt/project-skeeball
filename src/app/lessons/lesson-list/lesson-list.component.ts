@@ -12,10 +12,6 @@ export class LessonListComponent implements OnInit {
 
   constructor(private lessonService: LessonService) {}
 
-  createLesson() {
-    this.lessonService.createLesson(new Lesson('New Lesson', 'Vocabulary', false));
-  }
-
   ngOnInit() {
     this.lessons = this.lessonService.getAllLessons();
   }
