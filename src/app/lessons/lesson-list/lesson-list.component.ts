@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Lesson } from '../lesson.model';
 import { LessonService } from '../lesson.service';
+import { Response } from '@angular/http';
 
 @Component({
   selector: 'app-lesson-list',
@@ -14,5 +15,23 @@ export class LessonListComponent implements OnInit {
 
   ngOnInit() {
     this.lessons = this.lessonService.getAllLessons();
+  }
+
+  onSave() {
+    this.lessonService.saveLessonsToDatabase()
+      .subscribe(
+        (response) => console.log(response),
+        (error) => console.error(error)
+      );
+  }
+
+  onLoad() {
+    this.lessonService.getLessonsFromDatabase()
+      .subscribe(
+        (lessons: any[]) => {
+          this.lessons = lessons;
+          this.lessonService.setLessons(lessons);
+        }
+      );
   }
 }

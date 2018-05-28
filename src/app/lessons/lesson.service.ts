@@ -1,18 +1,15 @@
-import { Injectable } from '@angular/core';
+import {Injectable, OnInit} from '@angular/core';
 import { Lesson } from './lesson.model';
 import { Line } from './lines/line.model';
+import {Headers, Http, Response} from '@angular/http';
+import 'rxjs/Rx';
 
 @Injectable()
-export class LessonService {
-  private lessons: Lesson[] = [
-    new Lesson('5 Most Important Nouns', 'Vocabulary', false, [
-      new Line('text', 'Here is some sample text' ),
-      new Line('text', 'Here is some more sample text' )
-    ]),
-    new Lesson('Existence verb aru', 'Grammar', false, []),
-    new Lesson('Subject Marker ga', 'Grammar', false, []),
-    new Lesson('Introduction to masu form', 'Grammar', false, []),
-  ];
+export class LessonService implements OnInit {
+
+  constructor(private http: Http) {}
+
+  private lessons: Lesson[] = [];
 
   private lessonTypes: string[] = [
     'Grammar', 'Vocabulary', 'Phrase'
@@ -29,10 +26,7 @@ export class LessonService {
   }
 
   createLesson(newLesson: Lesson) {
-    console.log('Creating a new lesson...');
-    console.log(newLesson);
     this.lessons.push(newLesson);
-    console.log(this.lessons.length);
   }
 
   getLessonById(id: number) {
@@ -50,5 +44,25 @@ export class LessonService {
   createLineInLesson(id: number, newLine: Line) {
     this.lessons[id].lines.push(newLine);
   }
+
+  saveLessonsToDatabase() {
+    const headers = new Headers({'Content-Type': 'application/json'});
+    return this.http.put('https://project-skeeball.firebaseio.com/lessons.json', this.lessons, {headers: headers});
+  }
+
+  getLessonsFromDatabase() {
+    return this.http.get('https://project-skeeball.firebaseio.com/lessons.json')
+      .map(
+        (response: Response) => {
+          const lessons: Lesson[] = response.json();
+          return lessons;
+        }
+      );
+  }
+
+  setLessons(lessons: Lesson[]) {
+    this.lessons = lessons;
+  }
+
 
 }

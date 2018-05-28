@@ -27,6 +27,7 @@ import { LinesComponent } from './lessons/lines/lines.component';
 import { LineListComponent } from './lessons/lines/line-list/line-list.component';
 import { AddLineComponent } from './lessons/lines/add-line/add-line.component';
 import {LineService} from './lessons/lines/line.service';
+import {HttpModule} from '@angular/http';
 
 const appRoutes: Routes = [
   {path: '', redirectTo: 'lessons', pathMatch: 'full'},
@@ -54,6 +55,7 @@ const appRoutes: Routes = [
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
+    HttpModule,
     MatButtonModule,
     MatToolbarModule,
     MatDividerModule,
