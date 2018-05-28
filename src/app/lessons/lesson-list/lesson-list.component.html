@@ -1,8 +1,12 @@
 <mat-nav-list>
   <h3 mat-subheader>Lessons</h3>
-  <mat-list-item *ngFor="let lesson of lessons">
+  <mat-list-item *ngFor="let lesson of lessons; let i = index" routerLink="edit/{{i}}">
     <h4 mat-line>{{lesson.name}}</h4>
     <p mat-line> {{lesson.type}} </p>
     <mat-checkbox labelPosition="before" ngModel [name]="lesson.completed">Completed</mat-checkbox>
   </mat-list-item>
 </mat-nav-list>
+<br>
+<div class="button-row">
+  <button mat-raised-button color="primary" routerLink="add">Add Lesson</button>
+</div>
