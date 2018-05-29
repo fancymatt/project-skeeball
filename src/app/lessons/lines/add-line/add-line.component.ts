@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {LineService} from '../line.service';
-import {Form} from '@angular/forms';
+import { NgForm } from '@angular/forms';
 import {LessonService} from '../../lesson.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Line} from '../line.model';
@@ -24,7 +24,7 @@ export class AddLineComponent implements OnInit {
     this.lessonId = this.activatedRoute.snapshot.params.id;
   }
 
-  onSubmit(form: Form) {
+  onSubmit(form: NgForm) {
     let newLine = new Line(form.form.value.type, form.form.value.content);
     this.lessonService.createLineInLesson(this.lessonId, newLine);
     this.router.navigate(['/lessons', this.lessonId]);

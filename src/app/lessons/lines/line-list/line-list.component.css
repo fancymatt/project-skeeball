@@ -1,0 +1,22 @@
+.button-row {
+  margin: 10px;
+}
+
+.line-number {
+  display: inline-block;
+  min-width: 25px;
+  font-style: italic;
+  font-weight: bold;
+  color: darkgrey;
+  height: 100%;
+  vertical-align: top;
+}
+
+.line-content {
+  display: inline-block;
+  white-space: normal;
+}
+
+.line-container {
+  white-space: nowrap;
+}

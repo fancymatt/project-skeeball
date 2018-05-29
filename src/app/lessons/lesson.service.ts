@@ -5,7 +5,7 @@ import {Headers, Http, Response} from '@angular/http';
 import 'rxjs/Rx';
 
 @Injectable()
-export class LessonService implements OnInit {
+export class LessonService {
 
   constructor(private http: Http) {}
 
