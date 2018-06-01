@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+  import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-lines',
   templateUrl: './lines.component.html',
-  styleUrls: ['./lines.component.css']
+  styles: []
 })
 export class LinesComponent implements OnInit {
 

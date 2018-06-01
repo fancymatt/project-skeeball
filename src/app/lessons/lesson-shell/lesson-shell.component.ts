@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-lessons',
-  templateUrl: './lessons.component.html',
-  styleUrls: ['./lessons.component.css']
+  templateUrl: './lesson-shell.component.html',
+  styles: []
 })
-export class LessonsComponent implements OnInit {
+export class LessonShellComponent implements OnInit {
 
   constructor() { }
 

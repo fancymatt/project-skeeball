@@ -6,7 +6,7 @@ import { Response } from '@angular/http';
 @Component({
   selector: 'app-lesson-list',
   templateUrl: './lesson-list.component.html',
-  styleUrls: ['./lesson-list.component.css']
+  styles: ['.button-row { margin: 10px; }']
 })
 export class LessonListComponent implements OnInit {
   lessons: Lesson[];

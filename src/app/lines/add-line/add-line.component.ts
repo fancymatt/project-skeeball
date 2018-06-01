@@ -1,18 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import {LineService} from '../line.service';
 import { NgForm } from '@angular/forms';
-import {LessonService} from '../../lesson.service';
+import {LessonService} from '../../lessons/lesson.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Line} from '../line.model';
 
 @Component({
   selector: 'app-add-line',
   templateUrl: './add-line.component.html',
-  styleUrls: ['./add-line.component.css']
+  styles: []
 })
 export class AddLineComponent implements OnInit {
   lessonId: number;
   possibleLineTypes: string[];
+  selectedLineType: string;
 
   constructor(private lineService: LineService,
               private lessonService: LessonService,
@@ -25,9 +26,14 @@ export class AddLineComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    let newLine = new Line(form.form.value.type, form.form.value.content);
+    const newLine = new Line(form.form.value.type, form.form.value.content);
     this.lessonService.createLineInLesson(this.lessonId, newLine);
-    this.router.navigate(['/lessons', this.lessonId]);
+    this.router.navigate(['/lesson-shell', this.lessonId]);
+  }
+
+  selectChangeHandler (event: any) {
+    console.log(event);
+    this.selectedLineType = event.target.value;
   }
 
 }

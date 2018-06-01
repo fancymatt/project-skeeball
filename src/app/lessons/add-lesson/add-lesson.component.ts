@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-add-lesson',
   templateUrl: './add-lesson.component.html',
-  styleUrls: ['./add-lesson.component.css']
+  styles: ['.create-form { width: 300px; }']
 })
 export class AddLessonComponent implements OnInit {
   possibleLessonTypes: string[];
@@ -21,6 +21,6 @@ export class AddLessonComponent implements OnInit {
   onSubmit(form: NgForm) {
     const newLesson = new Lesson(form.form.value.name, form.form.value.type, false, []);
     this.lessonService.createLesson(newLesson);
-    this.router.navigate(['../lessons']);
+    this.router.navigate(['../lesson-shell']);
   }
 }

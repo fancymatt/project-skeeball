@@ -1,6 +1,6 @@
 import {Injectable, OnInit} from '@angular/core';
 import { Lesson } from './lesson.model';
-import { Line } from './lines/line.model';
+import { Line } from '../lines/line.model';
 import {Headers, Http, Response} from '@angular/http';
 import 'rxjs/Rx';
 
@@ -47,11 +47,11 @@ export class LessonService {
 
   saveLessonsToDatabase() {
     const headers = new Headers({'Content-Type': 'application/json'});
-    return this.http.put('https://project-skeeball.firebaseio.com/lessons.json', this.lessons, {headers: headers});
+    return this.http.put('https://project-skeeball.firebaseio.com/lesson-shell.json', this.lessons, {headers: headers});
   }
 
   getLessonsFromDatabase() {
-    return this.http.get('https://project-skeeball.firebaseio.com/lessons.json')
+    return this.http.get('https://project-skeeball.firebaseio.com/lesson-shell.json')
       .map(
         (response: Response) => {
           const lessons: Lesson[] = response.json();

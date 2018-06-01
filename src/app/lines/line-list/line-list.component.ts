@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Line} from '../line.model';
 import {ActivatedRoute} from '@angular/router';
-import {LessonService} from '../../lesson.service';
+import {LessonService} from '../../lessons/lesson.service';
 
 @Component({
   selector: 'app-line-list',

@@ -6,7 +6,7 @@ import {LessonService} from '../lesson.service';
 @Component({
   selector: 'app-edit-lesson',
   templateUrl: './edit-lesson.component.html',
-  styleUrls: ['./edit-lesson.component.css']
+  styles: ['.button-row { margin: 10px; }']
 })
 export class EditLessonComponent implements OnInit {
   index: number;
@@ -21,7 +21,7 @@ export class EditLessonComponent implements OnInit {
 
   onDelete() {
     this.lessonService.deleteLessonById(this.index);
-    this.router.navigate(['../lessons']);
+    this.router.navigate(['../lesson-shell']);
   }
 
 }

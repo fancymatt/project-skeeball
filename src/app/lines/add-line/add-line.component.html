@@ -3,15 +3,13 @@
   <form fxLayout="column" #f="ngForm" (ngSubmit)="onSubmit(f)">
     <h3>Add Lesson</h3>
     <mat-form-field>
-      <mat-select placeholder="Type" ngModel name="type">
+      <mat-select placeholder="Type" ngModel name="type" [(value)]="selectedLineType">
         <mat-option *ngFor="let type of possibleLineTypes" [value]="type">
           {{ type }}
         </mat-option>
       </mat-select>
     </mat-form-field>
-    <mat-form-field>
-      <input type="textarea" matInput placeholder="Content" ngModel name="content">
-    </mat-form-field>
+    <app-line-editor [newLineType]="selectedLineType"></app-line-editor>
     <button mat-raised-button color="primary" type="submit">Create Line</button>
     <br>
     <button mat-raised-button color="warn" routerLink="..">Cancel</button>

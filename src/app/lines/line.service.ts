@@ -6,7 +6,7 @@ export class LineService {
   private lines: Line[] = [];
 
   private lineTypes: string[] = [
-    'Text', 'Example'
+    'Explanation', 'Example'
   ];
 
   getAllLineTypes() {
