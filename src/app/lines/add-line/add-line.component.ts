@@ -27,7 +27,7 @@ export class AddLineComponent implements OnInit {
 
   onSubmit(form: NgForm) {
     const newLine = new Line(form.form.value.type, form.form.value.content);
-    this.lessonService.createLineInLesson(this.lessonId, newLine);
+    //this.lessonService.createLineInLesson(this.lessonId, newLine);
     this.router.navigate(['/lesson-shell', this.lessonId]);
   }
 

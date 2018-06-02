@@ -1,9 +1,13 @@
 <section class="mat-typography">
   <a mat-raised-button routerLink="/">Return to Lesson List</a>
-  <h2 class="subheading-1">Lesson: {{ lesson.name }} ({{ lesson.type }})</h2>
+  <h2 class="subheading-1">Lesson: Edit Lesson</h2>
+  <form>
+    <input type="text" [(ngModel)]="selectedLesson.name" name="lessonName"/>
+  </form>
   <app-line-list></app-line-list>
   <br><br>
   <div class="button-row">
+    <button mat-raised-button color="accent" (click)="onSave()">Save Lesson</button>
     <button mat-raised-button color="warn" (click)="onDelete()">Delete Lesson</button>
   </div>
   <br><br>

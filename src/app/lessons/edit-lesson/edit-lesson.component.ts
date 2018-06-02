@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Lesson} from '../lesson.model';
 import {LessonService} from '../lesson.service';
+import {DataService} from '../../shared/data.service';
 
 @Component({
   selector: 'app-edit-lesson',
@@ -9,19 +10,46 @@ import {LessonService} from '../lesson.service';
   styles: ['.button-row { margin: 10px; }']
 })
 export class EditLessonComponent implements OnInit {
-  index: number;
-  lesson: Lesson;
+  selectedLesson: Lesson = new Lesson('Loading...', '', []);
 
-  constructor(private activatedRoute: ActivatedRoute, private lessonService: LessonService, private router: Router) { }
+  constructor(private activatedRoute: ActivatedRoute,
+              private dataService: DataService,
+              private lessonService: LessonService,
+              private router: Router) { }
 
   ngOnInit() {
-    this.index = this.activatedRoute.snapshot.params.id;
-    this.lesson = this.lessonService.getLessonById(this.index);
+    this.loadLesson(this.activatedRoute.snapshot.params.id);
+  }
+
+  loadLesson(id: string) {
+    this.dataService.getLesson(id)
+      .subscribe(
+        (data: Lesson) => {
+          this.selectedLesson = data;
+        },
+        (err: any) => console.error(err),
+        () => console.log('Finished getting lesson.')
+      );
   }
 
   onDelete() {
-    this.lessonService.deleteLessonById(this.index);
-    this.router.navigate(['../lesson-shell']);
+    this.dataService.deleteLesson(this.selectedLesson)
+      .subscribe(
+        (data) => {
+          this.router.navigate(['../lessons']);
+        },
+        (err) => console.error(err),
+        () => console.log('Finished deleting lesson')
+      );
+  }
+
+  onSave() {
+    this.dataService.updateLesson(this.selectedLesson)
+      .subscribe(
+        (data) => console.log(data),
+        (err) => console.error(err),
+        () => console.log('Finished saving lesson')
+      );
   }
 
 }

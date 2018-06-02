@@ -1,37 +1,34 @@
 import { Component, OnInit } from '@angular/core';
+
 import { Lesson } from '../lesson.model';
 import { LessonService } from '../lesson.service';
-import { Response } from '@angular/http';
+import { DataService } from '../../shared/data.service';
 
 @Component({
   selector: 'app-lesson-list',
   templateUrl: './lesson-list.component.html',
-  styles: ['.button-row { margin: 10px; }']
+  styles: ['.button-row { margin: 10px; }'],
+  providers: []
 })
 export class LessonListComponent implements OnInit {
   lessons: Lesson[];
 
-  constructor(private lessonService: LessonService) {}
+  constructor(private lessonService: LessonService, private dataService: DataService) {}
 
-  ngOnInit() {
-    this.lessons = this.lessonService.getAllLessons();
+  ngOnInit(): void {
+    this.updateLessonList();
   }
 
-  onSave() {
-    this.lessonService.saveLessonsToDatabase()
+  updateLessonList(): void {
+    this.dataService.getAllLessons()
       .subscribe(
-        (response) => console.log(response),
-        (error) => console.error(error)
+        (data: Lesson[]) => this.lessons = data,
+        (err: any) => console.log(err),
+        () => console.log('')
       );
   }
 
-  onLoad() {
-    this.lessonService.getLessonsFromDatabase()
-      .subscribe(
-        (lessons: any[]) => {
-          this.lessons = lessons;
-          this.lessonService.setLessons(lessons);
-        }
-      );
+  onSelectRow() {
+
   }
 }

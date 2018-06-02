@@ -4,6 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { HttpClientModule } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
 import {
   MatToolbarModule,
@@ -18,6 +19,8 @@ import {
 } from '@angular/material';
 
 import { AppComponent } from './app.component';
+import { DataService } from './shared/data.service';
+
 import { HeaderComponent } from './header/header.component';
 import { LessonListComponent } from './lessons/lesson-list/lesson-list.component';
 import { AddLessonComponent } from './lessons/add-lesson/add-lesson.component';
@@ -32,6 +35,7 @@ import { LineService } from './lines/line.service';
 import { LineEditorComponent } from './lines/line-editor/line-editor.component';
 import { ExplanationLineEditorComponent } from './lines/line-editor/explanation-line-editor/explanation-line-editor.component';
 import { ExampleLineEditorComponent } from './lines/line-editor/example-line-editor/example-line-editor.component';
+import {IdGenService} from './shared/id-gen.service';
 
 const appRoutes: Routes = [
   {path: '', redirectTo: 'lessons', pathMatch: 'full'},
@@ -63,6 +67,7 @@ const appRoutes: Routes = [
     BrowserAnimationsModule,
     FormsModule,
     HttpModule,
+    HttpClientModule,
     MatButtonModule,
     MatToolbarModule,
     MatDividerModule,
@@ -76,7 +81,7 @@ const appRoutes: Routes = [
     MatSelectModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [LessonService, LineService],
+  providers: [DataService, IdGenService, LessonService, LineService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -9,12 +9,11 @@ import {LessonService} from '../../lessons/lesson.service';
   styleUrls: ['./line-list.component.css']
 })
 export class LineListComponent implements OnInit {
-  lines: Line[];
+  lines: Line[] = [];
 
   constructor(private activatedRoute: ActivatedRoute, private lessonService: LessonService) { }
 
   ngOnInit() {
-    this.lines = this.lessonService.getLinesForLesson(this.activatedRoute.snapshot.params.id);
   }
 
 
