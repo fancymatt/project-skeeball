@@ -9,10 +9,10 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
-    <mat-form-field>
+    <mat-form-field *ngIf="selectedLineType=='Explanation'">
       <input type="text" matInput placeholder="Video Script" ngModel name="scriptVideo">
     </mat-form-field>
-    <mat-form-field>
+    <mat-form-field *ngIf="selectedLineType=='Explanation'">
       <input type="text" matInput placeholder="Audio Script" ngModel name="scriptAudio">
     </mat-form-field>
     <mat-form-field *ngIf="selectedLineType=='Example'">
