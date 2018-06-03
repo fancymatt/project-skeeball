@@ -1,0 +1,26 @@
+<section class="mat-typography">
+  <a mat-raised-button routerLink="../">Return to Lesson</a>
+  <h2 class="subheading-1">{{currentLesson.name}}</h2>
+  <hr />
+  <section *ngIf="currentLine.type == 'Explanation'" id="explanationPresent">
+    <div class="videoScript">
+      <span class="present-text">{{currentLine.explanationVideoScript}}</span>
+    </div>
+    <div class="audioScript">
+      <span class="present-text">{{currentLine.explanationAudioScript}}</span>
+    </div>
+  </section>
+  <section *ngIf="currentLine.type == 'Example'" id="examplePresent">
+    <div class="exampleTarget">
+      <span class="present-text">{{currentLine.exampleTarget}}</span>
+    </div>
+    <div class="exampleEnglish">
+      <span class="present-text">{{currentLine.exampleEnglish}}</span>
+    </div>
+  </section>
+  <hr />
+  <section>
+    <button type="button" name="nextLine" (click)="advanceToNextLine()">Next Line</button>
+    <span class="progress">{{currentLineIndex + 1}} / {{totalLines}}</span>
+  </section>
+</section>

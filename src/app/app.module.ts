@@ -36,6 +36,7 @@ import { LineService } from './lines/line.service';
 import { IdGenService } from './shared/id-gen.service';
 import { HttpCacheService } from './shared/http-cache.service';
 import { CacheInterceptor } from './shared/cache.interceptor';
+import { ViewLessonComponent } from './lessons/view-lesson/view-lesson.component';
 
 const appRoutes: Routes = [
   {path: '', redirectTo: 'lessons', pathMatch: 'full'},
@@ -43,7 +44,8 @@ const appRoutes: Routes = [
       {path: '', component: LessonListComponent, pathMatch: 'full', resolve: { resolvedLessons: LessonListResolverService }},
       {path: 'add', component: AddLessonComponent},
       {path: ':id', component: EditLessonComponent},
-      {path: ':id/add-line', component: AddLineComponent}
+      {path: ':id/add-line', component: AddLineComponent},
+      {path: ':id/preview', component: ViewLessonComponent}
     ]},
   ];
 
@@ -57,7 +59,8 @@ const appRoutes: Routes = [
     LessonShellComponent,
     LinesComponent,
     LineListComponent,
-    AddLineComponent
+    AddLineComponent,
+    ViewLessonComponent
   ],
   imports: [
     BrowserModule,
