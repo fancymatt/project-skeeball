@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Line} from '../line.model';
 import {ActivatedRoute} from '@angular/router';
 import {LessonService} from '../../lessons/lesson.service';
@@ -14,6 +14,7 @@ export class LineListComponent implements OnInit {
   constructor(private activatedRoute: ActivatedRoute, private lessonService: LessonService) { }
 
   ngOnInit() {
+    this.lines = this.lessonService.selectedLesson.lines;
   }
 
 

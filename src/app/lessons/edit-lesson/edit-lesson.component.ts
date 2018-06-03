@@ -10,7 +10,7 @@ import {DataService} from '../../shared/data.service';
   styles: ['.button-row { margin: 10px; }']
 })
 export class EditLessonComponent implements OnInit {
-  selectedLesson: Lesson = new Lesson('Loading...', '', []);
+  selectedLesson: Lesson;
 
   constructor(private activatedRoute: ActivatedRoute,
               private dataService: DataService,
@@ -25,7 +25,8 @@ export class EditLessonComponent implements OnInit {
     this.dataService.getLesson(id)
       .subscribe(
         (data: Lesson) => {
-          this.selectedLesson = data;
+          this.lessonService.selectedLesson = data;
+          this.selectedLesson = this.lessonService.selectedLesson;
         },
         (err: any) => console.error(err),
         () => console.log('Finished getting lesson.')

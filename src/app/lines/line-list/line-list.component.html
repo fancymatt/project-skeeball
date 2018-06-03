@@ -1,6 +1,13 @@
-<section class="mat-typography">
+<section *ngIf="lines" class="mat-typography">
   <div *ngFor="let line of lines; let i = index" class="line-container">
-    <div class="line-number">{{i + 1}} </div><div class="line-content">{{line.content}}</div>
+    <div class="line-number">{{i + 1}} </div>
+    <div class="line-content">
+      <span>{{line.type}} | </span>
+      <span *ngIf="line.type=='Explanation'">{{line.explanationAudioScript}} | </span>
+      <span *ngIf="line.type=='Explanation'">{{line.explanationVideoScript}} | </span>
+      <span *ngIf="line.type=='Example'">{{line.exampleTarget}} | </span>
+      <span *ngIf="line.type=='Example'">{{line.exampleEnglish}} </span>
+    </div>
   </div>
   <br>
   <div class="button-row">

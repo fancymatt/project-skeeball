@@ -33,9 +33,6 @@ import { LinesComponent } from './lines/lines.component';
 import { LineListComponent } from './lines/line-list/line-list.component';
 import { AddLineComponent } from './lines/add-line/add-line.component';
 import { LineService } from './lines/line.service';
-import { LineEditorComponent } from './lines/line-editor/line-editor.component';
-import { ExplanationLineEditorComponent } from './lines/line-editor/explanation-line-editor/explanation-line-editor.component';
-import { ExampleLineEditorComponent } from './lines/line-editor/example-line-editor/example-line-editor.component';
 import { IdGenService } from './shared/id-gen.service';
 import { HttpCacheService } from './shared/http-cache.service';
 import { CacheInterceptor } from './shared/cache.interceptor';
@@ -60,10 +57,7 @@ const appRoutes: Routes = [
     LessonShellComponent,
     LinesComponent,
     LineListComponent,
-    AddLineComponent,
-    LineEditorComponent,
-    ExplanationLineEditorComponent,
-    ExampleLineEditorComponent
+    AddLineComponent
   ],
   imports: [
     BrowserModule,

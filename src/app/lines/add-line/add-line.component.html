@@ -9,7 +9,24 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
-    <app-line-editor [newLineType]="selectedLineType"></app-line-editor>
+    <mat-form-field>
+      <input type="text" matInput placeholder="Video Script" ngModel name="scriptVideo">
+    </mat-form-field>
+    <mat-form-field>
+      <input type="text" matInput placeholder="Audio Script" ngModel name="scriptAudio">
+    </mat-form-field>
+    <mat-form-field *ngIf="selectedLineType=='Example'">
+      <input type="text" matInput placeholder="Target" ngModel name="exampleTarget">
+    </mat-form-field>
+    <mat-form-field *ngIf="selectedLineType=='Example'">
+      <input type="text" matInput placeholder="Kana" ngModel name="exampleKana">
+    </mat-form-field>
+    <mat-form-field *ngIf="selectedLineType=='Example'">
+      <input type="text" matInput placeholder="Romanization" ngModel name="exampleRomanization">
+    </mat-form-field>
+    <mat-form-field *ngIf="selectedLineType=='Example'">
+      <input type="text" matInput placeholder="English" ngModel name="exampleEnglish">
+    </mat-form-field>
     <button mat-raised-button color="primary" type="submit">Create Line</button>
     <br>
     <button mat-raised-button color="warn" routerLink="..">Cancel</button>
