@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 import { Lesson } from '../lesson.model';
 import { LessonService } from '../lesson.service';
 import { DataService } from '../../shared/data.service';
+import { SkeeballError } from '../../shared/skeeballError';
 
 @Component({
   selector: 'app-lesson-list',
@@ -13,22 +15,21 @@ import { DataService } from '../../shared/data.service';
 export class LessonListComponent implements OnInit {
   lessons: Lesson[];
 
-  constructor(private lessonService: LessonService, private dataService: DataService) {}
+  constructor(private lessonService: LessonService,
+              private dataService: DataService,
+              private router: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
-    this.updateLessonList();
-  }
 
-  updateLessonList(): void {
-    this.dataService.getAllLessons()
-      .subscribe(
-        (data: Lesson[]) => this.lessons = data,
-        (err: any) => console.log(err),
-        () => console.log('')
-      );
-  }
+    const resolvedData: Lesson[] | SkeeballError = this.router.snapshot.data['resolvedLessons'];
 
-  onSelectRow() {
+    if (resolvedData instanceof SkeeballError) {
+      console.log('Lesson list component error: ' + resolvedData.friendlyMessage);
+    } else {
+      this.lessons = resolvedData;
+    }
 
   }
+
 }

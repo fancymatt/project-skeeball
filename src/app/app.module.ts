@@ -4,7 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
 import {
   MatToolbarModule,
@@ -20,6 +20,7 @@ import {
 
 import { AppComponent } from './app.component';
 import { DataService } from './shared/data.service';
+import { LessonListResolverService } from './shared/lesson-list-resolver.service';
 
 import { HeaderComponent } from './header/header.component';
 import { LessonListComponent } from './lessons/lesson-list/lesson-list.component';
@@ -35,12 +36,14 @@ import { LineService } from './lines/line.service';
 import { LineEditorComponent } from './lines/line-editor/line-editor.component';
 import { ExplanationLineEditorComponent } from './lines/line-editor/explanation-line-editor/explanation-line-editor.component';
 import { ExampleLineEditorComponent } from './lines/line-editor/example-line-editor/example-line-editor.component';
-import {IdGenService} from './shared/id-gen.service';
+import { IdGenService } from './shared/id-gen.service';
+import { HttpCacheService } from './shared/http-cache.service';
+import { CacheInterceptor } from './shared/cache.interceptor';
 
 const appRoutes: Routes = [
   {path: '', redirectTo: 'lessons', pathMatch: 'full'},
   {path: 'lessons', component: LessonShellComponent, children: [
-      {path: '', component: LessonListComponent, pathMatch: 'full'},
+      {path: '', component: LessonListComponent, pathMatch: 'full', resolve: { resolvedLessons: LessonListResolverService }},
       {path: 'add', component: AddLessonComponent},
       {path: ':id', component: EditLessonComponent},
       {path: ':id/add-line', component: AddLineComponent}
@@ -81,7 +84,14 @@ const appRoutes: Routes = [
     MatSelectModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [DataService, IdGenService, LessonService, LineService],
+  providers: [
+    DataService,
+    { provide: HTTP_INTERCEPTORS, useClass: CacheInterceptor, multi: true},
+    IdGenService,
+    LessonService,
+    LineService,
+    LessonListResolverService,
+    HttpCacheService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
