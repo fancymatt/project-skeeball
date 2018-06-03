@@ -15,7 +15,9 @@ import {
   MatCheckboxModule,
   MatFormFieldModule,
   MatInputModule,
-  MatSelectModule
+  MatSelectModule,
+  MatProgressBarModule,
+  MatCardModule
 } from '@angular/material';
 
 import { AppComponent } from './app.component';
@@ -79,6 +81,8 @@ const appRoutes: Routes = [
     MatInputModule,
     FlexLayoutModule,
     MatSelectModule,
+    MatProgressBarModule,
+    MatCardModule,
     RouterModule.forRoot(appRoutes)
   ],
   providers: [

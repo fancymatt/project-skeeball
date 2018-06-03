@@ -1,32 +1,50 @@
 <section class="mat-typography">
-  <a mat-raised-button routerLink="../">Return to Lesson</a>
-  <h2 class="subheading-1">{{currentLesson.name}}</h2>
-  <hr />
-  <section *ngIf="currentLine.type == 'Explanation'" id="explanationPresent">
-    <div class="videoScript">
-      <span class="present-text">{{currentLine.explanationVideoScript}}</span>
-    </div>
-    <div class="audioScript">
-      <span class="present-text">{{currentLine.explanationAudioScript}}</span>
-    </div>
-  </section>
-  <section *ngIf="currentLine.type == 'Example'" id="examplePresent">
-    <div class="exampleTarget">
-      <span class="present-text">{{currentLine.exampleTarget}}</span>
-    </div>
-    <div class="exampleTarget">
-      <span class="present-text">{{currentLine.exampleKana}}</span>
-    </div>
-    <div class="exampleTarget">
-      <span class="present-text">{{currentLine.exampleRomanization}}</span>
-    </div>
-    <div class="exampleEnglish">
-      <span class="present-text">{{currentLine.exampleEnglish}}</span>
-    </div>
-  </section>
-  <hr />
-  <section>
-    <button type="button" name="nextLine" (click)="advanceToNextLine()">Next Line</button>
-    <span class="progress">{{currentLineIndex + 1}} / {{totalLines}}</span>
-  </section>
+  <a mat-button routerLink="../">Return to Lesson</a>
+  <mat-card class="lesson-card">
+    <mat-card-content>
+      <mat-card-title>{{currentLesson.name}}</mat-card-title>
+      <mat-card-subtitle>{{currentLesson.type}}</mat-card-subtitle>
+
+      <section class="lesson-content">
+        <section *ngIf="currentLine.type == 'Explanation'" id="explanationPresent">
+          <div class="videoScript present-text">
+            <span>{{currentLine.explanationVideoScript}}</span>
+          </div>
+          <div class="audioScript subtitle-text">
+            <span>{{currentLine.explanationAudioScript}}</span>
+          </div>
+        </section>
+        <section *ngIf="currentLine.type == 'Example'" id="examplePresent">
+          <div class="exampleTarget present-text">
+            <span>{{currentLine.exampleTarget}}</span>
+          </div>
+          <div class="exampleTarget subtitle-text">
+            <span>{{currentLine.exampleKana}}</span>
+          </div>
+          <div class="exampleTarget subtitle-text">
+            <span>{{currentLine.exampleRomanization}}</span>
+          </div>
+          <div class="exampleEnglish present-text">
+            <span>{{currentLine.exampleEnglish}}</span>
+          </div>
+        </section>
+
+      </section>
+
+      <section class="progress-bar-section">
+        <mat-progress-bar
+          class="example-margin"
+          [color]="'primary'"
+          [mode]="'determinate'"
+          [value]="((currentLineIndex + 1) / totalLines) * 100">
+        </mat-progress-bar>
+      </section>
+
+      <mat-card-actions>
+        <button mat-button (click)="advanceToPreviousLine()" [disabled]="currentLineIndex == 0">PREVIOUS</button>
+        <button mat-button (click)="advanceToNextLine()" [disabled]="currentLineIndex == (totalLines - 1)">NEXT</button>
+      </mat-card-actions>
+
+    </mat-card-content>
+  </mat-card>
 </section>

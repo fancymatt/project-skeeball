@@ -24,12 +24,16 @@ export class ViewLessonComponent implements OnInit {
   }
 
   advanceToNextLine() {
-    if(this.currentLineIndex < this.totalLines - 1) {
+    if (this.currentLineIndex < this.totalLines - 1) {
       this.currentLineIndex++;
       this.currentLine = this.currentLesson.lines[this.currentLineIndex];
-    } else {
-      this.currentLineIndex = 0;
-      this.currentLine = this.currentLesson.lines[0];
+    }
+  }
+
+  advanceToPreviousLine() {
+    if (this.currentLineIndex > 0) {
+      this.currentLineIndex--;
+      this.currentLine = this.currentLesson.lines[this.currentLineIndex];
     }
   }
 

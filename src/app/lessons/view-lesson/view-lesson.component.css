@@ -1,0 +1,15 @@
+.lesson-content {
+  min-height: 250px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.lesson-card {
+  max-width: 600px;
+}
+
+.present-text {
+  font-size: 24px;
+  margin: 20px;
+}
