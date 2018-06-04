@@ -1,17 +1,17 @@
 <section *ngIf="selectedLesson" class="mat-typography">
   <div *ngFor="let line of selectedLesson.lines; let i = index" class="line-container">
-    <div class="line-number">{{i + 1}} </div>
-    <div class="line-content">
-      <span>{{line.type}} | </span>
-      <span *ngIf="line.type=='Explanation'">{{line.explanationAudioScript}} | </span>
-      <span *ngIf="line.type=='Explanation'">{{line.explanationVideoScript}} | </span>
-      <span *ngIf="line.type=='Example'">{{line.exampleTarget}} | </span>
-      <span *ngIf="line.type=='Example'">{{line.exampleEnglish}} </span>
-    </div>
     <div class="line-options">
       <span [style.opacity]="i > 0 ? '1' : '.2'" (click)="moveLineUp(i)">⬆️</span>
       <span [style.opacity]="i < selectedLesson.lines.length - 1 ? '1' : '.2'" (click)="moveLineDown(i)">⬇️</span>
       <span (click)="deleteLine(i)">❎</span>
+    </div>
+    <div class="line-number">{{i + 1}} </div>
+    <div class="line-content">
+      <span class="line-type">{{line.type}}</span>
+      <span *ngIf="line.type=='Explanation'">{{line.explanationAudioScript}}</span>
+      <span *ngIf="line.type=='Example'">{{line.exampleTarget}} | </span>
+      <span *ngIf="line.type=='Example'">{{line.exampleEnglish}} </span>
+      <span *ngIf="line.type=='Multiple Choice'">{{line.mcQuestion}}</span>
     </div>
   </div>
   <br>

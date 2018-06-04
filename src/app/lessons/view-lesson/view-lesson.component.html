@@ -28,6 +28,19 @@
             <span>{{currentLine.exampleEnglish}}</span>
           </div>
         </section>
+        <section *ngIf="currentLine.type == 'Multiple Choice'" id="mcPresent">
+          <div class="present-text">
+            <span>{{currentLine.mcQuestion}}</span>
+          </div>
+          <div class="options">
+            <button *ngFor="let option of options"
+                    mat-raised-button
+                    class="question-option"
+                    [disabled]="option.selected"
+                    (click)="onClickOption(option)"
+                    color="primary">{{option.text}}</button>
+          </div>
+        </section>
 
       </section>
 
@@ -42,7 +55,7 @@
 
       <mat-card-actions>
         <button mat-button (click)="advanceToPreviousLine()" [disabled]="currentLineIndex == 0">PREVIOUS</button>
-        <button mat-button (click)="advanceToNextLine()" [disabled]="currentLineIndex == (totalLines - 1)">NEXT</button>
+        <button mat-button (click)="advanceToNextLine()" [disabled]="currentLineIndex == (totalLines - 1) || preventAdvance">NEXT</button>
       </mat-card-actions>
 
     </mat-card-content>

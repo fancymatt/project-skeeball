@@ -27,6 +27,21 @@
     <mat-form-field *ngIf="selectedLineType=='Example'">
       <input type="text" matInput placeholder="English" ngModel name="exampleEnglish">
     </mat-form-field>
+    <mat-form-field *ngIf="selectedLineType=='Multiple Choice'">
+      <input type="text" matInput placeholder="Question" ngModel name="mcQuestion">
+    </mat-form-field>
+    <mat-form-field *ngIf="selectedLineType=='Multiple Choice'">
+      <input type="text" matInput placeholder="Correct Answer" ngModel name="mcAnswerCorrect">
+    </mat-form-field>
+    <mat-form-field *ngIf="selectedLineType=='Multiple Choice'">
+      <input type="text" matInput placeholder="Incorrect Answer 1" ngModel name="mcAnswerIncorrect1">
+    </mat-form-field>
+    <mat-form-field *ngIf="selectedLineType=='Multiple Choice'">
+      <input type="text" matInput placeholder="Incorrect Answer 2" ngModel name="mcAnswerIncorrect2">
+    </mat-form-field>
+    <mat-form-field *ngIf="selectedLineType=='Multiple Choice'">
+      <input type="text" matInput placeholder="Incorrect Answer 3" ngModel name="mcAnswerIncorrect3">
+    </mat-form-field>
     <button mat-raised-button color="primary" type="submit">Create Line</button>
     <br>
     <button mat-raised-button color="warn" routerLink="..">Cancel</button>

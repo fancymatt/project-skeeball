@@ -7,6 +7,12 @@ export class Line {
   public exampleEnglish: string;
   public exampleKana: string;
   public exampleRomanization: string;
+  public mcQuestion: string;
+  public mcAnswerCorrect: string;
+  public mcAnswerIncorrect1: string;
+  public mcAnswerIncorrect2: string;
+  public mcAnswerIncorrect3: string;
+
 
   constructor(type: string) {
     this.type = type;

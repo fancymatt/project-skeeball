@@ -33,6 +33,11 @@ export class AddLineComponent implements OnInit {
     newLine.exampleKana = form.form.value.exampleKana;
     newLine.exampleRomanization = form.form.value.exampleRomanization;
     newLine.exampleEnglish = form.form.value.exampleEnglish;
+    newLine.mcQuestion = form.form.value.mcQuestion;
+    newLine.mcAnswerCorrect = form.form.value.mcAnswerCorrect;
+    newLine.mcAnswerIncorrect1 = form.form.value.mcAnswerIncorrect1;
+    newLine.mcAnswerIncorrect2 = form.form.value.mcAnswerIncorrect2;
+    newLine.mcAnswerIncorrect3 = form.form.value.mcAnswerIncorrect3;
 
     this.lessonService.selectedLesson.lines.push(newLine);
     this.dataService.updateLesson(this.lessonService.selectedLesson)

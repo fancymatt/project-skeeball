@@ -13,10 +13,18 @@
   vertical-align: top;
 }
 
+.line-type {
+  font-weight: bold;
+  color: black;
+  height: 100%;
+  vertical-align: top;
+  margin-right: 7px;
+  margin-left: 7px;
+}
+
 .line-content {
   display: inline-block;
   white-space: normal;
-  width: 300px;
 }
 
 .line-options {
