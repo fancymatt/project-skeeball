@@ -3,8 +3,9 @@
 }
 
 .line-number {
+  float: left;
   display: inline-block;
-  min-width: 25px;
+  width: 25px;
   font-style: italic;
   font-weight: bold;
   color: darkgrey;
@@ -15,6 +16,18 @@
 .line-content {
   display: inline-block;
   white-space: normal;
+  width: 300px;
+}
+
+.line-options {
+  display: inline-block;
+  text-align: right;
+  height: 100%;
+  vertical-align: top;
+}
+
+.line-options span {
+  cursor: pointer;
 }
 
 .line-container {
