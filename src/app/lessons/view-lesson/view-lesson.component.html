@@ -8,13 +8,16 @@
       <section class="lesson-content">
         <app-view-explanation
           *ngIf="currentLine.type == 'Explanation'"
-          [(line)]="currentLine"></app-view-explanation>
+          [(line)]="currentLine"
+          (dismissLine)="onLineDismissed($event)"></app-view-explanation>
         <app-view-example
           *ngIf="currentLine.type == 'Example'"
-          [(line)]="currentLine"></app-view-example>
+          [(line)]="currentLine"
+          (dismissLine)="onLineDismissed($event)"></app-view-example>
         <app-view-question-mc
           *ngIf="currentLine.type == 'Multiple Choice'"
-          [(line)]="currentLine"></app-view-question-mc>
+          [(line)]="currentLine"
+          (dismissLine)="onLineDismissed($event)"></app-view-question-mc>
       </section>
 
       <section class="progress-bar-section">
@@ -25,13 +28,6 @@
           [value]="((currentLineIndex + 1) / totalLines) * 100">
         </mat-progress-bar>
       </section>
-
-      <mat-card-actions>
-        <button mat-button (click)="transitionToLine(currentLineIndex - 1)" [disabled]="currentLineIndex == 0">PREVIOUS</button>
-        <button mat-button
-                (click)="transitionToLine(currentLineIndex + 1)"
-                [disabled]="currentLineIndex == (totalLines - 1) || preventAdvance">NEXT</button>
-      </mat-card-actions>
 
     </mat-card-content>
   </mat-card>

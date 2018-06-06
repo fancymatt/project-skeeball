@@ -1,14 +1,23 @@
 <section>
-  <div class="exampleTarget present-text">
+  <div class="exampleTarget present-text"
+       [@primaryTextState]="animationState">
     <span>{{line.exampleTarget}}</span>
   </div>
-  <div class="exampleTarget subtitle-text">
+  <div class="exampleTarget subtitle-text"
+       [@secondaryTextState]="animationState">
     <span>{{line.exampleKana}}</span>
   </div>
-  <div class="exampleTarget subtitle-text">
+  <div class="exampleTarget subtitle-text"
+       [@secondaryTextState]="animationState">
     <span>{{line.exampleRomanization}}</span>
   </div>
-  <div class="exampleEnglish present-text">
+  <div class="exampleEnglish present-text"
+       [@secondaryTextState]="animationState">
     <span>{{line.exampleEnglish}}</span>
   </div>
+  <br />
+  <button mat-raised-button
+          color="primary"
+          (click)="animateOut()"
+          [@buttonState]="animationState">Next</button>
 </section>

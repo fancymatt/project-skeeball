@@ -7,29 +7,13 @@ import {Line} from '../../lines/line.model';
 @Component({
   selector: 'app-view-lesson',
   templateUrl: './view-lesson.component.html',
-  styleUrls: ['./view-lesson.component.css'],
-  animations: [
-    trigger('transitionPresentTextState', [
-      state('in', style({
-        opacity: 1,
-        transform: 'translateY(0px)'
-      })),
-      state('out', style({
-        opacity: 0,
-        transform: 'translateY(-10px)'
-      })),
-      transition('in => out', animate('300ms ease-out')),
-      transition('out => in', animate('1000ms ease-out')),
-      transition('void => in', animate('1000ms ease-out'))
-    ])
-  ]
+  styleUrls: ['./view-lesson.component.css']
 })
 export class ViewLessonComponent implements OnInit {
   currentLesson: Lesson;
   currentLineIndex: number;
   totalLines: number;
   currentLine: Line;
-  preventAdvance: boolean;
 
   /*
   TODO
@@ -48,14 +32,16 @@ export class ViewLessonComponent implements OnInit {
   }
 
   transitionToLine(nextLineIndex: number) {
-    if (nextLineIndex > 0 && nextLineIndex < this.totalLines) {
+    if (nextLineIndex >= 0 && nextLineIndex < this.totalLines) {
       this.currentLineIndex = nextLineIndex;
       this.currentLine = this.currentLesson.lines[nextLineIndex];
     }
     console.log('Current line index is ' + this.currentLineIndex);
     console.log('Current line type is ' + this.currentLine.type);
+  }
 
-
+  onLineDismissed(value: boolean) {
+    this.transitionToLine(this.currentLineIndex + 1);
   }
 
 }

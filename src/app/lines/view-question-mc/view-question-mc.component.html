@@ -1,5 +1,6 @@
 <section>
-  <div class="present-text">
+  <div class="present-text"
+       [@primaryTextState]="animationState">
     <span>{{line.question}}</span>
   </div>
   <div class="options">
@@ -8,6 +9,7 @@
             class="question-option"
             [disabled]="option.selected"
             (click)="onClickOption(option)"
-            color="primary">{{option.text}}</button>
+            color="primary"
+            [@buttonState]="animationState">{{option.text}}</button>
   </div>
 </section>
