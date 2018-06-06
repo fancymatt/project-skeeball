@@ -6,42 +6,15 @@
       <mat-card-subtitle>{{currentLesson.type}}</mat-card-subtitle>
 
       <section class="lesson-content">
-        <section *ngIf="currentLine.type == 'Explanation'" id="explanationPresent">
-          <div class="videoScript present-text" [@transitionPresentTextState]="isTransitioningBetweenLines">
-            <span>{{currentLine.explanationVideoScript}}</span>
-          </div>
-          <div class="audioScript subtitle-text">
-            <span>{{currentLine.explanationAudioScript}}</span>
-          </div>
-        </section>
-        <section *ngIf="currentLine.type == 'Example'" id="examplePresent">
-          <div class="exampleTarget present-text" [@transitionPresentTextState]="isTransitioningBetweenLines">
-            <span>{{currentLine.exampleTarget}}</span>
-          </div>
-          <div class="exampleTarget subtitle-text">
-            <span>{{currentLine.exampleKana}}</span>
-          </div>
-          <div class="exampleTarget subtitle-text">
-            <span>{{currentLine.exampleRomanization}}</span>
-          </div>
-          <div class="exampleEnglish present-text" [@transitionPresentTextState]="isTransitioningBetweenLines">
-            <span>{{currentLine.exampleEnglish}}</span>
-          </div>
-        </section>
-        <section *ngIf="currentLine.type == 'Multiple Choice'" id="mcPresent">
-          <div class="present-text" [@transitionPresentTextState]="isTransitioningBetweenLines">
-            <span>{{currentLine.mcQuestion}}</span>
-          </div>
-          <div class="options">
-            <button *ngFor="let option of mcOptions"
-                    mat-raised-button
-                    class="question-option"
-                    [disabled]="option.selected"
-                    (click)="onClickOption(option)"
-                    color="primary">{{option.text}}</button>
-          </div>
-        </section>
-
+        <app-view-explanation
+          *ngIf="currentLine.type == 'Explanation'"
+          [(line)]="currentLine"></app-view-explanation>
+        <app-view-example
+          *ngIf="currentLine.type == 'Example'"
+          [(line)]="currentLine"></app-view-example>
+        <app-view-question-mc
+          *ngIf="currentLine.type == 'Multiple Choice'"
+          [(line)]="currentLine"></app-view-question-mc>
       </section>
 
       <section class="progress-bar-section">

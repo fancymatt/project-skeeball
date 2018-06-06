@@ -39,6 +39,9 @@ import { IdGenService } from './shared/id-gen.service';
 import { HttpCacheService } from './shared/http-cache.service';
 import { CacheInterceptor } from './shared/cache.interceptor';
 import { ViewLessonComponent } from './lessons/view-lesson/view-lesson.component';
+import { ViewExplanationComponent } from './lines/view-explanation/view-explanation.component';
+import { ViewExampleComponent } from './lines/view-example/view-example.component';
+import { ViewQuestionMcComponent } from './lines/view-question-mc/view-question-mc.component';
 
 const appRoutes: Routes = [
   {path: '', redirectTo: 'lessons', pathMatch: 'full'},
@@ -62,7 +65,10 @@ const appRoutes: Routes = [
     LinesComponent,
     LineListComponent,
     AddLineComponent,
-    ViewLessonComponent
+    ViewLessonComponent,
+    ViewExplanationComponent,
+    ViewExampleComponent,
+    ViewQuestionMcComponent
   ],
   imports: [
     BrowserModule,

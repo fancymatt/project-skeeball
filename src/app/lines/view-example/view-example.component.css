@@ -1,0 +1,15 @@
+.lesson-content {
+  min-height: 250px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.present-text {
+  font-size: 24px;
+  margin: 20px;
+}
+
+.question-option {
+  margin: 10px;
+}

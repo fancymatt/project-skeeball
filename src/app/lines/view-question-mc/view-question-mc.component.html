@@ -1,0 +1,13 @@
+<section>
+  <div class="present-text">
+    <span>{{line.question}}</span>
+  </div>
+  <div class="options">
+    <button *ngFor="let option of options"
+            mat-raised-button
+            class="question-option"
+            [disabled]="option.selected"
+            (click)="onClickOption(option)"
+            color="primary">{{option.text}}</button>
+  </div>
+</section>

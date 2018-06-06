@@ -29,9 +29,14 @@ export class ViewLessonComponent implements OnInit {
   currentLineIndex: number;
   totalLines: number;
   currentLine: Line;
-  mcOptions: {text: string, correct: boolean, selected: boolean}[] = [];
   preventAdvance: boolean;
-  isTransitioningBetweenLines = 'in';
+
+  /*
+  TODO
+  currentLine is changed via the controls, but our individual components
+  do not know that it has changed. Use Observables?
+
+   */
 
   constructor(private lessonService: LessonService) { }
 
@@ -40,47 +45,17 @@ export class ViewLessonComponent implements OnInit {
     this.currentLineIndex = 0;
     this.currentLine = this.lessonService.selectedLesson.lines[this.currentLineIndex];
     this.totalLines = this.currentLesson.lines.length;
-    this.handleMultipleChoice();
-  }
-
-
-  handleMultipleChoice(): void {
-    if (this.currentLine.type !== 'Multiple Choice') { return; }
-
-    this.mcOptions.push({text: this.currentLine.mcAnswerCorrect, correct: true, selected: false});
-    this.mcOptions.push({text: this.currentLine.mcAnswerIncorrect1, correct: false, selected: false});
-    this.mcOptions.push({text: this.currentLine.mcAnswerIncorrect2, correct: false, selected: false});
-    this.mcOptions.push({text: this.currentLine.mcAnswerIncorrect3, correct: false, selected: false});
-
-    this.shuffleArray(this.mcOptions);
-    this.preventAdvance = true;
-  }
-
-  onClickOption(selectedOption: {text: string, correct: boolean, selected: boolean}) {
-    if (selectedOption.correct) {
-      this.preventAdvance = false;
-      this.mcOptions = [];
-    }
-    selectedOption.selected = true;
-  }
-
-  shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
-    }
   }
 
   transitionToLine(nextLineIndex: number) {
     if (nextLineIndex > 0 && nextLineIndex < this.totalLines) {
-      this.isTransitioningBetweenLines = 'out';
-      setTimeout(() => {
-        this.currentLineIndex = nextLineIndex;
-        this.currentLine = this.currentLesson.lines[nextLineIndex];
-        this.handleMultipleChoice();
-        this.isTransitioningBetweenLines = 'in';
-      }, 1000);
+      this.currentLineIndex = nextLineIndex;
+      this.currentLine = this.currentLesson.lines[nextLineIndex];
     }
+    console.log('Current line index is ' + this.currentLineIndex);
+    console.log('Current line type is ' + this.currentLine.type);
+
+
   }
 
 }
@@ -99,5 +74,8 @@ view-lesson - lesson-controls
   view-example
   view-mcQuestion
   view-title
+
+Each component is responsible for telling lesson service when it is "done" presenting,
+which is how the lesson controls know that it's allowed to show the next button.
 
  */
