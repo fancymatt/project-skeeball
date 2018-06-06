@@ -42,6 +42,7 @@ import { ViewLessonComponent } from './lessons/view-lesson/view-lesson.component
 import { ViewExplanationComponent } from './lines/view-explanation/view-explanation.component';
 import { ViewExampleComponent } from './lines/view-example/view-example.component';
 import { ViewQuestionMcComponent } from './lines/view-question-mc/view-question-mc.component';
+import {AudioService} from './shared/audio.service';
 
 const appRoutes: Routes = [
   {path: '', redirectTo: 'lessons', pathMatch: 'full'},
@@ -97,8 +98,13 @@ const appRoutes: Routes = [
     IdGenService,
     LessonService,
     LineService,
+    AudioService,
     LessonListResolverService,
     HttpCacheService],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor(private _audioService: AudioService) {
+    _audioService.initializeAllSounds();
+  }
+}
