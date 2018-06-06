@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { Line } from '../line.model';
 import { LineExplanation } from '../line-explanation';
+import { Howl } from 'howler';
 
 @Component({
   selector: 'app-view-explanation',
@@ -88,10 +89,22 @@ export class ViewExplanationComponent implements OnInit, OnChanges {
 
   animateOut() {
     this.animationState = 'end';
+    this.playNeutralSound();
     setTimeout(() => {
       this.dismissLine.emit(true);
     }, 1000);
 
+  }
+
+  playNeutralSound() {
+    const sound = new Howl({
+      src: ['../../assets/neutral_01.wav'],
+      html5: true
+    });
+
+    sound.play();
+
+    console.log('Playing sound...');
   }
 
 }

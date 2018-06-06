@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges
 import { Line } from '../line.model';
 import { LineQuestionMc } from '../line-question-mc';
 import {animate, state, style, transition, trigger} from '@angular/animations';
+import {Howl} from "howler";
 
 @Component({
   selector: 'app-view-question-mc',
@@ -95,6 +96,8 @@ export class ViewQuestionMcComponent implements OnInit, OnChanges {
     if (selectedOption.correct) {
       this.options = [];
       this.animateOut();
+    } else {
+      this.playFailureSound();
     }
     selectedOption.selected = true;
   }
@@ -119,10 +122,33 @@ export class ViewQuestionMcComponent implements OnInit, OnChanges {
 
   animateOut() {
     this.animationState = 'end';
+    this.playSuccessSound();
     setTimeout(() => {
       this.dismissLine.emit(true);
     }, 1000);
 
+  }
+
+  playSuccessSound() {
+    const sound = new Howl({
+      src: ['../../assets/positive_01.wav'],
+      html5: true
+    });
+
+    sound.play();
+
+    console.log('Playing sound...');
+  }
+
+  playFailureSound() {
+    const sound = new Howl({
+      src: ['../../assets/negative_01.wav'],
+      html5: true
+    });
+
+    sound.play();
+
+    console.log('Playing sound...');
   }
 
 }
