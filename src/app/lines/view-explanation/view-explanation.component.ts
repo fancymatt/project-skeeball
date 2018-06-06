@@ -3,6 +3,7 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
 import { Line } from '../line.model';
 import { LineExplanation } from '../line-explanation';
 import { Howl } from 'howler';
+import { AudioService } from '../../shared/audio.service';
 
 @Component({
   selector: 'app-view-explanation',
@@ -48,18 +49,20 @@ import { Howl } from 'howler';
       state('end', style({
         opacity: 0
       })),
-      transition('start => presented', animate('100ms 1500ms ease-out')),
+      transition('start => presented', animate('300ms 200ms ease-out')),
       transition('presented => end' , animate('100ms ease-out'))
     ])
   ]
 })
+
 export class ViewExplanationComponent implements OnInit, OnChanges {
   @Input('line') genericLine: Line;
   line: LineExplanation = new LineExplanation();
   animationState: string;
+  displayButtonState: string;
   @Output() dismissLine: EventEmitter<boolean> = new EventEmitter<boolean>(false);
 
-  constructor() { }
+  constructor(private audioService: AudioService) { }
 
   ngOnChanges(changes: SimpleChanges) {
     this.mapGenericLineToLine(changes.genericLine.currentValue);
@@ -78,8 +81,10 @@ export class ViewExplanationComponent implements OnInit, OnChanges {
 
   initializeAnimation() {
     this.animationState = 'start';
+    this.displayButtonState = 'start';
     setTimeout(() => {
       this.animateIn();
+      this.playNarration();
     }, 1000);
   }
 
@@ -89,6 +94,7 @@ export class ViewExplanationComponent implements OnInit, OnChanges {
 
   animateOut() {
     this.animationState = 'end';
+    this.displayButtonState = 'end';
     this.playNeutralSound();
     setTimeout(() => {
       this.dismissLine.emit(true);
@@ -97,14 +103,19 @@ export class ViewExplanationComponent implements OnInit, OnChanges {
   }
 
   playNeutralSound() {
-    const sound = new Howl({
-      src: ['../../assets/neutral_01.wav'],
-      html5: true
+    this.audioService.buttonClickSound.play();
+  }
+
+  displayNextButton() {
+    this.displayButtonState = 'presented';
+    console.log('Should display next button');
+  }
+
+  playNarration() {
+    this.audioService.explanationSampleSound.play();
+    this.audioService.explanationSampleSound.on('end',() => {
+      this.displayNextButton();
     });
-
-    sound.play();
-
-    console.log('Playing sound...');
   }
 
 }
