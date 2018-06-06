@@ -10,8 +10,7 @@ export class AudioService {
   negativeSound: Howl;
   explanationSampleSound: Howl;
 
-  constructor() {
-  }
+  constructor() { }
 
   initializeAllSounds(): void {
     console.log('Initializing sounds...');

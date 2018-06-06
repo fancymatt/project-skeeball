@@ -103,6 +103,7 @@ export class ViewExplanationComponent implements OnInit, OnChanges {
   }
 
   playNeutralSound() {
+    this.audioService.buttonClickSound.pause();
     this.audioService.buttonClickSound.play();
   }
 
@@ -112,8 +113,9 @@ export class ViewExplanationComponent implements OnInit, OnChanges {
   }
 
   playNarration() {
+    this.audioService.explanationSampleSound.pause();
     this.audioService.explanationSampleSound.play();
-    this.audioService.explanationSampleSound.on('end',() => {
+    this.audioService.explanationSampleSound.on('end', () => {
       this.displayNextButton();
     });
   }
