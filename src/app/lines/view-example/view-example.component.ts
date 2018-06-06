@@ -3,6 +3,7 @@ import { Line } from '../line.model';
 import { LineExample } from '../line-example';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {Howl} from "howler";
+import {AudioService} from '../../shared/audio.service';
 
 @Component({
   selector: 'app-view-example',
@@ -59,7 +60,7 @@ export class ViewExampleComponent implements OnInit, OnChanges {
   animationState: string;
   @Output() dismissLine: EventEmitter<boolean> = new EventEmitter<boolean>(false);
 
-  constructor() { }
+  constructor(private audioService: AudioService) { }
 
   mapGenericLineToLine(genericLine: Line) {
     this.line.exampleTarget = genericLine.exampleTarget;
@@ -99,14 +100,8 @@ export class ViewExampleComponent implements OnInit, OnChanges {
   }
 
   playNeutralSound() {
-    const sound = new Howl({
-      src: ['../../assets/neutral_01.wav'],
-      html5: true
-    });
-
-    sound.play();
-
-    console.log('Playing sound...');
+    this.audioService.buttonClickSound.pause();
+    this.audioService.buttonClickSound.play();
   }
 
 }

@@ -3,6 +3,7 @@ import { Line } from '../line.model';
 import { LineQuestionMc } from '../line-question-mc';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {Howl} from "howler";
+import {AudioService} from '../../shared/audio.service';
 
 @Component({
   selector: 'app-view-question-mc',
@@ -61,7 +62,7 @@ export class ViewQuestionMcComponent implements OnInit, OnChanges {
   animationState: string;
   @Output() dismissLine: EventEmitter<boolean> = new EventEmitter<boolean>(false);
 
-  constructor() { }
+  constructor(private audioService: AudioService) { }
 
   ngOnChanges(changes: SimpleChanges) {
     this.mapGenericLineToLine(changes.genericLine.currentValue);
@@ -130,25 +131,13 @@ export class ViewQuestionMcComponent implements OnInit, OnChanges {
   }
 
   playSuccessSound() {
-    const sound = new Howl({
-      src: ['../../assets/positive_01.wav'],
-      html5: true
-    });
-
-    sound.play();
-
-    console.log('Playing sound...');
+    this.audioService.positiveSound.pause();
+    this.audioService.positiveSound.play();
   }
 
   playFailureSound() {
-    const sound = new Howl({
-      src: ['../../assets/negative_01.wav'],
-      html5: true
-    });
-
-    sound.play();
-
-    console.log('Playing sound...');
+    this.audioService.negativeSound.pause();
+    this.audioService.negativeSound.play();
   }
 
 }
