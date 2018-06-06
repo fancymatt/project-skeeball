@@ -7,7 +7,7 @@
 
       <section class="lesson-content">
         <section *ngIf="currentLine.type == 'Explanation'" id="explanationPresent">
-          <div class="videoScript present-text">
+          <div class="videoScript present-text" [@transitionPresentTextState]="isTransitioningBetweenLines">
             <span>{{currentLine.explanationVideoScript}}</span>
           </div>
           <div class="audioScript subtitle-text">
@@ -15,7 +15,7 @@
           </div>
         </section>
         <section *ngIf="currentLine.type == 'Example'" id="examplePresent">
-          <div class="exampleTarget present-text">
+          <div class="exampleTarget present-text" [@transitionPresentTextState]="isTransitioningBetweenLines">
             <span>{{currentLine.exampleTarget}}</span>
           </div>
           <div class="exampleTarget subtitle-text">
@@ -24,16 +24,16 @@
           <div class="exampleTarget subtitle-text">
             <span>{{currentLine.exampleRomanization}}</span>
           </div>
-          <div class="exampleEnglish present-text">
+          <div class="exampleEnglish present-text" [@transitionPresentTextState]="isTransitioningBetweenLines">
             <span>{{currentLine.exampleEnglish}}</span>
           </div>
         </section>
         <section *ngIf="currentLine.type == 'Multiple Choice'" id="mcPresent">
-          <div class="present-text">
+          <div class="present-text" [@transitionPresentTextState]="isTransitioningBetweenLines">
             <span>{{currentLine.mcQuestion}}</span>
           </div>
           <div class="options">
-            <button *ngFor="let option of options"
+            <button *ngFor="let option of mcOptions"
                     mat-raised-button
                     class="question-option"
                     [disabled]="option.selected"
@@ -54,8 +54,10 @@
       </section>
 
       <mat-card-actions>
-        <button mat-button (click)="advanceToPreviousLine()" [disabled]="currentLineIndex == 0">PREVIOUS</button>
-        <button mat-button (click)="advanceToNextLine()" [disabled]="currentLineIndex == (totalLines - 1) || preventAdvance">NEXT</button>
+        <button mat-button (click)="transitionToLine(currentLineIndex - 1)" [disabled]="currentLineIndex == 0">PREVIOUS</button>
+        <button mat-button
+                (click)="transitionToLine(currentLineIndex + 1)"
+                [disabled]="currentLineIndex == (totalLines - 1) || preventAdvance">NEXT</button>
       </mat-card-actions>
 
     </mat-card-content>
