@@ -85,9 +85,9 @@ export class ViewExplanationComponent implements OnInit, OnChanges {
   }
 
   initializeNarration() {
-    if (this.audioService.currentLessonAudioFiles) {
-      const audioFiles = this.audioService.currentLessonAudioFiles;
-      const matchedAudio = audioFiles.find(audio => audio.url === this.currentLine.audioNarrationUrl);
+    const audioFiles = this.audioService.currentLessonAudioFiles;
+    const matchedAudio = audioFiles.find(audio => audio.url === this.currentLine.audioNarrationUrl);
+    if (matchedAudio) {
       this.currentLine.audioNarration = matchedAudio.howl;
     }
   }
@@ -127,6 +127,11 @@ export class ViewExplanationComponent implements OnInit, OnChanges {
       this.currentLine.audioNarration.on('end', () => {
         this.displayNextButton();
       });
+    } else {
+      setTimeout(() => {
+        this.displayNextButton();
+      }, 2000)
+
     }
   }
 
