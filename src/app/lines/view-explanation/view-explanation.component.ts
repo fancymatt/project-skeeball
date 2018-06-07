@@ -2,7 +2,6 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { Line } from '../line.model';
 import { LineExplanation } from '../line-explanation';
-import { Howl } from 'howler';
 import { AudioService } from '../../shared/audio.service';
 
 @Component({
@@ -57,24 +56,12 @@ import { AudioService } from '../../shared/audio.service';
 
 export class ViewExplanationComponent implements OnInit, OnChanges {
   @Input('line') genericLine: Line;
-  line: LineExplanation = new LineExplanation();
-  animationState: string;
-  displayButtonState: string;
   @Output() dismissLine: EventEmitter<boolean> = new EventEmitter<boolean>(false);
+  currentLine: LineExplanation = new LineExplanation();
+  textAnimationState: string;
+  buttonAnimationState: string;
 
   constructor(private audioService: AudioService) { }
-
-  ngOnChanges(changes: SimpleChanges) {
-    this.mapGenericLineToLine(changes.genericLine.currentValue);
-    this.initializeAnimation();
-    this.initializeNarration();
-  }
-
-  mapGenericLineToLine(genericLine: Line) {
-    this.line.videoScript = genericLine.explanationVideoScript;
-    this.line.audioScript = genericLine.explanationAudioScript;
-    this.line.audioNarrationUrl = genericLine.explanationAudioMp3;
-  }
 
   ngOnInit() {
     this.mapGenericLineToLine(this.genericLine);
@@ -82,55 +69,65 @@ export class ViewExplanationComponent implements OnInit, OnChanges {
     this.initializeNarration();
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    this.mapGenericLineToLine(changes.genericLine.currentValue);
+    this.initializeAnimation();
+    this.initializeNarration();
+  }
+
   initializeAnimation() {
-    this.animationState = 'start';
-    this.displayButtonState = 'start';
+    this.textAnimationState = 'start';
+    this.buttonAnimationState = 'start';
     setTimeout(() => {
-      this.animateIn();
+      this.animateTextIn();
       this.playNarration();
     }, 1000);
   }
 
-  animateIn() {
-    this.animationState = 'presented';
+  initializeNarration() {
+    if (this.audioService.currentLessonAudioFiles) {
+      const audioFiles = this.audioService.currentLessonAudioFiles;
+      const matchedAudio = audioFiles.find(audio => audio.url === this.currentLine.audioNarrationUrl);
+      this.currentLine.audioNarration = matchedAudio.howl;
+    }
   }
 
-  animateOut() {
-    this.animationState = 'end';
-    this.displayButtonState = 'end';
-    this.playNeutralSound();
+  mapGenericLineToLine(genericLine: Line) {
+    this.currentLine.videoScript = genericLine.explanationVideoScript;
+    this.currentLine.audioScript = genericLine.explanationAudioScript;
+    this.currentLine.audioNarrationUrl = genericLine.explanationAudioMp3;
+  }
+
+  onDismissLine() {
+    this.textAnimationState = 'end';
+    this.buttonAnimationState = 'end';
+    this.playButtonClickSound();
     setTimeout(() => {
       this.dismissLine.emit(true);
     }, 1000);
-
   }
 
-  playNeutralSound() {
+  displayNextButton() {
+    this.buttonAnimationState = 'presented';
+  }
+
+  animateTextIn() {
+    this.textAnimationState = 'presented';
+  }
+
+  playButtonClickSound() {
     this.audioService.buttonClickSound.pause();
     this.audioService.buttonClickSound.play();
   }
 
-  displayNextButton() {
-    this.displayButtonState = 'presented';
-    console.log('Should display next button');
-  }
-
-  initializeNarration() {
-    const audioFiles = this.audioService.currentLessonAudioFiles;
-    for (let i = 0; i < audioFiles.length; i++) {
-      if (audioFiles[i].url === this.line.audioNarrationUrl) {
-        this.line.audioNarration = audioFiles[i].howl;
-        console.log('Line ' + i + ' has been assigned ' + audioFiles[i].url);
-      }
-    }
-  }
-
   playNarration() {
-    this.line.audioNarration.pause();
-    this.line.audioNarration.play();
-    this.line.audioNarration.on('end', () => {
-      this.displayNextButton();
-    });
+    if (this.currentLine.audioNarration) {
+      this.currentLine.audioNarration.pause(); // workaround for iOS bug
+      this.currentLine.audioNarration.play();
+      this.currentLine.audioNarration.on('end', () => {
+        this.displayNextButton();
+      });
+    }
   }
 
 }

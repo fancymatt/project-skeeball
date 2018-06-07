@@ -1,15 +1,15 @@
 <section>
   <div class="videoScript present-text"
-       [@primaryTextState]="animationState">
-    <span>{{line.videoScript}}</span>
+       [@primaryTextState]="textAnimationState">
+    <span>{{currentLine.videoScript}}</span>
   </div>
   <div class="audioScript subtitle-text"
-       [@secondaryTextState]="animationState">
-    <span>{{line.audioScript}}</span>
+       [@secondaryTextState]="textAnimationState">
+    <span>{{currentLine.audioScript}}</span>
   </div>
   <br />
   <button mat-raised-button
           color="primary"
-          (click)="animateOut()"
-          [@buttonState]="displayButtonState">Next</button>
+          (click)="onDismissLine()"
+          [@buttonState]="buttonAnimationState">Next</button>
 </section>

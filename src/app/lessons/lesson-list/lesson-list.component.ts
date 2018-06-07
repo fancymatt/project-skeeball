@@ -17,19 +17,15 @@ export class LessonListComponent implements OnInit {
 
   constructor(private lessonService: LessonService,
               private dataService: DataService,
-              private router: ActivatedRoute
-  ) {}
+              private router: ActivatedRoute) {}
 
   ngOnInit(): void {
-
     const resolvedData: Lesson[] | SkeeballError = this.router.snapshot.data['resolvedLessons'];
-
-    if (resolvedData instanceof SkeeballError) {
+    if (resolvedData instanceof SkeeballError) { // this is from a tutorial I don't understand
       console.log('Lesson list component error: ' + resolvedData.friendlyMessage);
     } else {
       this.lessons = resolvedData;
     }
-
   }
 
 }

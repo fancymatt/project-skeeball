@@ -17,6 +17,8 @@ import {
   MatInputModule,
   MatSelectModule,
   MatProgressBarModule,
+  MatProgressSpinnerModule,
+  MatTabsModule,
   MatCardModule
 } from '@angular/material';
 
@@ -89,6 +91,8 @@ const appRoutes: Routes = [
     FlexLayoutModule,
     MatSelectModule,
     MatProgressBarModule,
+    MatProgressSpinnerModule,
+    MatTabsModule,
     MatCardModule,
     RouterModule.forRoot(appRoutes)
   ],

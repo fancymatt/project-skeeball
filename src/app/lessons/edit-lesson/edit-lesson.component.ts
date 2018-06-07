@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {Lesson} from '../lesson.model';
-import {LessonService} from '../lesson.service';
-import {DataService} from '../../shared/data.service';
-import {AudioService} from '../../shared/audio.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Lesson } from '../lesson.model';
+import { LessonService } from '../lesson.service';
+import { DataService } from '../../shared/data.service';
+import { AudioService } from '../../shared/audio.service';
 
 @Component({
   selector: 'app-edit-lesson',
@@ -27,8 +27,7 @@ export class EditLessonComponent implements OnInit {
     this.dataService.getLesson(id)
       .subscribe(
         (data: Lesson) => {
-          this.lessonService.selectedLesson = data;
-          this.selectedLesson = this.lessonService.selectedLesson;
+          this.selectedLesson = this.lessonService.selectedLesson = data;
           this.audioService.initializeNarrationForLesson(this.selectedLesson);
         },
         (err: any) => console.error(err),
