@@ -1,0 +1,9 @@
+button {
+  margin: 10px;
+}
+
+.edit-lesson {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 10px;
+}

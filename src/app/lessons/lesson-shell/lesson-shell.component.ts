@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-lessons',
   templateUrl: './lesson-shell.component.html',
-  styles: []
+  styleUrls: ['./lesson-shell.component.css']
 })
 export class LessonShellComponent {
 

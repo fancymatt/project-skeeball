@@ -9,7 +9,7 @@ import { SkeeballError } from '../../shared/skeeballError';
 @Component({
   selector: 'app-lesson-list',
   templateUrl: './lesson-list.component.html',
-  styles: ['.button-row { margin: 10px; }'],
+  styleUrls: ['./lesson-list.component.css'],
   providers: []
 })
 export class LessonListComponent implements OnInit {

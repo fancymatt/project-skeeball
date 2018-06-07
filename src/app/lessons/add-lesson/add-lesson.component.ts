@@ -10,7 +10,7 @@ import { IdGenService } from '../../shared/id-gen.service';
 @Component({
   selector: 'app-add-lesson',
   templateUrl: './add-lesson.component.html',
-  styles: ['.create-form { width: 300px; }']
+  styleUrls: ['./add-lesson.component.css']
 })
 export class AddLessonComponent implements OnInit {
   possibleLessonTypes: string[];

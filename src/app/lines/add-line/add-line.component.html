@@ -1,7 +1,7 @@
-<section class="create-form mat-typography">
-  <a mat-raised-button routerLink="..">Return to Lesson</a>
-  <form fxLayout="column" #f="ngForm" (ngSubmit)="onSubmit(f)">
-    <h3>Add Line </h3>
+<button mat-button routerLink="..">Return to Lesson</button>
+<section class="add-line-form mat-typography" fxLayout="column" fxLayoutAlign="center center">
+  <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+    <h4 mat-subheader>Add Line</h4>
     <mat-form-field>
       <mat-select placeholder="Type" ngModel name="type" [(value)]="selectedLineType">
         <mat-option *ngFor="let type of possibleLineTypes" [value]="type">
@@ -46,7 +46,6 @@
       <input type="text" matInput placeholder="Incorrect Answer 3" ngModel name="mcAnswerIncorrect3">
     </mat-form-field>
     <button mat-raised-button color="primary" type="submit">Create Line</button>
-    <br>
     <button mat-raised-button color="warn" routerLink="..">Cancel</button>
   </form>
 </section>

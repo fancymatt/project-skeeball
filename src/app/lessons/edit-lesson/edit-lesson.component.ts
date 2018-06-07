@@ -8,7 +8,7 @@ import { AudioService } from '../../shared/audio.service';
 @Component({
   selector: 'app-edit-lesson',
   templateUrl: './edit-lesson.component.html',
-  styles: ['.button-row { margin: 10px; }']
+  styleUrls: ['./edit-lesson.component.css']
 })
 export class EditLessonComponent implements OnInit {
   selectedLesson: Lesson;

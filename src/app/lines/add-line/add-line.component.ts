@@ -10,7 +10,7 @@ import * as AWS from 'aws-sdk';
 @Component({
   selector: 'app-add-line',
   templateUrl: './add-line.component.html',
-  styles: []
+  styleUrls: ['./add-line.component.css']
 })
 export class AddLineComponent implements OnInit {
   possibleLineTypes: string[];

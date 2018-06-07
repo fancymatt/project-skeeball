@@ -1,6 +1,6 @@
-<section class="create-form mat-typography">
-  <form fxLayout="column" #f="ngForm" (ngSubmit)="onSubmit(f)">
-    <h3>Add Lesson</h3>
+<section class="add-lesson-form mat-typography" fxLayout="column" fxLayoutAlign="center center">
+  <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+    <h4 mat-subheader>Add Lesson</h4>
     <mat-form-field>
       <input type="text" matInput placeholder="Name" ngModel name="name">
     </mat-form-field>
@@ -12,7 +12,6 @@
       </mat-select>
     </mat-form-field>
     <button mat-raised-button color="primary">Create Lesson</button>
-    <br>
     <button mat-raised-button color="warn" routerLink="/lessons">Cancel</button>
   </form>
 </section>

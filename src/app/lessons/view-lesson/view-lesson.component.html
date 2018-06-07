@@ -1,6 +1,6 @@
-<section class="mat-typography">
-  <a mat-button routerLink="../">Return to Lesson</a>
-  <mat-card class="lesson-card">
+<a mat-button routerLink="../">Return to Lesson</a>
+<section class="mat-typography" fxLayout="column" fxLayoutAlign="center center">
+  <mat-card class="lesson-card" fxLayout.gt-md="400px">
     <mat-card-content>
       <mat-card-title>{{currentLesson.name}}</mat-card-title>
       <mat-card-subtitle>{{currentLesson.type}}</mat-card-subtitle>
