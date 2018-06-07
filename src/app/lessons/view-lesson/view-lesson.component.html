@@ -1,34 +1,34 @@
-<a mat-button routerLink="../">Return to Lesson</a>
-<section class="mat-typography" fxLayout="column" fxLayoutAlign="center center">
-  <mat-card class="lesson-card" fxLayout.gt-md="400px">
-    <mat-card-content>
-      <mat-card-title>{{currentLesson.name}}</mat-card-title>
-      <mat-card-subtitle>{{currentLesson.type}}</mat-card-subtitle>
-
-      <section class="lesson-content">
-        <app-view-explanation
-          *ngIf="currentLine.type == 'Explanation'"
-          [(line)]="currentLine"
-          (dismissLine)="onLineDismissed($event)"></app-view-explanation>
-        <app-view-example
-          *ngIf="currentLine.type == 'Example'"
-          [(line)]="currentLine"
-          (dismissLine)="onLineDismissed($event)"></app-view-example>
-        <app-view-question-mc
-          *ngIf="currentLine.type == 'Multiple Choice'"
-          [(line)]="currentLine"
-          (dismissLine)="onLineDismissed($event)"></app-view-question-mc>
-      </section>
-
-      <section class="progress-bar-section">
-        <mat-progress-bar
-          class="example-margin"
-          [color]="'primary'"
-          [mode]="'determinate'"
-          [value]="((currentLineIndex + 1) / totalLines) * 100">
-        </mat-progress-bar>
-      </section>
-
-    </mat-card-content>
-  </mat-card>
+<section class="mat-typography frame" fxLayout="column" fxLayoutAlign="center center">
+  <div class="lesson-frame" *ngIf="currentLesson" fxLayout="column">
+    <button
+      mat-icon-button
+      fxFlexAlign="end end"
+      routerLink="../"><mat-icon>close</mat-icon></button>
+    <section class="lesson-content">
+      <app-view-explanation
+        *ngIf="currentLine.type == 'Explanation'"
+        [(line)]="currentLine"
+        (dismissLine)="onLineDismissed($event)"></app-view-explanation>
+      <app-view-example
+        *ngIf="currentLine.type == 'Example'"
+        [(line)]="currentLine"
+        (dismissLine)="onLineDismissed($event)"></app-view-example>
+      <app-view-question-mc
+        *ngIf="currentLine.type == 'Multiple Choice'"
+        [(line)]="currentLine"
+        (dismissLine)="onLineDismissed($event)"></app-view-question-mc>
+    </section>
+    <section class="push-down"></section>
+    <section class="progress-bar-section" fxLayoutAlign="end">
+      <mat-progress-bar
+        class="example-margin"
+        [color]="'primary'"
+        [mode]="'determinate'"
+        [value]="((currentLineIndex + 1) / totalLines) * 100">
+      </mat-progress-bar>
+    </section>
+  </div>
+  <div *ngIf="!currentLesson">
+    <mat-spinner></mat-spinner>
+  </div>
 </section>
