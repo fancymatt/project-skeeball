@@ -67,16 +67,19 @@ export class ViewExplanationComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     this.mapGenericLineToLine(changes.genericLine.currentValue);
     this.initializeAnimation();
+    this.initializeNarration();
   }
 
   mapGenericLineToLine(genericLine: Line) {
     this.line.videoScript = genericLine.explanationVideoScript;
     this.line.audioScript = genericLine.explanationAudioScript;
+    this.line.audioNarrationUrl = genericLine.explanationAudioMp3;
   }
 
   ngOnInit() {
     this.mapGenericLineToLine(this.genericLine);
     this.initializeAnimation();
+    this.initializeNarration();
   }
 
   initializeAnimation() {
@@ -112,10 +115,20 @@ export class ViewExplanationComponent implements OnInit, OnChanges {
     console.log('Should display next button');
   }
 
+  initializeNarration() {
+    const audioFiles = this.audioService.currentLessonAudioFiles;
+    for (let i = 0; i < audioFiles.length; i++) {
+      if (audioFiles[i].url === this.line.audioNarrationUrl) {
+        this.line.audioNarration = audioFiles[i].howl;
+        console.log('Line ' + i + ' has been assigned ' + audioFiles[i].url);
+      }
+    }
+  }
+
   playNarration() {
-    this.audioService.explanationSampleSound.pause();
-    this.audioService.explanationSampleSound.play();
-    this.audioService.explanationSampleSound.on('end', () => {
+    this.line.audioNarration.pause();
+    this.line.audioNarration.play();
+    this.line.audioNarration.on('end', () => {
       this.displayNextButton();
     });
   }

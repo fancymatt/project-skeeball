@@ -5,6 +5,7 @@ import {LessonService} from '../../lessons/lesson.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Line} from '../line.model';
 import { DataService } from '../../shared/data.service';
+import * as AWS from 'aws-sdk';
 
 @Component({
   selector: 'app-add-line',
@@ -14,6 +15,7 @@ import { DataService } from '../../shared/data.service';
 export class AddLineComponent implements OnInit {
   possibleLineTypes: string[];
   selectedLineType: string;
+  audioFilePath: string;
 
   constructor(private lineService: LineService,
               private lessonService: LessonService,
@@ -29,6 +31,7 @@ export class AddLineComponent implements OnInit {
     const newLine = new Line(form.form.value.type);
     newLine.explanationAudioScript = form.form.value.scriptAudio;
     newLine.explanationVideoScript = form.form.value.scriptVideo;
+    newLine.explanationAudioMp3 = this.audioFilePath;
     newLine.exampleTarget = form.form.value.exampleTarget;
     newLine.exampleKana = form.form.value.exampleKana;
     newLine.exampleRomanization = form.form.value.exampleRomanization;
@@ -50,5 +53,37 @@ export class AddLineComponent implements OnInit {
       );
   }
 
+  fileEvent(fileInput: any) {
+    const AWSService = AWS;
+    const region = 'us-west-2';
+    const bucketName = 'project-skeeball-audio';
+    const identityPoolId = 'us-west-2:034ba2bf-7d4d-43de-abb4-d4db07137c58';
+    const file = fileInput.target.files[0];
+
+    AWSService.config.update({
+      region: region,
+      credentials: new AWSService.CognitoIdentityCredentials({
+        IdentityPoolId: identityPoolId
+      })
+    });
+
+    const s3 = new AWSService.S3({
+      apiVersion: '2006-03-01',
+      params: { Bucket: bucketName }
+    });
+
+    this.audioFilePath = file.name;
+
+    console.log(AWSService);
+    s3.upload({Key: file.name, Bucket: bucketName, Body: file, ACL: 'public-read'}, function (err, data) {
+      if (err) {
+        console.log(err, 'there was an error uploading your file');
+      }
+      if (data) {
+        console.log('Upload successful!');
+        console.log(data);
+      }
+    });
+  }
 
 }

@@ -3,6 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {Lesson} from '../lesson.model';
 import {LessonService} from '../lesson.service';
 import {DataService} from '../../shared/data.service';
+import {AudioService} from '../../shared/audio.service';
 
 @Component({
   selector: 'app-edit-lesson',
@@ -14,6 +15,7 @@ export class EditLessonComponent implements OnInit {
 
   constructor(private activatedRoute: ActivatedRoute,
               private dataService: DataService,
+              private audioService: AudioService,
               private lessonService: LessonService,
               private router: Router) { }
 
@@ -27,10 +29,12 @@ export class EditLessonComponent implements OnInit {
         (data: Lesson) => {
           this.lessonService.selectedLesson = data;
           this.selectedLesson = this.lessonService.selectedLesson;
+          this.audioService.initializeNarrationForLesson(this.selectedLesson);
         },
         (err: any) => console.error(err),
         () => console.log('Finished getting lesson.')
       );
+
   }
 
   onDelete() {
