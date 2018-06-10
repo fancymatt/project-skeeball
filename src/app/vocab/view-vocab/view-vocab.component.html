@@ -29,6 +29,11 @@
              [(ngModel)]="selectedVocab.english"
              name="english">
     </mat-form-field>
+    <input type="file"
+           placeholder="MP3 File"
+           ngModel
+           name="audioMp3"
+           (change)="fileEvent($event)">
     <button mat-raised-button color="primary" (click)="onUpdate()">Update Vocabulary</button>
     <button mat-raised-button color="link" routerLink="vocabulary">Cancel</button>
     <button mat-raised-button color="warn" (click)="onDelete()">Delete</button>

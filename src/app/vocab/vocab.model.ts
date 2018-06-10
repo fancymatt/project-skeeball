@@ -4,6 +4,7 @@ export class Vocab {
   public targetKana: string;
   public targetRomanization: string;
   public english: string;
+  public audioFilePathMp3: string;
 
   constructor(target: string,
               targetKana: string,
