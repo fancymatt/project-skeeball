@@ -1,13 +1,12 @@
+import {Vocab} from '../vocab/vocab.model';
+
 export class Line {
 
   public type: string;
   public explanationAudioScript: string;
   public explanationVideoScript: string;
   public explanationAudioMp3: string;
-  public exampleTarget: string;
-  public exampleEnglish: string;
-  public exampleKana: string;
-  public exampleRomanization: string;
+  public exampleVocabReference: string;
   public mcQuestion: string;
   public mcAnswerCorrect: string;
   public mcAnswerIncorrect1: string;

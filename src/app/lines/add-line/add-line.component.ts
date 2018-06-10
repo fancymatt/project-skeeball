@@ -6,6 +6,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {Line} from '../line.model';
 import { DataService } from '../../shared/data.service';
 import * as AWS from 'aws-sdk';
+import {Vocab} from '../../vocab/vocab.model';
 
 @Component({
   selector: 'app-add-line',
@@ -16,6 +17,8 @@ export class AddLineComponent implements OnInit {
   possibleLineTypes: string[];
   selectedLineType: string;
   audioFilePath: string;
+  vocabList: Vocab[];
+  selectedVocabReference: Vocab;
 
   constructor(private lineService: LineService,
               private lessonService: LessonService,
@@ -25,6 +28,12 @@ export class AddLineComponent implements OnInit {
 
   ngOnInit() {
     this.possibleLineTypes = this.lineService.getAllLineTypes();
+    this.dataService.getAllVocabs()
+      .subscribe(
+        (data) => this.vocabList = data,
+        (err) => console.log(err),
+        () => console.log('Completed fetching vocab list')
+      );
   }
 
   onSubmit(form: NgForm) {
@@ -32,10 +41,7 @@ export class AddLineComponent implements OnInit {
     newLine.explanationAudioScript = form.form.value.scriptAudio;
     newLine.explanationVideoScript = form.form.value.scriptVideo;
     newLine.explanationAudioMp3 = this.audioFilePath;
-    newLine.exampleTarget = form.form.value.exampleTarget;
-    newLine.exampleKana = form.form.value.exampleKana;
-    newLine.exampleRomanization = form.form.value.exampleRomanization;
-    newLine.exampleEnglish = form.form.value.exampleEnglish;
+    newLine.exampleVocabReference = form.form.value.vocabReference;
     newLine.mcQuestion = form.form.value.mcQuestion;
     newLine.mcAnswerCorrect = form.form.value.mcAnswerCorrect;
     newLine.mcAnswerIncorrect1 = form.form.value.mcAnswerIncorrect1;

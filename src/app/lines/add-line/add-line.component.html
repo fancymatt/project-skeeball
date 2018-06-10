@@ -19,16 +19,12 @@
       <input type="file" placeholder="MP3 File" name="audioMp3" id="audioMp3" (change)="fileEvent($event)">
     </div>
     <mat-form-field *ngIf="selectedLineType=='Example'">
+      <mat-select placeholder="Vocabulary Reference" [(ngModel)]="selectedVocabReference" name="vocabReference">
+        <mat-option *ngFor="let vocab of vocabList" [value]="vocab.id">
+          {{vocab.target}} ({{vocab.english}})
+        </mat-option>
+      </mat-select>
       <input type="text" matInput placeholder="Target" ngModel name="exampleTarget">
-    </mat-form-field>
-    <mat-form-field *ngIf="selectedLineType=='Example'">
-      <input type="text" matInput placeholder="Kana" ngModel name="exampleKana">
-    </mat-form-field>
-    <mat-form-field *ngIf="selectedLineType=='Example'">
-      <input type="text" matInput placeholder="Romanization" ngModel name="exampleRomanization">
-    </mat-form-field>
-    <mat-form-field *ngIf="selectedLineType=='Example'">
-      <input type="text" matInput placeholder="English" ngModel name="exampleEnglish">
     </mat-form-field>
     <mat-form-field *ngIf="selectedLineType=='Multiple Choice'">
       <input type="text" matInput placeholder="Question" ngModel name="mcQuestion">

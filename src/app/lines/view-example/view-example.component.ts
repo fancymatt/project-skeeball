@@ -1,9 +1,11 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Line } from '../line.model';
 import { LineExample } from '../line-example';
-import {animate, state, style, transition, trigger} from '@angular/animations';
-import {Howl} from "howler";
-import {AudioService} from '../../shared/audio.service';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { Howl } from 'howler';
+import { AudioService } from '../../shared/audio.service';
+import { Vocab } from '../../vocab/vocab.model';
+import { DataService } from '../../shared/data.service';
 
 @Component({
   selector: 'app-view-example',
@@ -57,25 +59,21 @@ import {AudioService} from '../../shared/audio.service';
 export class ViewExampleComponent implements OnInit, OnChanges {
   @Input('line') genericLine: Line;
   line: LineExample = new LineExample;
+  vocab: Vocab;
+  audio: Howl;
   animationState: string;
   @Output() dismissLine: EventEmitter<boolean> = new EventEmitter<boolean>(false);
 
-  constructor(private audioService: AudioService) { }
-
-  mapGenericLineToLine(genericLine: Line) {
-    this.line.exampleTarget = genericLine.exampleTarget;
-    this.line.exampleKana = genericLine.exampleKana;
-    this.line.exampleRomanization = genericLine.exampleRomanization;
-    this.line.exampleEnglish = genericLine.exampleEnglish;
-  }
+  constructor(private audioService: AudioService,
+              private dataService: DataService) { }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.mapGenericLineToLine(changes.genericLine.currentValue);
+    this.initializeExample();
     this.initializeAnimation();
   }
 
   ngOnInit() {
-    this.mapGenericLineToLine(this.genericLine);
+    this.initializeExample();
     this.initializeAnimation();
   }
 
@@ -96,12 +94,42 @@ export class ViewExampleComponent implements OnInit, OnChanges {
     setTimeout(() => {
       this.dismissLine.emit(true);
     }, 1000);
+  }
 
+  mapGenericLineToLine() {
+    this.line.vocabReference = this.genericLine.exampleVocabReference;
+  }
+
+  initializeAudio() {
+    const audioFiles = this.audioService.currentLessonAudioFiles;
+    const matchedAudio = audioFiles.find(audio => audio.url === this.vocab.audioFilePathMp3);
+    if (matchedAudio) {
+      this.audio = matchedAudio.howl;
+      this.audio.pause();
+      this.audio.play();
+    }
   }
 
   playNeutralSound() {
     this.audioService.buttonClickSound.pause();
     this.audioService.buttonClickSound.play();
+  }
+
+  initializeExample() {
+    this.mapGenericLineToLine();
+    console.log('initializing audio...')
+    console.log(this.line);
+    this.dataService.getVocab(this.line.vocabReference)
+      .subscribe(
+        (data) => {
+          console.log('Got audio back: ' + data.audioFilePathMp3);
+          this.vocab = data;
+          this.initializeAudio();
+        },
+        (err) => console.log(err),
+        () => console.log('Finished fetching vocab entry')
+      );
+
   }
 
 }

@@ -1,19 +1,19 @@
-<section>
+<section *ngIf="vocab">
   <div class="exampleTarget present-text"
        [@primaryTextState]="animationState">
-    <span>{{line.exampleTarget}}</span>
+    <span>{{vocab.target}}</span>
   </div>
   <div class="exampleTarget subtitle-text"
        [@secondaryTextState]="animationState">
-    <span>{{line.exampleKana}}</span>
+    <span>{{vocab.targetKana}}</span>
   </div>
   <div class="exampleTarget subtitle-text"
        [@secondaryTextState]="animationState">
-    <span>{{line.exampleRomanization}}</span>
+    <span>{{vocab.targetRomanization}}</span>
   </div>
   <div class="exampleEnglish present-text"
        [@secondaryTextState]="animationState">
-    <span>{{line.exampleEnglish}}</span>
+    <span>{{vocab.english}}</span>
   </div>
   <br />
   <button mat-raised-button

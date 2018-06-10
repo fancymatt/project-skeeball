@@ -28,7 +28,7 @@ export class EditLessonComponent implements OnInit {
       .subscribe(
         (data: Lesson) => {
           this.selectedLesson = this.lessonService.selectedLesson = data;
-          this.audioService.initializeNarrationForLesson(this.selectedLesson);
+          this.audioService.initializeAudioForLesson(this.selectedLesson);
         },
         (err: any) => console.error(err),
         () => console.log('Finished getting lesson.')

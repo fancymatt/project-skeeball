@@ -5,6 +5,7 @@ import { IdGenService } from '../../shared/id-gen.service';
 import { Router } from '@angular/router';
 import {DataService} from '../../shared/data.service';
 import * as AWS from 'aws-sdk';
+import {FileStorageService} from '../../shared/file-storage.service';
 
 @Component({
   selector: 'app-add-vocab',
@@ -16,6 +17,7 @@ export class AddVocabComponent implements OnInit {
 
   constructor(private uuidService: IdGenService,
               private dataService: DataService,
+              private fileStorageService: FileStorageService,
               private router: Router) { }
 
   ngOnInit() {
@@ -39,35 +41,10 @@ export class AddVocabComponent implements OnInit {
       );
   }
 
-  fileEvent(fileInput: any) {
-    const AWSService = AWS;
-    const region = 'us-west-2';
-    const bucketName = 'project-skeeball-audio';
-    const identityPoolId = 'us-west-2:034ba2bf-7d4d-43de-abb4-d4db07137c58';
+  onSelectFile(fileInput: any) {
     const file = fileInput.target.files[0];
-
-    AWSService.config.update({
-      region: region,
-      credentials: new AWSService.CognitoIdentityCredentials({
-        IdentityPoolId: identityPoolId
-      })
-    });
-
-    const s3 = new AWSService.S3({
-      apiVersion: '2006-03-01',
-      params: { Bucket: bucketName }
-    });
-
+    this.fileStorageService.upload(file);
     this.audioFilePathMp3 = file.name;
-
-    s3.upload({Key: file.name, Bucket: bucketName, Body: file, ACL: 'public-read'}, function (err, data) {
-      if (err) {
-        console.log(err, 'there was an error uploading your file');
-      }
-      if (data) {
-        console.log('Upload successful!');
-        console.log(data);
-      }
-    });
   }
+
 }

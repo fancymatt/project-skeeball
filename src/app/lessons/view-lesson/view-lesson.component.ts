@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { trigger, state, style, animate, transition } from '@angular/animations';
 import {Lesson} from '../lesson.model';
 import {LessonService} from '../lesson.service';
 import {Line} from '../../lines/line.model';

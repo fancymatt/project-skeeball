@@ -33,7 +33,7 @@
            placeholder="MP3 File"
            ngModel
            name="audioMp3"
-           (change)="fileEvent($event)">
+           (change)="onSelectFile($event)">
     <button mat-raised-button color="accent" (click)="onPlayAudio()">Play Audio</button>
     <button mat-raised-button color="primary" (click)="onUpdate()">Update Vocabulary</button>
     <button mat-raised-button color="link" routerLink="vocabulary">Cancel</button>
