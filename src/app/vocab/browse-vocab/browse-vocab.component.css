@@ -1,0 +1,9 @@
+mat-nav-list {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 10px;
+}
+
+mat-list-item h4 {
+  text-align: left;
+}

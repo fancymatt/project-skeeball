@@ -19,7 +19,8 @@ import {
   MatProgressBarModule,
   MatProgressSpinnerModule,
   MatTabsModule,
-  MatCardModule
+  MatCardModule,
+  MatSidenavModule
 } from '@angular/material';
 
 import { AppComponent } from './app.component';
@@ -45,9 +46,13 @@ import { ViewExplanationComponent } from './lines/view-explanation/view-explanat
 import { ViewExampleComponent } from './lines/view-example/view-example.component';
 import { ViewQuestionMcComponent } from './lines/view-question-mc/view-question-mc.component';
 import { AudioService } from './shared/audio.service';
+import { AddVocabComponent } from './vocab/add-vocab/add-vocab.component';
+import { BrowseVocabComponent } from './vocab/browse-vocab/browse-vocab.component';
+import { ViewVocabComponent } from './vocab/view-vocab/view-vocab.component';
+import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 
 const appRoutes: Routes = [
-  {path: '', redirectTo: 'lessons', pathMatch: 'full'},
+  {path: '', component: AdminDashboardComponent, pathMatch: 'full'},
   {path: 'lessons', component: LessonShellComponent, children: [
       {path: '', component: LessonListComponent, pathMatch: 'full', resolve: { resolvedLessons: LessonListResolverService }},
       {path: 'add', component: AddLessonComponent},
@@ -55,6 +60,7 @@ const appRoutes: Routes = [
       {path: ':id/add-line', component: AddLineComponent},
       {path: ':id/preview', component: ViewLessonComponent}
     ]},
+  {path: 'vocabulary', component: BrowseVocabComponent}
   ];
 
 @NgModule({
@@ -71,7 +77,11 @@ const appRoutes: Routes = [
     ViewLessonComponent,
     ViewExplanationComponent,
     ViewExampleComponent,
-    ViewQuestionMcComponent
+    ViewQuestionMcComponent,
+    AddVocabComponent,
+    BrowseVocabComponent,
+    ViewVocabComponent,
+    AdminDashboardComponent
   ],
   imports: [
     BrowserModule,
@@ -94,6 +104,7 @@ const appRoutes: Routes = [
     MatProgressSpinnerModule,
     MatTabsModule,
     MatCardModule,
+    MatSidenavModule,
     RouterModule.forRoot(appRoutes)
   ],
   providers: [

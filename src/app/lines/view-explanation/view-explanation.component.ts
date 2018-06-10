@@ -130,7 +130,7 @@ export class ViewExplanationComponent implements OnInit, OnChanges {
     } else {
       setTimeout(() => {
         this.displayNextButton();
-      }, 2000)
+      }, 2000);
 
     }
   }
