@@ -1,3 +1,19 @@
-<p>
-  add-vocab works!
-</p>
+<section class="add-vocab-form mat-typography" fxLayout="column" fxLayoutAlign="center center">
+  <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+    <h4 mat-subheader>Add Vocabulary</h4>
+    <mat-form-field>
+      <input type="text" matInput placeholder="Target" ngModel name="target">
+    </mat-form-field>
+    <mat-form-field>
+      <input type="text" matInput placeholder="Target (Kana)" ngModel name="targetKana">
+    </mat-form-field>
+    <mat-form-field>
+      <input type="text" matInput placeholder="Target (Romanization)" ngModel name="targetRomanization">
+    </mat-form-field>
+    <mat-form-field>
+      <input type="text" matInput placeholder="English" ngModel name="english">
+    </mat-form-field>
+    <button mat-raised-button color="primary">Create Vocabulary</button>
+    <button mat-raised-button color="warn" routerLink="..">Cancel</button>
+  </form>
+</section>

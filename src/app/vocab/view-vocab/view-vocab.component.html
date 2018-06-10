@@ -1,22 +1,36 @@
-<section class="mat-typography vocab-details">
-  <div>
-    <label for="target">Target:
-      <input type="text" name="target" id="target" [(ngModel)]="selectedVocab.target" />
-    </label>
-  </div>
-  <div>
-    <label for="targetKana">Target (Kana):
-      <input type="text" name="targetKana" id="targetKana" [(ngModel)]="selectedVocab.targetKana" />
-    </label>
-  </div>
-  <div>
-    <label for="targetRomanization">Target (Romanization):
-      <input type="text" name="targetRomanization" id="targetRomanization" [(ngModel)]="selectedVocab.targetRomanization" />
-    </label>
-  </div>
-  <div>
-    <label for="english">English:
-      <input type="text" name="english" id="english" [(ngModel)]="selectedVocab.english" />
-    </label>
-  </div>
+<section class="edit-vocab-form mat-typography" fxLayout="column" fxLayoutAlign="center center">
+  <form #f="ngForm">
+    <h4 mat-subheader>Edit Vocabulary</h4>
+    <mat-form-field>
+      <input type="text"
+             matInput
+             placeholder="Target"
+             [(ngModel)]="selectedVocab.target"
+             name="target">
+    </mat-form-field>
+    <mat-form-field>
+      <input type="text"
+             matInput
+             placeholder="Target (Kana)"
+             [(ngModel)]="selectedVocab.targetKana"
+             name="targetKana">
+    </mat-form-field>
+    <mat-form-field>
+      <input type="text"
+             matInput
+             placeholder="Target (Romanization)"
+             [(ngModel)]="selectedVocab.targetRomanization"
+             name="targetRomanization">
+    </mat-form-field>
+    <mat-form-field>
+      <input type="text"
+             matInput
+             placeholder="English"
+             [(ngModel)]="selectedVocab.english"
+             name="english">
+    </mat-form-field>
+    <button mat-raised-button color="primary" (click)="onUpdate()">Update Vocabulary</button>
+    <button mat-raised-button color="link" routerLink="vocabulary">Cancel</button>
+    <button mat-raised-button color="warn" (click)="onDelete()">Delete</button>
+  </form>
 </section>

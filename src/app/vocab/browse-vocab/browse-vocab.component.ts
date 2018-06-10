@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { VocabService } from '../vocab.service';
 import { Vocab } from '../vocab.model';
 import {ActivatedRoute} from '@angular/router';
+import {DataService} from '../../shared/data.service';
 
 @Component({
   selector: 'app-browse-vocab',
@@ -13,17 +14,31 @@ export class BrowseVocabComponent implements OnInit {
   selectedVocab: Vocab;
 
   constructor(private activatedRoute: ActivatedRoute,
-              private vocabService: VocabService) { }
+              private dataService: DataService) { }
 
   ngOnInit() {
-    this.vocabList = this.vocabService.getVocabList();
-    if (this.activatedRoute.snapshot.params.id) {
-      this.onSelectVocab(this.activatedRoute.snapshot.params.id);
-    }
+    this.dataService.getAllVocabs()
+      .subscribe(
+        (data) => {
+          this.vocabList = data;
+          console.log(data);
+        },
+        (err) => console.log(err),
+        () => console.log('Finished receiving vocabulary list')
+    );
   }
 
   onSelectVocab(id: string) {
-    this.selectedVocab = this.vocabService.getVocab(id);
+    this.dataService.getVocab(id)
+      .subscribe(
+        (data) => {
+          this.selectedVocab = data;
+        },
+        (err) => {
+          console.log(err);
+        },
+        () => console.log('Finished fetching vocab')
+      );
   }
 
 }

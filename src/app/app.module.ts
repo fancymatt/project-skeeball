@@ -50,6 +50,7 @@ import { AddVocabComponent } from './vocab/add-vocab/add-vocab.component';
 import { BrowseVocabComponent } from './vocab/browse-vocab/browse-vocab.component';
 import { ViewVocabComponent } from './vocab/view-vocab/view-vocab.component';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
+import { VocabShellComponent } from './vocab/vocab-shell/vocab-shell.component';
 
 const appRoutes: Routes = [
   {path: '', component: AdminDashboardComponent, pathMatch: 'full'},
@@ -60,7 +61,10 @@ const appRoutes: Routes = [
       {path: ':id/add-line', component: AddLineComponent},
       {path: ':id/preview', component: ViewLessonComponent}
     ]},
-  {path: 'vocabulary', component: BrowseVocabComponent}
+  {path: 'vocabulary', component: VocabShellComponent, children: [
+      {path: '', component: BrowseVocabComponent, pathMatch: 'full'},
+      {path: 'add', component: AddVocabComponent}
+    ]}
   ];
 
 @NgModule({
@@ -81,7 +85,8 @@ const appRoutes: Routes = [
     AddVocabComponent,
     BrowseVocabComponent,
     ViewVocabComponent,
-    AdminDashboardComponent
+    AdminDashboardComponent,
+    VocabShellComponent
   ],
   imports: [
     BrowserModule,
