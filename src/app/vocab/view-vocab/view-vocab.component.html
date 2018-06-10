@@ -34,6 +34,7 @@
            ngModel
            name="audioMp3"
            (change)="fileEvent($event)">
+    <button mat-raised-button color="accent" (click)="onPlayAudio()">Play Audio</button>
     <button mat-raised-button color="primary" (click)="onUpdate()">Update Vocabulary</button>
     <button mat-raised-button color="link" routerLink="vocabulary">Cancel</button>
     <button mat-raised-button color="warn" (click)="onDelete()">Delete</button>

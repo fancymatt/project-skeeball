@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import { Howl } from 'howler';
 import {Lesson} from '../lessons/lesson.model';
+import {Vocab} from '../vocab/vocab.model';
 
 @Injectable({
   providedIn: 'root'
@@ -36,6 +37,13 @@ export class AudioService {
     }
     console.log('Finished initializing narration audio for lesson');
     console.log(this.currentLessonAudioFiles);
+  }
+
+  playVocabularyAudio(vocab: Vocab) {
+    const audioUrl = this.s3UrlPrefix + vocab.audioFilePathMp3;
+    const audioHowl = new Howl({src: [audioUrl], preload: true});
+    audioHowl.pause();
+    audioHowl.play();
   }
 
 }

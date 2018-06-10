@@ -3,6 +3,7 @@ import {Vocab} from '../vocab.model';
 import {DataService} from '../../shared/data.service';
 import {Router} from '@angular/router';
 import * as AWS from 'aws-sdk';
+import {AudioService} from '../../shared/audio.service';
 
 @Component({
   selector: 'app-view-vocab',
@@ -13,7 +14,9 @@ export class ViewVocabComponent {
   @Input() selectedVocab: Vocab;
   audioFilePathMp3: string;
 
-  constructor(private dataService: DataService, private router: Router) { }
+  constructor(private dataService: DataService,
+              private router: Router,
+              private audioService: AudioService) { }
 
   ngOnInit() { }
 
@@ -36,6 +39,10 @@ export class ViewVocabComponent {
         (err) => console.log(err),
         () => console.log('Completed deleting vocab')
       );
+  }
+
+  onPlayAudio() {
+    this.audioService.playVocabularyAudio(this.selectedVocab);
   }
 
   fileEvent(fileInput: any) {
