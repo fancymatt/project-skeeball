@@ -63,6 +63,7 @@ export class DataService {
 
   updateVocab(updatedVocab: Vocab): Observable<Vocab> {
     const url = this.apiEndpoint + 'vocabs/' + updatedVocab.id;
+    console.log(updatedVocab);
     return this.http.put<Vocab>(url, updatedVocab);
   }
 

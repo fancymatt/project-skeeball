@@ -1,41 +1,64 @@
 <section class="edit-vocab-form mat-typography" fxLayout="column" fxLayoutAlign="center center">
-  <form #f="ngForm">
-    <h4 mat-subheader>Edit Vocabulary</h4>
+  <form (ngSubmit)="onSaveVocabulary()" [formGroup]="vocabForm">
     <mat-form-field>
-      <input type="text"
-             matInput
+      <input matInput
+             id="target"
+             type="text"
              placeholder="Target"
-             [(ngModel)]="selectedVocab.target"
-             name="target">
+             formControlName="target"/>
     </mat-form-field>
     <mat-form-field>
-      <input type="text"
-             matInput
+      <input matInput
+             id="targetKana"
+             type="text"
              placeholder="Target (Kana)"
-             [(ngModel)]="selectedVocab.targetKana"
-             name="targetKana">
+             formControlName="targetKana"/>
     </mat-form-field>
     <mat-form-field>
-      <input type="text"
-             matInput
+      <input matInput
+             id="targetRomanization"
+             type="text"
              placeholder="Target (Romanization)"
-             [(ngModel)]="selectedVocab.targetRomanization"
-             name="targetRomanization">
+             formControlName="targetRomanization"/>
     </mat-form-field>
     <mat-form-field>
-      <input type="text"
-             matInput
+      <input matInput
+             id="english"
+             type="text"
              placeholder="English"
-             [(ngModel)]="selectedVocab.english"
-             name="english">
+             formControlName="english"/>
     </mat-form-field>
-    <input type="file"
-           placeholder="MP3 File"
-           ngModel
-           name="audioMp3"
-           (change)="onSelectFile($event)">
+    <div>
+      <button mat-mini-fab type="button" (click)="addChildVocab()">+</button>
+      <div formArrayName="childVocabs" *ngFor="let vocab of childVocabs.controls; let i = index">
+        <div [formGroupName]="i">
+          <mat-select placeholder="Vocabulary Reference"
+                      id="{{ 'vocabId_' + i }}"
+                      formControlName="id" >
+            <mat-option *ngFor="let vocab of vocabList"
+                        [value]="vocab.id">
+              {{vocab.target}} ({{vocab.english}})
+            </mat-option>
+          </mat-select>
+          <mat-form-field>
+            <input matInput
+                   type="number"
+                   id="{{ 'startChar_' + i }}"
+                   placeholder="Start Char"
+                   formControlName="startChar" />
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput
+                   type="number"
+                   id="{{ 'endChar_' + i }}"
+                   placeholder="End Char"
+                   formControlName="endChar" />
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
     <button mat-raised-button color="accent" (click)="onPlayAudio()">Play Audio</button>
-    <button mat-raised-button color="primary" (click)="onUpdate()">Update Vocabulary</button>
+    <button mat-raised-button color="primary" type="submit">Update Vocabulary</button>
     <button mat-raised-button color="link" routerLink="vocabulary">Cancel</button>
     <button mat-raised-button color="warn" (click)="onDelete()">Delete</button>
   </form>
