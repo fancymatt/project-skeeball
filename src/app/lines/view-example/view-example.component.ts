@@ -60,6 +60,7 @@ export class ViewExampleComponent implements OnInit, OnChanges {
   @Input('line') genericLine: Line;
   line: LineExample = new LineExample;
   vocab: Vocab;
+  targetTextElements: {clickable: boolean, text: string}[] = [];
   audio: Howl;
   animationState: string;
   @Output() dismissLine: EventEmitter<boolean> = new EventEmitter<boolean>(false);
@@ -127,13 +128,21 @@ export class ViewExampleComponent implements OnInit, OnChanges {
           this.vocab = data;
           if (this.vocab.childVocabs) {
             let string = '';
+            let lastIndex = 0;
             for (let i = 0; i < this.vocab.childVocabs.length; i++) {
-              console.log('Substring of ' + targetString + ' from ' + this.vocab.childVocabs[i].startChar + ' to ' +  this.vocab.childVocabs[i].endChar );
-              string += targetString.substring(this.vocab.childVocabs[i].startChar, this.vocab.childVocabs[i].endChar);
-              string += ' [' + this.vocab.childVocabs[i].id + '], ';
+              if (this.vocab.childVocabs[i].startChar > lastIndex) {
+                this.targetTextElements.push({
+                  clickable: false,
+                  text: targetString.substring(lastIndex, this.vocab.childVocabs[i].startChar)
+                });
+              }
+              this.targetTextElements.push({
+                clickable: true,
+                text: targetString.substring(this.vocab.childVocabs[i].startChar, this.vocab.childVocabs[i].endChar)
+              });
+              lastIndex = this.vocab.childVocabs[i].endChar;
             }
-            console.log(string);
-            this.vocab.target = string;
+            console.log(this.targetTextElements);
           }
           this.initializeAudio();
         },

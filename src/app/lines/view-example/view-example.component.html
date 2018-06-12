@@ -1,7 +1,11 @@
 <section *ngIf="vocab">
   <div class="exampleTarget present-text"
        [@primaryTextState]="animationState">
-    <span>{{vocab.target}}</span>
+    <span *ngIf="targetTextElements">
+      <span *ngFor="let el of targetTextElements" [class.clickable]="el.clickable">
+        {{el.text}}
+      </span>
+    </span>
   </div>
   <div class="exampleTarget subtitle-text"
        [@secondaryTextState]="animationState">

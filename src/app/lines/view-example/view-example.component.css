@@ -13,3 +13,9 @@
 .question-option {
   margin: 10px;
 }
+
+.clickable {
+  text-decoration: underline;
+  color: #00aced;
+  font-weight: bold;
+}
