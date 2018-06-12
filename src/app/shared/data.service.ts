@@ -58,6 +58,7 @@ export class DataService {
 
   getVocab(id: string): Observable<Vocab> {
     const url = this.apiEndpoint + 'vocabs/' + id;
+    console.log('Someone called getVocab with an id of ' + id);
     return this.http.get<Vocab>(url);
   }
 

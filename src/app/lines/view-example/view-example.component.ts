@@ -68,7 +68,9 @@ export class ViewExampleComponent implements OnInit, OnChanges {
               private dataService: DataService) { }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.initializeExample();
+    if (!changes.genericLine.firstChange) {
+      this.initializeExample();
+    }
     this.initializeAnimation();
   }
 
@@ -117,14 +119,22 @@ export class ViewExampleComponent implements OnInit, OnChanges {
 
   initializeExample() {
     this.mapGenericLineToLine();
-    console.log('initializing audio...')
     console.log(this.line);
     this.dataService.getVocab(this.line.vocabReference)
       .subscribe(
         (data) => {
-          console.log(data);
-          console.log('Got audio back: ' + data.audioFilePathMp3);
+          const targetString = data.target;
           this.vocab = data;
+          if (this.vocab.childVocabs) {
+            let string = '';
+            for (let i = 0; i < this.vocab.childVocabs.length; i++) {
+              console.log('Substring of ' + targetString + ' from ' + this.vocab.childVocabs[i].startChar + ' to ' +  this.vocab.childVocabs[i].endChar );
+              string += targetString.substring(this.vocab.childVocabs[i].startChar, this.vocab.childVocabs[i].endChar);
+              string += ' [' + this.vocab.childVocabs[i].id + '], ';
+            }
+            console.log(string);
+            this.vocab.target = string;
+          }
           this.initializeAudio();
         },
         (err) => console.log(err),
