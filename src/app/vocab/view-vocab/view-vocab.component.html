@@ -28,6 +28,13 @@
              placeholder="English"
              formControlName="english"/>
     </mat-form-field>
+    <mat-form-field>
+      <input matInput
+             id="audioFilePathMp3"
+             type="text"
+             placeholder="MP3 File"
+             formControlName="audioFilePathMp3"/>
+    </mat-form-field>
     <div>
       <button mat-mini-fab type="button" (click)="addChildVocab()">+</button>
       <div formArrayName="childVocabs" *ngFor="let vocab of childVocabs.controls; let i = index">
@@ -57,7 +64,7 @@
         </div>
       </div>
     </div>
-    <button mat-raised-button color="accent" (click)="onPlayAudio()">Play Audio</button>
+    <button mat-raised-button color="accent" type="button" (click)="onPlayAudio()">Play Audio</button>
     <button mat-raised-button color="primary" type="submit">Update Vocabulary</button>
     <button mat-raised-button color="link" routerLink="vocabulary">Cancel</button>
     <button mat-raised-button color="warn" (click)="onDelete()">Delete</button>

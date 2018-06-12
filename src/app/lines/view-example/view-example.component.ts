@@ -122,6 +122,7 @@ export class ViewExampleComponent implements OnInit, OnChanges {
     this.dataService.getVocab(this.line.vocabReference)
       .subscribe(
         (data) => {
+          console.log(data);
           console.log('Got audio back: ' + data.audioFilePathMp3);
           this.vocab = data;
           this.initializeAudio();

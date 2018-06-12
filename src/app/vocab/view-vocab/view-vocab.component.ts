@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, FormArray } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -12,7 +12,7 @@ import { FileStorageService } from '../../shared/file-storage.service';
   templateUrl: './view-vocab.component.html',
   styleUrls: ['./view-vocab.component.css']
 })
-export class ViewVocabComponent implements OnInit {
+export class ViewVocabComponent implements OnInit, OnChanges {
   @Input() selectedVocab: Vocab;
   vocabForm: FormGroup;
   vocabList: Vocab[];
@@ -29,20 +29,18 @@ export class ViewVocabComponent implements OnInit {
               private audioService: AudioService) { }
 
   ngOnInit() {
-    this.vocabForm = this.formBuilder.group({
-      target: this.selectedVocab.target,
-      targetKana: this.selectedVocab.targetKana,
-      targetRomanization: this.selectedVocab.targetRomanization,
-      english: this.selectedVocab.english,
-      addChildren: false,
-      childVocabs: this.populateChildVocabs()
-    });
+    this.initializeForm();
     this.dataService.getAllVocabs()
       .subscribe(
         (data) => this.vocabList = data,
         (err) => console.log(err),
         () => console.log('Finished fetching vocab list')
       );
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    this.selectedVocab = changes.selectedVocab.currentValue;
+    this.initializeForm();
   }
 
   onSaveVocabulary() {
@@ -55,6 +53,18 @@ export class ViewVocabComponent implements OnInit {
         (err) => console.log(err),
         () => 'Finished updating vocab'
       );
+  }
+
+  initializeForm() {
+    this.vocabForm = this.formBuilder.group({
+      target: this.selectedVocab.target,
+      targetKana: this.selectedVocab.targetKana,
+      targetRomanization: this.selectedVocab.targetRomanization,
+      english: this.selectedVocab.english,
+      audioFilePathMp3: this.selectedVocab.audioFilePathMp3,
+      addChildren: false,
+      childVocabs: this.populateChildVocabs()
+    });
   }
 
   onDelete() {
@@ -91,14 +101,18 @@ export class ViewVocabComponent implements OnInit {
   }
 
   populateChildVocabs(): FormArray {
-    let array = this.formBuilder.array([])
-    for (let i = 0; i < this.selectedVocab.childVocabs.length; i++) {
-      array.push(this.formBuilder.group({
-        id: this.selectedVocab.childVocabs[i].id,
-        startChar: this.selectedVocab.childVocabs[i].startChar,
-        endChar: this.selectedVocab.childVocabs[i].endChar
-      }));
+    let array = this.formBuilder.array([]);
+
+    if(this.selectedVocab.childVocabs) {
+      for (let i = 0; i < this.selectedVocab.childVocabs.length; i++) {
+        array.push(this.formBuilder.group({
+          id: this.selectedVocab.childVocabs[i].id,
+          startChar: this.selectedVocab.childVocabs[i].startChar,
+          endChar: this.selectedVocab.childVocabs[i].endChar
+        }));
+      }
     }
+
     return array;
   }
 
