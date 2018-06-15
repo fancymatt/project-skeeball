@@ -8,14 +8,17 @@
       <app-view-explanation
         *ngIf="currentLine.type == 'Explanation'"
         [(line)]="currentLine"
+        [currentLineIndex]="currentLineIndex"
         (dismissLine)="onLineDismissed($event)"></app-view-explanation>
       <app-view-example
         *ngIf="currentLine.type == 'Example'"
         [(line)]="currentLine"
+        [currentLineIndex]="currentLineIndex"
         (dismissLine)="onLineDismissed($event)"></app-view-example>
       <app-view-question-mc
         *ngIf="currentLine.type == 'Multiple Choice'"
         [(line)]="currentLine"
+        [currentLineIndex]="currentLineIndex"
         (dismissLine)="onLineDismissed($event)"></app-view-question-mc>
     </section>
     <section class="push-down"></section>

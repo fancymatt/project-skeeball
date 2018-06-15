@@ -1,23 +1,35 @@
-import {Component, Input} from '@angular/core';
-import {Vocab} from '../vocab.model';
-import {DataService} from '../../shared/data.service';
-import {Router} from '@angular/router';
-import {AudioService} from '../../shared/audio.service';
-import {FileStorageService} from '../../shared/file-storage.service';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
+
+import { Vocab } from '../vocab.model';
+import { DataService } from '../../shared/data.service';
+import { AudioService } from '../../shared/audio.service';
+import { FileStorageService } from '../../shared/file-storage.service';
 
 @Component({
   selector: 'app-view-vocab',
   templateUrl: './view-vocab.component.html',
   styleUrls: ['./view-vocab.component.css']
 })
-export class ViewVocabComponent {
+export class ViewVocabComponent implements OnInit {
   @Input() selectedVocab: Vocab;
   audioFilePathMp3: string;
+  vocabForm: FormGroup;
 
   constructor(private dataService: DataService,
               private router: Router,
               private fileStorageService: FileStorageService,
               private audioService: AudioService) { }
+
+  ngOnInit(): void {
+    this.vocabForm = new FormGroup({
+      target: new FormControl(),
+      targetKana: new FormControl(),
+      targetRomanization: new FormControl(),
+      targetEnglish: new FormControl()
+    });
+  }
 
   onUpdate() {
     this.selectedVocab.audioFilePathMp3 = this.audioFilePathMp3;

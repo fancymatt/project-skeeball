@@ -3,6 +3,7 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
 import { Line } from '../line.model';
 import { LineExplanation } from '../line-explanation';
 import { AudioService } from '../../shared/audio.service';
+import { LessonService } from '../../lessons/lesson.service';
 
 @Component({
   selector: 'app-view-explanation',
@@ -56,23 +57,27 @@ import { AudioService } from '../../shared/audio.service';
 
 export class ViewExplanationComponent implements OnInit, OnChanges {
   @Input('line') genericLine: Line;
+  @Input() currentLineIndex: number;
   @Output() dismissLine: EventEmitter<boolean> = new EventEmitter<boolean>(false);
   currentLine: LineExplanation = new LineExplanation();
   textAnimationState: string;
   buttonAnimationState: string;
 
-  constructor(private audioService: AudioService) { }
+  constructor(private audioService: AudioService, private lessonService: LessonService) { }
 
   ngOnInit() {
-    this.mapGenericLineToLine(this.genericLine);
-    this.initializeAnimation();
-    this.initializeNarration();
+    this.initializeExplanation();
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.mapGenericLineToLine(changes.genericLine.currentValue);
+    this.initializeExplanation();
+  }
+
+  initializeExplanation() {
+    this.currentLine.videoScript = this.genericLine.explanationVideoScript;
+    this.currentLine.audioScript = this.genericLine.explanationAudioScript;
+    this.currentLine.audioNarration = this.lessonService.selectedLessonAssets[this.currentLineIndex].audio;
     this.initializeAnimation();
-    this.initializeNarration();
   }
 
   initializeAnimation() {
@@ -82,20 +87,6 @@ export class ViewExplanationComponent implements OnInit, OnChanges {
       this.animateTextIn();
       this.playNarration();
     }, 1000);
-  }
-
-  initializeNarration() {
-    const audioFiles = this.audioService.currentLessonAudioFiles;
-    const matchedAudio = audioFiles.find(audio => audio.url === this.currentLine.audioNarrationUrl);
-    if (matchedAudio) {
-      this.currentLine.audioNarration = matchedAudio.howl;
-    }
-  }
-
-  mapGenericLineToLine(genericLine: Line) {
-    this.currentLine.videoScript = genericLine.explanationVideoScript;
-    this.currentLine.audioScript = genericLine.explanationAudioScript;
-    this.currentLine.audioNarrationUrl = genericLine.explanationAudioMp3;
   }
 
   onDismissLine() {

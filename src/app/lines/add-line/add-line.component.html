@@ -1,47 +1,115 @@
-<button mat-button routerLink="..">Return to Lesson</button>
-<section class="add-line-form mat-typography" fxLayout="column" fxLayoutAlign="center center">
-  <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+<button
+  mat-button
+  routerLink="..">Return to Lesson</button>
+<section
+  class="add-line-form
+  mat-typography"
+  fxLayout="column"
+  fxLayoutAlign="center center">
+  <form #f="ngForm"
+        (ngSubmit)="onSubmit(f)">
     <h4 mat-subheader>Add Line</h4>
     <mat-form-field>
-      <mat-select placeholder="Type" ngModel name="type" [(value)]="selectedLineType">
-        <mat-option *ngFor="let type of possibleLineTypes" [value]="type">
+      <mat-select
+        placeholder="Type"
+        ngModel
+        name="type"
+        [(value)]="selectedLineType">
+        <mat-option
+          *ngFor="let type of possibleLineTypes"
+          [value]="type">
           {{ type }}
         </mat-option>
       </mat-select>
     </mat-form-field>
     <mat-form-field *ngIf="selectedLineType=='Explanation'">
-      <input type="text" matInput placeholder="Video Script" ngModel name="scriptVideo">
+      <input
+        type="text"
+        matInput
+        placeholder="Video Script"
+        ngModel
+        name="scriptVideo">
     </mat-form-field>
     <mat-form-field *ngIf="selectedLineType=='Explanation'">
-      <input type="text" matInput placeholder="Audio Script" ngModel name="scriptAudio">
+      <input
+        type="text"
+        matInput
+        placeholder="Audio Script"
+        ngModel
+        name="scriptAudio">
     </mat-form-field>
     <div *ngIf="selectedLineType=='Explanation'">
-      <input type="file" placeholder="MP3 File" name="audioMp3" id="audioMp3" (change)="fileEvent($event)">
+      <input
+        type="file"
+        placeholder="MP3 File"
+        name="audioMp3"
+        id="audioMp3"
+        (change)="fileEvent($event)">
     </div>
     <mat-form-field *ngIf="selectedLineType=='Example'">
-      <mat-select placeholder="Vocabulary Reference" [(ngModel)]="selectedVocabReference" name="vocabReference">
-        <mat-option *ngFor="let vocab of vocabList" [value]="vocab.id">
+      <mat-select
+        placeholder="Vocabulary Reference"
+        [(ngModel)]="selectedVocabReference">
+        <mat-option
+          *ngFor="let vocab of vocabList"
+          [value]="vocab.id">
           {{vocab.target}} ({{vocab.english}})
         </mat-option>
       </mat-select>
-      <input type="text" matInput placeholder="Target" ngModel name="exampleTarget">
+      <input
+        type="text"
+        matInput
+        placeholder="Target"
+        ngModel
+        name="exampleTarget">
     </mat-form-field>
     <mat-form-field *ngIf="selectedLineType=='Multiple Choice'">
-      <input type="text" matInput placeholder="Question" ngModel name="mcQuestion">
+      <input
+        type="text"
+        matInput
+        placeholder="Question"
+        ngModel
+        name="mcQuestion">
     </mat-form-field>
     <mat-form-field *ngIf="selectedLineType=='Multiple Choice'">
-      <input type="text" matInput placeholder="Correct Answer" ngModel name="mcAnswerCorrect">
+      <input
+        type="text"
+        matInput
+        placeholder="Correct Answer"
+        ngModel
+        name="mcAnswerCorrect">
     </mat-form-field>
     <mat-form-field *ngIf="selectedLineType=='Multiple Choice'">
-      <input type="text" matInput placeholder="Incorrect Answer 1" ngModel name="mcAnswerIncorrect1">
+      <input
+        type="text"
+        matInput
+        placeholder="Incorrect Answer 1"
+        ngModel
+        name="mcAnswerIncorrect1">
     </mat-form-field>
     <mat-form-field *ngIf="selectedLineType=='Multiple Choice'">
-      <input type="text" matInput placeholder="Incorrect Answer 2" ngModel name="mcAnswerIncorrect2">
+      <input
+        type="text"
+        matInput
+        placeholder="Incorrect Answer 2"
+        ngModel
+        name="mcAnswerIncorrect2">
     </mat-form-field>
     <mat-form-field *ngIf="selectedLineType=='Multiple Choice'">
-      <input type="text" matInput placeholder="Incorrect Answer 3" ngModel name="mcAnswerIncorrect3">
+      <input
+        type="text"
+        matInput
+        placeholder="Incorrect Answer 3"
+        ngModel
+        name="mcAnswerIncorrect3">
     </mat-form-field>
-    <button mat-raised-button color="primary" type="submit">Create Line</button>
-    <button mat-raised-button color="warn" routerLink="..">Cancel</button>
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit">Create Line</button>
+    <button
+      mat-raised-button
+      color="warn"
+      routerLink="..">Cancel</button>
   </form>
 </section>

@@ -1,3 +1,18 @@
+<section class="edit-vocab-form mat-typography"
+         fxLayout="column"
+         fxLayoutAlign="center center">
+  <form (ngSubmit)="onSubmitForm()" [formGroup]="vocabForm">
+    <fieldset>
+      <div>
+        <label for="target">Target</label>
+        <input id="target" type="text" placeholder="Target" formControlName="target" />
+      </div>
+      <button class="mat-raised-button" type="submit">Save</button>
+    </fieldset>
+  </form>
+
+</section>
+
 <section class="edit-vocab-form mat-typography" fxLayout="column" fxLayoutAlign="center center">
   <form #f="ngForm">
     <h4 mat-subheader>Edit Vocabulary</h4>

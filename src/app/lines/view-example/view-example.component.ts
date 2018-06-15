@@ -6,6 +6,7 @@ import { Howl } from 'howler';
 import { AudioService } from '../../shared/audio.service';
 import { Vocab } from '../../vocab/vocab.model';
 import { DataService } from '../../shared/data.service';
+import { LessonService } from '../../lessons/lesson.service';
 
 @Component({
   selector: 'app-view-example',
@@ -51,33 +52,42 @@ import { DataService } from '../../shared/data.service';
       state('end', style({
         opacity: 0
       })),
-      transition('start => presented', animate('100ms 1500ms ease-out')),
+      transition('start => presented', animate('300ms 200ms ease-out')),
       transition('presented => end' , animate('100ms ease-out'))
     ])
   ]
 })
 export class ViewExampleComponent implements OnInit, OnChanges {
   @Input('line') genericLine: Line;
+  @Input() currentLineIndex: number;
   line: LineExample = new LineExample;
   vocab: Vocab;
-  audio: Howl;
+  vocabAudio: Howl;
   animationState: string;
+  buttonAnimationState: string;
   @Output() dismissLine: EventEmitter<boolean> = new EventEmitter<boolean>(false);
 
   constructor(private audioService: AudioService,
-              private dataService: DataService) { }
+              private dataService: DataService,
+              private lessonService: LessonService) { }
 
   ngOnChanges(changes: SimpleChanges) {
     this.initializeExample();
-    this.initializeAnimation();
   }
 
   ngOnInit() {
     this.initializeExample();
+  }
+
+  initializeExample() {
+    this.line.vocabReference = this.genericLine.exampleVocabReference;
+    this.vocabAudio = this.lessonService.selectedLessonAssets[this.currentLineIndex].audio;
+    this.vocab = this.lessonService.selectedLessonAssets[this.currentLineIndex].vocabulary;
     this.initializeAnimation();
   }
 
   initializeAnimation() {
+    this.buttonAnimationState = 'start';
     this.animationState = 'start';
     setTimeout(() => {
       this.animateIn();
@@ -86,50 +96,35 @@ export class ViewExampleComponent implements OnInit, OnChanges {
 
   animateIn() {
     this.animationState = 'presented';
+    this.playExampleAudio();
   }
 
   animateOut() {
     this.animationState = 'end';
+    this.buttonAnimationState = 'end';
     this.playNeutralSound();
     setTimeout(() => {
       this.dismissLine.emit(true);
     }, 1000);
   }
 
-  mapGenericLineToLine() {
-    this.line.vocabReference = this.genericLine.exampleVocabReference;
+  playExampleAudio() {
+    if (this.vocabAudio) {
+      this.vocabAudio.pause();
+      this.vocabAudio.play();
+      this.vocabAudio.on('end', () => {
+        this.displayNextButton();
+      });
+    }
   }
 
-  initializeAudio() {
-    const audioFiles = this.audioService.currentLessonAudioFiles;
-    const matchedAudio = audioFiles.find(audio => audio.url === this.vocab.audioFilePathMp3);
-    if (matchedAudio) {
-      this.audio = matchedAudio.howl;
-      this.audio.pause();
-      this.audio.play();
-    }
+  displayNextButton() {
+    this.buttonAnimationState = 'presented';
   }
 
   playNeutralSound() {
     this.audioService.buttonClickSound.pause();
     this.audioService.buttonClickSound.play();
-  }
-
-  initializeExample() {
-    this.mapGenericLineToLine();
-    console.log('initializing audio...')
-    console.log(this.line);
-    this.dataService.getVocab(this.line.vocabReference)
-      .subscribe(
-        (data) => {
-          console.log('Got audio back: ' + data.audioFilePathMp3);
-          this.vocab = data;
-          this.initializeAudio();
-        },
-        (err) => console.log(err),
-        () => console.log('Finished fetching vocab entry')
-      );
-
   }
 
 }

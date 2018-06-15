@@ -27,11 +27,10 @@ export class EditLessonComponent implements OnInit {
     this.dataService.getLesson(id)
       .subscribe(
         (data: Lesson) => {
-          this.selectedLesson = this.lessonService.selectedLesson = data;
-          this.audioService.initializeAudioForLesson(this.selectedLesson);
+          this.lessonService.selectedLesson = data;
+          this.selectedLesson = this.lessonService.selectedLesson;
         },
-        (err: any) => console.error(err),
-        () => console.log('Finished getting lesson.')
+        (err: any) => console.error(err)
       );
 
   }
@@ -42,8 +41,7 @@ export class EditLessonComponent implements OnInit {
         (data) => {
           this.router.navigate(['../lessons']);
         },
-        (err) => console.error(err),
-        () => console.log('Finished deleting lesson')
+        (err) => console.error(err)
       );
   }
 

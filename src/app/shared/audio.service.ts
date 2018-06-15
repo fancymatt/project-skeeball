@@ -68,4 +68,10 @@ export class AudioService {
     audioHowl.play();
   }
 
+  initializeAudioFromFilePath(path: string) {
+    const audioUrl = this.s3UrlPrefix + path;
+    const audioHowl = new Howl({src: [audioUrl], preload: true});
+    return audioHowl;
+  }
+
 }

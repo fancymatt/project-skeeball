@@ -57,6 +57,7 @@ import {AudioService} from '../../shared/audio.service';
 export class ViewQuestionMcComponent implements OnInit, OnChanges {
 
   @Input('line') genericLine: Line;
+  @Input() currentLineIndex: number;
   line: LineQuestionMc = new LineQuestionMc();
   options: {text: string, correct: boolean, selected: boolean}[];
   animationState: string;
@@ -65,23 +66,22 @@ export class ViewQuestionMcComponent implements OnInit, OnChanges {
   constructor(private audioService: AudioService) { }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.mapGenericLineToLine(changes.genericLine.currentValue);
-    this.initializeAnimation();
+    this.initializeQuestion();
   }
 
   ngOnInit() {
-    this.mapGenericLineToLine(this.genericLine);
-    this.initializeAnimation();
+    this.initializeQuestion();
   }
 
-  mapGenericLineToLine(genericLine: Line) {
-    this.line.question = genericLine.mcQuestion;
-    this.line.answerCorrect = genericLine.mcAnswerCorrect;
+  initializeQuestion() {
+    this.line.question = this.genericLine.mcQuestion;
+    this.line.answerCorrect = this.genericLine.mcAnswerCorrect;
     this.line.answerIncorrect = [];
-    this.line.answerIncorrect.push(genericLine.mcAnswerIncorrect1);
-    this.line.answerIncorrect.push(genericLine.mcAnswerIncorrect2);
-    this.line.answerIncorrect.push(genericLine.mcAnswerIncorrect3);
+    this.line.answerIncorrect.push(this.genericLine.mcAnswerIncorrect1);
+    this.line.answerIncorrect.push(this.genericLine.mcAnswerIncorrect2);
+    this.line.answerIncorrect.push(this.genericLine.mcAnswerIncorrect3);
     this.initializeOptions();
+    this.initializeAnimation();
   }
 
   initializeOptions(): void {
