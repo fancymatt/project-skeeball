@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+=======
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { FormGroup, FormControl, FormBuilder, FormArray } from '@angular/forms';
+>>>>>>> ec8a3723dfe108888f7919f0417bc59ccc42aa4f
 import { Router } from '@angular/router';
 
 import { Vocab } from '../vocab.model';
@@ -12,16 +17,28 @@ import { FileStorageService } from '../../shared/file-storage.service';
   templateUrl: './view-vocab.component.html',
   styleUrls: ['./view-vocab.component.css']
 })
+<<<<<<< HEAD
 export class ViewVocabComponent implements OnInit {
+=======
+export class ViewVocabComponent implements OnInit, OnChanges {
+>>>>>>> ec8a3723dfe108888f7919f0417bc59ccc42aa4f
   @Input() selectedVocab: Vocab;
+  vocabForm: FormGroup;
+  vocabList: Vocab[];
   audioFilePathMp3: string;
   vocabForm: FormGroup;
+
+  get childVocabs(): FormArray {
+    return <FormArray>this.vocabForm.get('childVocabs');
+  }
 
   constructor(private dataService: DataService,
               private router: Router,
               private fileStorageService: FileStorageService,
+              private formBuilder: FormBuilder,
               private audioService: AudioService) { }
 
+<<<<<<< HEAD
   ngOnInit(): void {
     this.vocabForm = new FormGroup({
       target: new FormControl(),
@@ -32,13 +49,45 @@ export class ViewVocabComponent implements OnInit {
   }
 
   onUpdate() {
+=======
+  ngOnInit() {
+    this.initializeForm();
+    this.dataService.getAllVocabs()
+      .subscribe(
+        (data) => this.vocabList = data,
+        (err) => console.log(err),
+        () => console.log('Finished fetching vocab list')
+      );
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    this.selectedVocab = changes.selectedVocab.currentValue;
+    this.initializeForm();
+  }
+
+  onSaveVocabulary() {
+>>>>>>> ec8a3723dfe108888f7919f0417bc59ccc42aa4f
     this.selectedVocab.audioFilePathMp3 = this.audioFilePathMp3;
+    console.log(this.childVocabs.value);
+    this.selectedVocab.childVocabs = this.childVocabs.value;
     this.dataService.updateVocab(this.selectedVocab)
       .subscribe(
         () => this.router.navigate(['..']),
         (err) => console.log(err),
         () => 'Finished updating vocab'
       );
+  }
+
+  initializeForm() {
+    this.vocabForm = this.formBuilder.group({
+      target: this.selectedVocab.target,
+      targetKana: this.selectedVocab.targetKana,
+      targetRomanization: this.selectedVocab.targetRomanization,
+      english: this.selectedVocab.english,
+      audioFilePathMp3: this.selectedVocab.audioFilePathMp3,
+      addChildren: false,
+      childVocabs: this.populateChildVocabs()
+    });
   }
 
   onDelete() {
@@ -60,6 +109,34 @@ export class ViewVocabComponent implements OnInit {
     const file = fileInput.target.files[0];
     this.fileStorageService.upload(file);
     this.audioFilePathMp3 = file.name;
+  }
+
+  buildChildVocab(): FormGroup {
+    return this.formBuilder.group({
+      id: '',
+      startChar: '',
+      endChar: ''
+    });
+  }
+
+  addChildVocab(): void {
+    this.childVocabs.push(this.buildChildVocab());
+  }
+
+  populateChildVocabs(): FormArray {
+    let array = this.formBuilder.array([]);
+
+    if(this.selectedVocab.childVocabs) {
+      for (let i = 0; i < this.selectedVocab.childVocabs.length; i++) {
+        array.push(this.formBuilder.group({
+          id: this.selectedVocab.childVocabs[i].id,
+          startChar: this.selectedVocab.childVocabs[i].startChar,
+          endChar: this.selectedVocab.childVocabs[i].endChar
+        }));
+      }
+    }
+
+    return array;
   }
 
 }

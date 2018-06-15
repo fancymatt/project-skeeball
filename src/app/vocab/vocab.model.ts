@@ -5,6 +5,7 @@ export class Vocab {
   public targetRomanization: string;
   public english: string;
   public audioFilePathMp3: string;
+  public childVocabs: {id: string, startChar: number, endChar: number}[];
 
   constructor(target: string,
               targetKana: string,
