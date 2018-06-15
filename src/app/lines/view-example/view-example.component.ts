@@ -62,12 +62,7 @@ export class ViewExampleComponent implements OnInit, OnChanges {
   @Input() currentLineIndex: number;
   line: LineExample = new LineExample;
   vocab: Vocab;
-<<<<<<< HEAD
   vocabAudio: Howl;
-=======
-  targetTextElements: {clickable: boolean, text: string}[] = [];
-  audio: Howl;
->>>>>>> ec8a3723dfe108888f7919f0417bc59ccc42aa4f
   animationState: string;
   buttonAnimationState: string;
   @Output() dismissLine: EventEmitter<boolean> = new EventEmitter<boolean>(false);
@@ -77,14 +72,7 @@ export class ViewExampleComponent implements OnInit, OnChanges {
               private lessonService: LessonService) { }
 
   ngOnChanges(changes: SimpleChanges) {
-<<<<<<< HEAD
     this.initializeExample();
-=======
-    if (!changes.genericLine.firstChange) {
-      this.initializeExample();
-    }
-    this.initializeAnimation();
->>>>>>> ec8a3723dfe108888f7919f0417bc59ccc42aa4f
   }
 
   ngOnInit() {
@@ -138,42 +126,4 @@ export class ViewExampleComponent implements OnInit, OnChanges {
     this.audioService.buttonClickSound.pause();
     this.audioService.buttonClickSound.play();
   }
-
-<<<<<<< HEAD
-=======
-  initializeExample() {
-    this.mapGenericLineToLine();
-    console.log(this.line);
-    this.dataService.getVocab(this.line.vocabReference)
-      .subscribe(
-        (data) => {
-          const targetString = data.target;
-          this.vocab = data;
-          if (this.vocab.childVocabs) {
-            let string = '';
-            let lastIndex = 0;
-            for (let i = 0; i < this.vocab.childVocabs.length; i++) {
-              if (this.vocab.childVocabs[i].startChar > lastIndex) {
-                this.targetTextElements.push({
-                  clickable: false,
-                  text: targetString.substring(lastIndex, this.vocab.childVocabs[i].startChar)
-                });
-              }
-              this.targetTextElements.push({
-                clickable: true,
-                text: targetString.substring(this.vocab.childVocabs[i].startChar, this.vocab.childVocabs[i].endChar)
-              });
-              lastIndex = this.vocab.childVocabs[i].endChar;
-            }
-            console.log(this.targetTextElements);
-          }
-          this.initializeAudio();
-        },
-        (err) => console.log(err),
-        () => console.log('Finished fetching vocab entry')
-      );
-
-  }
-
->>>>>>> ec8a3723dfe108888f7919f0417bc59ccc42aa4f
 }

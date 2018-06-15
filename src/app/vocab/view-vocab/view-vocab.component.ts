@@ -1,10 +1,5 @@
-<<<<<<< HEAD
-import { Component, Input, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-=======
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, FormArray } from '@angular/forms';
->>>>>>> ec8a3723dfe108888f7919f0417bc59ccc42aa4f
 import { Router } from '@angular/router';
 
 import { Vocab } from '../vocab.model';
@@ -17,16 +12,12 @@ import { FileStorageService } from '../../shared/file-storage.service';
   templateUrl: './view-vocab.component.html',
   styleUrls: ['./view-vocab.component.css']
 })
-<<<<<<< HEAD
-export class ViewVocabComponent implements OnInit {
-=======
+
 export class ViewVocabComponent implements OnInit, OnChanges {
->>>>>>> ec8a3723dfe108888f7919f0417bc59ccc42aa4f
   @Input() selectedVocab: Vocab;
   vocabForm: FormGroup;
   vocabList: Vocab[];
   audioFilePathMp3: string;
-  vocabForm: FormGroup;
 
   get childVocabs(): FormArray {
     return <FormArray>this.vocabForm.get('childVocabs');
@@ -38,18 +29,6 @@ export class ViewVocabComponent implements OnInit, OnChanges {
               private formBuilder: FormBuilder,
               private audioService: AudioService) { }
 
-<<<<<<< HEAD
-  ngOnInit(): void {
-    this.vocabForm = new FormGroup({
-      target: new FormControl(),
-      targetKana: new FormControl(),
-      targetRomanization: new FormControl(),
-      targetEnglish: new FormControl()
-    });
-  }
-
-  onUpdate() {
-=======
   ngOnInit() {
     this.initializeForm();
     this.dataService.getAllVocabs()
@@ -66,7 +45,6 @@ export class ViewVocabComponent implements OnInit, OnChanges {
   }
 
   onSaveVocabulary() {
->>>>>>> ec8a3723dfe108888f7919f0417bc59ccc42aa4f
     this.selectedVocab.audioFilePathMp3 = this.audioFilePathMp3;
     console.log(this.childVocabs.value);
     this.selectedVocab.childVocabs = this.childVocabs.value;
@@ -126,7 +104,7 @@ export class ViewVocabComponent implements OnInit, OnChanges {
   populateChildVocabs(): FormArray {
     let array = this.formBuilder.array([]);
 
-    if(this.selectedVocab.childVocabs) {
+    if (this.selectedVocab.childVocabs) {
       for (let i = 0; i < this.selectedVocab.childVocabs.length; i++) {
         array.push(this.formBuilder.group({
           id: this.selectedVocab.childVocabs[i].id,
