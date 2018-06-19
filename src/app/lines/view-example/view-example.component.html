@@ -1,10 +1,13 @@
-<section *ngIf="vocab">
+<section class="line-content" *ngIf="vocab">
   <div class="exampleTarget present-text"
        [@primaryTextState]="animationState">
     <span *ngIf="targetTextElements">
       <span *ngFor="let el of targetTextElements" [class.clickable]="el.clickable">
         {{el.text}}
       </span>
+    </span>
+    <span *ngIf="!targetTextElements">
+      {{vocab.target}}
     </span>
   </div>
   <div class="exampleTarget subtitle-text"
@@ -20,8 +23,7 @@
     <span>{{vocab.english}}</span>
   </div>
   <br />
-  <button mat-raised-button
-          color="primary"
+  <button class="next-button"
           (click)="animateOut()"
           [@buttonState]="buttonAnimationState">Next</button>
 </section>

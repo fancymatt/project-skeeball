@@ -11,6 +11,7 @@ import {Line} from '../../lines/line.model';
 export class ViewLessonComponent implements OnInit {
   currentLesson: Lesson;
   currentLineIndex: number;
+  titleDismissed = false;
   totalLines: number;
   currentLine: Line;
 

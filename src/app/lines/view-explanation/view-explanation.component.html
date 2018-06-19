@@ -1,4 +1,4 @@
-<section>
+<section class="line-content">
   <div class="videoScript present-text"
        [@primaryTextState]="textAnimationState">
     <span>{{currentLine.videoScript}}</span>
@@ -7,9 +7,7 @@
        [@secondaryTextState]="textAnimationState">
     <span>{{currentLine.audioScript}}</span>
   </div>
-  <br />
-  <button mat-raised-button
-          color="primary"
+  <button class="next-button"
           (click)="onDismissLine()"
           [@buttonState]="buttonAnimationState">Next</button>
 </section>

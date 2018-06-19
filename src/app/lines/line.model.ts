@@ -12,6 +12,7 @@ export class Line {
   public mcAnswerIncorrect1: string;
   public mcAnswerIncorrect2: string;
   public mcAnswerIncorrect3: string;
+  public freeVocabReference: string;
 
 
   constructor(type: string) {

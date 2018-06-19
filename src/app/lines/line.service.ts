@@ -6,7 +6,7 @@ export class LineService {
   private lines: Line[] = [];
 
   private lineTypes: string[] = [
-    'Explanation', 'Example', 'Multiple Choice'
+    'Explanation', 'Example', 'Multiple Choice', 'Free Answer'
   ];
 
   getAllLineTypes() {

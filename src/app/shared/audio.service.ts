@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';dfcr
 import { Howl } from 'howler';
 import {Lesson} from '../lessons/lesson.model';
 import {Vocab} from '../vocab/vocab.model';
@@ -20,9 +20,9 @@ export class AudioService {
 
   initializeAllSounds(): void {
     console.log('Initializing sounds...');
-    this.buttonClickSound = new Howl({src: ['../../assets/neutral_01.wav'], preload: true});
-    this.positiveSound = new Howl({src: ['../../assets/positive_01.wav'], preload: true});
-    this.negativeSound = new Howl({src: ['../../assets/negative_01.wav'], preload: true});
+    this.buttonClickSound = new Howl({src: ['../../assets/neutral_01.wav'], preload: true, volume: 0.5});
+    this.positiveSound = new Howl({src: ['../../assets/positive_01.wav'], preload: true, volume: 0.5});
+    this.negativeSound = new Howl({src: ['../../assets/negative_01.wav'], preload: true, volume: 0.5});
     this.explanationSampleSound = new Howl({src: ['../../assets/sample-narration.m4a'], preload: true});
   }
 
@@ -66,12 +66,18 @@ export class AudioService {
     const audioHowl = new Howl({src: [audioUrl], preload: true});
     audioHowl.pause();
     audioHowl.play();
+    // move this into initializeAudioFromFilePathAndPlay()
   }
 
   initializeAudioFromFilePath(path: string) {
     const audioUrl = this.s3UrlPrefix + path;
-    const audioHowl = new Howl({src: [audioUrl], preload: true});
-    return audioHowl;
+    return new Howl({src: [audioUrl], preload: true});
+  }
+
+  initializeAudioFromFilePathAndPlay(path: string) {
+    const audio = this.initializeAudioFromFilePath(path);
+    audio.pause();
+    audio.play();
   }
 
 }
