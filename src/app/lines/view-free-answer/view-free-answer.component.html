@@ -1,0 +1,20 @@
+<section class="line-content">
+  <div class="present-text"
+       [@primaryTextState]="textAnimationState">
+    <span>{{line.prompt}}</span>
+  </div>
+  <div>
+    <input class="answer-input"
+           [(ngModel)]="studentAnswer"
+           (keyup)="evaluateStudentAnswer()"
+           [@textFieldState]="textFieldAnimationState"
+           type="text" />
+  </div>
+  <div class="subtitle-text"
+       [@secondaryTextState]="textAnimationState">
+    <span>(Enter "{{line.answer.targetRomanization}}")</span>
+  </div>
+  <button class="next-button"
+          (click)="onDismissLine()"
+          [@buttonState]="buttonAnimationState">Next</button>
+</section>

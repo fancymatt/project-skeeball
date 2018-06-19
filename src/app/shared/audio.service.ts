@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';dfcr
+import {Injectable} from '@angular/core';
 import { Howl } from 'howler';
 import {Lesson} from '../lessons/lesson.model';
 import {Vocab} from '../vocab/vocab.model';

@@ -49,6 +49,7 @@
     <mat-form-field *ngIf="selectedLineType=='Example'">
       <mat-select
         placeholder="Vocabulary Reference"
+        name="selectedVocabReference"
         [(ngModel)]="selectedVocabReference">
         <mat-option
           *ngFor="let vocab of vocabList"
@@ -102,6 +103,26 @@
         placeholder="Incorrect Answer 3"
         ngModel
         name="mcAnswerIncorrect3">
+    </mat-form-field>
+    <mat-form-field *ngIf="selectedLineType=='Free Answer'">
+      <input
+        type="text"
+        matInput
+        placeholder="Prompt"
+        ngModel
+        name="freePrompt">
+    </mat-form-field>
+    <mat-form-field *ngIf="selectedLineType=='Free Answer'">
+      <mat-select
+        placeholder="Answer"
+        name="freeVocabReference"
+        [(ngModel)]="freeVocabReference">
+        <mat-option
+          *ngFor="let vocab of vocabList"
+          [value]="vocab.id">
+          {{vocab.target}} ({{vocab.english}})
+        </mat-option>
+      </mat-select>
     </mat-form-field>
     <button
       mat-raised-button

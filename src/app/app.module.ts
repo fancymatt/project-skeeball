@@ -51,6 +51,7 @@ import { BrowseVocabComponent } from './vocab/browse-vocab/browse-vocab.componen
 import { ViewVocabComponent } from './vocab/view-vocab/view-vocab.component';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 import { VocabShellComponent } from './vocab/vocab-shell/vocab-shell.component';
+import { ViewFreeAnswerComponent } from './lines/view-free-answer/view-free-answer.component';
 
 const appRoutes: Routes = [
   {path: '', component: AdminDashboardComponent, pathMatch: 'full'},
@@ -86,7 +87,8 @@ const appRoutes: Routes = [
     BrowseVocabComponent,
     ViewVocabComponent,
     AdminDashboardComponent,
-    VocabShellComponent
+    VocabShellComponent,
+    ViewFreeAnswerComponent
   ],
   imports: [
     BrowserModule,

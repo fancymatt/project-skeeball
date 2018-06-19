@@ -19,6 +19,7 @@ export class AddLineComponent implements OnInit {
   audioFilePath: string;
   vocabList: Vocab[];
   selectedVocabReference: Vocab;
+  freeVocabReference: Vocab;
 
   constructor(private lineService: LineService,
               private lessonService: LessonService,
@@ -47,6 +48,8 @@ export class AddLineComponent implements OnInit {
     newLine.mcAnswerIncorrect1 = form.form.value.mcAnswerIncorrect1;
     newLine.mcAnswerIncorrect2 = form.form.value.mcAnswerIncorrect2;
     newLine.mcAnswerIncorrect3 = form.form.value.mcAnswerIncorrect3;
+    newLine.freePrompt = form.form.value.freePrompt;
+    newLine.freeVocabReference = form.form.value.freeVocabReference;
 
     this.lessonService.selectedLesson.lines.push(newLine);
     this.dataService.updateLesson(this.lessonService.selectedLesson)

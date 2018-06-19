@@ -34,6 +34,11 @@
         [(line)]="currentLine"
         [currentLineIndex]="currentLineIndex"
         (dismissLine)="onLineDismissed($event)"></app-view-question-mc>
+      <app-view-free-answer
+        *ngIf="currentLine.type == 'Free Answer'"
+        [(line)]="currentLine"
+        [currentLineIndex]="currentLineIndex"
+        (dismissLine)="onLineDismissed($event)"></app-view-free-answer>
     </section>
     <section class="push-down"></section>
     <section class="progress-bar-section" fxLayoutAlign="end">
