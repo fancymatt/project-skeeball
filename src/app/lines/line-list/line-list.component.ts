@@ -1,21 +1,20 @@
-import {Component, OnInit} from '@angular/core';
-import {Line} from '../line.model';
-import {ActivatedRoute} from '@angular/router';
-import {LessonService} from '../../lessons/lesson.service';
-import {Lesson} from '../../lessons/lesson.model';
+import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { LessonService } from '../../lessons/lesson.service';
+import { Lesson } from '../../lessons/lesson.model';
 
 @Component({
   selector: 'app-line-list',
   templateUrl: './line-list.component.html',
   styleUrls: ['./line-list.component.css']
 })
-export class LineListComponent implements OnInit {
-  selectedLesson: Lesson;
+export class LineListComponent {
+  get selectedLesson(): Lesson {
+    return this.lessonService.selectedLesson;
+  }
 
-  constructor(private activatedRoute: ActivatedRoute, private lessonService: LessonService) { }
-
-  ngOnInit() {
-    this.selectedLesson = this.lessonService.selectedLesson;
+  constructor(private activatedRoute: ActivatedRoute,
+              private lessonService: LessonService) {
   }
 
   moveLineUp(index: number): void {
@@ -36,7 +35,6 @@ export class LineListComponent implements OnInit {
     const displacedLine = this.selectedLesson.lines[index + 1];
     const arrayBefore = this.selectedLesson.lines.slice(0, index);
     const arrayAfter = this.selectedLesson.lines.slice(index + 2, this.selectedLesson.lines.length);
-
     let newArray;
     newArray = arrayBefore.concat(displacedLine);
     newArray = newArray.concat(lineToMove);
@@ -45,9 +43,8 @@ export class LineListComponent implements OnInit {
     this.selectedLesson.lines = newArray;
   }
 
-  deleteLine(index:number): void {
-    this.selectedLesson.lines.splice(index,1);
+  deleteLine(index: number): void {
+    this.selectedLesson.lines.splice(index, 1);
   }
-
 
 }

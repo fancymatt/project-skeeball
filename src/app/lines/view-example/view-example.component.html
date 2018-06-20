@@ -1,8 +1,10 @@
 <section class="line-content" *ngIf="vocab">
-  <div class="exampleTarget present-text"
-       [@primaryTextState]="animationState">
+  <div class="example-target present-text"
+       [@primaryTextAnimationState]="textAnimationState">
     <span *ngIf="targetTextElements">
-      <span *ngFor="let el of targetTextElements" [class.clickable]="el.clickable">
+      <span *ngFor="let el of targetTextElements"
+            [class.clickable]="el.clickable"
+            (click)="onClickChildVocab(el.vocabRef)">
         {{el.text}}
       </span>
     </span>
@@ -10,20 +12,20 @@
       {{vocab.target}}
     </span>
   </div>
-  <div class="exampleTarget subtitle-text"
-       [@secondaryTextState]="animationState">
+  <div class="example-target subtitle-text"
+       [@secondaryTextAnimationState]="textAnimationState">
     <span>{{vocab.targetKana}}</span>
   </div>
-  <div class="exampleTarget subtitle-text"
-       [@secondaryTextState]="animationState">
+  <div class="example-target subtitle-text"
+       [@secondaryTextAnimationState]="textAnimationState">
     <span>{{vocab.targetRomanization}}</span>
   </div>
-  <div class="exampleEnglish present-text"
-       [@secondaryTextState]="animationState">
+  <div class="present-text"
+       [@secondaryTextAnimationState]="textAnimationState">
     <span>{{vocab.english}}</span>
   </div>
   <br />
   <button class="next-button"
           (click)="animateOut()"
-          [@buttonState]="buttonAnimationState">Next</button>
+          [@buttonAnimationState]="buttonAnimationState">Next</button>
 </section>

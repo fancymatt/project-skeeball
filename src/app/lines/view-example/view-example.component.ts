@@ -1,19 +1,21 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { Line } from '../line.model';
-import { LineExample } from '../line-example';
+import { Component, EventEmitter, Inject, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Howl } from 'howler';
-import { AudioService } from '../../shared/audio.service';
+
+import { Line } from '../line.model';
 import { Vocab } from '../../vocab/vocab.model';
-import { DataService } from '../../shared/data.service';
+import { LineExample } from '../line-example';
+import { AudioService } from '../../shared/audio.service';
 import { LessonService } from '../../lessons/lesson.service';
+import { VocabService } from '../../vocab/vocab.service';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
 
 @Component({
   selector: 'app-view-example',
   templateUrl: './view-example.component.html',
   styleUrls: ['./view-example.component.css'],
   animations: [
-    trigger('primaryTextState', [
+    trigger('primaryTextAnimationState', [
       state('start', style({
         opacity: 0,
         transform: 'translateY(-10px)'
@@ -27,9 +29,9 @@ import { LessonService } from '../../lessons/lesson.service';
         transform: 'translateY(-10px)'
       })),
       transition('start => presented', animate('300ms ease-out')),
-      transition('presented => end' , animate('100ms ease-out'))
+      transition('presented => end', animate('100ms ease-out'))
     ]),
-    trigger('secondaryTextState', [
+    trigger('secondaryTextAnimationState', [
       state('start', style({
         opacity: 0
       })),
@@ -40,9 +42,9 @@ import { LessonService } from '../../lessons/lesson.service';
         opacity: 0
       })),
       transition('start => presented', animate('100ms 300ms ease-out')),
-      transition('presented => end' , animate('100ms ease-out'))
+      transition('presented => end', animate('100ms ease-out'))
     ]),
-    trigger('buttonState', [
+    trigger('buttonAnimationState', [
       state('start', style({
         opacity: 0
       })),
@@ -52,8 +54,8 @@ import { LessonService } from '../../lessons/lesson.service';
       state('end', style({
         opacity: 0
       })),
-      transition('start => presented', animate('300ms 200ms ease-out')),
-      transition('presented => end' , animate('100ms ease-out'))
+      transition('start => presented', animate('100ms 1500ms ease-out')),
+      transition('presented => end', animate('100ms ease-out'))
     ])
   ]
 })
@@ -62,45 +64,77 @@ export class ViewExampleComponent implements OnInit, OnChanges {
   @Input() currentLineIndex: number;
   line: LineExample = new LineExample;
   vocab: Vocab;
-  vocabAudio: Howl;
-  animationState: string;
+  targetTextElements: { clickable: boolean, text: string, vocabRef: string }[] = [];
+  audio: Howl;
+  textAnimationState: string;
   buttonAnimationState: string;
   @Output() dismissLine: EventEmitter<boolean> = new EventEmitter<boolean>(false);
 
   constructor(private audioService: AudioService,
-              private dataService: DataService,
-              private lessonService: LessonService) { }
+              private lessonService: LessonService,
+              private vocabService: VocabService,
+              public childVocabDialog: MatDialog) {
+  }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.initializeExample();
+    if (!changes.genericLine.firstChange) {
+      this.initialize();
+    }
   }
 
   ngOnInit() {
-    this.initializeExample();
+    this.initialize();
   }
 
-  initializeExample() {
-    this.line.vocabReference = this.genericLine.exampleVocabReference;
-    this.vocabAudio = this.lessonService.selectedLessonAssets[this.currentLineIndex].audio;
-    this.vocab = this.lessonService.selectedLessonAssets[this.currentLineIndex].vocabulary;
+  initialize() {
+    this.initializeLine();
+    this.initializeVocabulary();
+    this.initializeAudio();
     this.initializeAnimation();
   }
 
+  initializeLine() {
+    this.line.vocabReference = this.genericLine.exampleVocabReference;
+  }
+
+  initializeVocabulary() {
+    this.vocabService.get(this.line.vocabReference)
+      .subscribe(
+        data => {
+          this.vocab = data;
+          console.log(this.vocab);
+          if (this.vocab.childVocabs) {
+            this.initializeChildVocabs(this.vocab.childVocabs);
+          }
+        },
+        err => console.error(err)
+      );
+  }
+
   initializeAnimation() {
+    this.textAnimationState = 'start';
     this.buttonAnimationState = 'start';
-    this.animationState = 'start';
     setTimeout(() => {
       this.animateIn();
     }, 1000);
   }
 
+  initializeAudio() {
+    const lessonAssets = this.lessonService.selectedLessonAssets;
+    if (lessonAssets[this.currentLineIndex].audio) {
+      this.audio = lessonAssets[this.currentLineIndex].audio;
+      this.audio.pause();
+      this.audio.play();
+    }
+  }
+
   animateIn() {
-    this.animationState = 'presented';
-    this.playExampleAudio();
+    this.textAnimationState = 'presented';
+    this.buttonAnimationState = 'presented';
   }
 
   animateOut() {
-    this.animationState = 'end';
+    this.textAnimationState = 'end';
     this.buttonAnimationState = 'end';
     this.playNeutralSound();
     setTimeout(() => {
@@ -108,22 +142,58 @@ export class ViewExampleComponent implements OnInit, OnChanges {
     }, 1000);
   }
 
-  playExampleAudio() {
-    if (this.vocabAudio) {
-      this.vocabAudio.pause();
-      this.vocabAudio.play();
-      this.vocabAudio.on('end', () => {
-        this.displayNextButton();
+  playNeutralSound() {
+    this.audioService.buttonClickSound.pause();
+    this.audioService.buttonClickSound.play();
+  }
+
+  initializeChildVocabs(childVocabs: any[]) {
+    let lastIndex = 0;
+    this.targetTextElements = [];
+    childVocabs.forEach((vocab, index) => {
+      if (vocab.startChar > lastIndex) {
+        this.targetTextElements.push({
+          clickable: false,
+          text: this.vocab.target.slice().substring(lastIndex, vocab.startChar),
+          vocabRef: ''
+        });
+      }
+      this.targetTextElements.push({
+        clickable: true,
+        text: this.vocab.target.slice().substring(vocab.startChar, vocab.endChar),
+        vocabRef: vocab.id
+      });
+      lastIndex = vocab.endChar;
+    });
+    if (lastIndex < this.vocab.target.length) {
+      this.targetTextElements.push({
+        clickable: false,
+        text: this.vocab.target.slice().substring(lastIndex, this.vocab.target.length),
+        vocabRef: ''
       });
     }
   }
 
-  displayNextButton() {
-    this.buttonAnimationState = 'presented';
+  onClickChildVocab(vocabRef: string) {
+    this.vocabService.get(vocabRef)
+      .subscribe(
+        data => this.childVocabDialog.open(DialogChildVocabComponent, {data: data}),
+        err => console.error(err)
+      );
   }
 
-  playNeutralSound() {
-    this.audioService.buttonClickSound.pause();
-    this.audioService.buttonClickSound.play();
+}
+
+@Component({
+  selector: 'app-dialog-child-vocab',
+  templateUrl: '../../vocab/dialog-child-vocab/dialog-child-vocab.html'
+})
+export class DialogChildVocabComponent implements OnInit {
+  constructor(public dialogRef: MatDialogRef<DialogChildVocabComponent>,
+              @Inject(MAT_DIALOG_DATA) public data: any) { }
+
+  ngOnInit() {
+    console.log('Presented modal');
+    console.log(this.data);
   }
 }

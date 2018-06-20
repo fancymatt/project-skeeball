@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Howl } from 'howler';
+import { Observable } from 'rxjs';
+
 import { Lesson } from './lesson.model';
 import { Vocab } from '../vocab/vocab.model';
 import { AudioService } from '../shared/audio.service';
 import { DataService } from '../shared/data.service';
+
 
 export interface LessonAssets {
   lineIndex: number;
@@ -11,10 +14,12 @@ export interface LessonAssets {
   vocabulary: Vocab;
 }
 
+
 @Injectable()
 export class LessonService {
+  public selectedLessonAssets: LessonAssets[] = [];
   private _selectedLesson: Lesson;
-  public selectedLessonAssets: LessonAssets[];
+  private _lessonTypes: string[] = [ 'Grammar', 'Vocabulary', 'Phrase', 'Objective' ];
 
   get selectedLesson(): Lesson {
     return this._selectedLesson;
@@ -22,23 +27,16 @@ export class LessonService {
 
   set selectedLesson(lesson: Lesson) {
     this._selectedLesson = lesson;
-    this.loadSelectedLessonAssets();
+    this.initializeSelectedLessonAssets();
   }
 
-  constructor(private audioService: AudioService,
-              private dataService: DataService) {
-    this.selectedLessonAssets = [];
-  }
-
-  private _lessonTypes: string[] = [
-    'Grammar', 'Vocabulary', 'Phrase'
-  ];
-
-  getAllLessonTypes() {
+  get lessonTypes(): string[] {
     return this._lessonTypes;
   }
 
-  loadSelectedLessonAssets() {
+  constructor(private audioService: AudioService, private dataService: DataService) { }
+
+  initializeSelectedLessonAssets() {
     this.selectedLessonAssets = [];
     this._selectedLesson.lines.forEach((line, index) => {
       const assetForLine = { lineIndex: index, audio: undefined, vocabulary: undefined };
@@ -53,13 +51,36 @@ export class LessonService {
               if (data.audioFilePathMp3) {
                 assetForLine.audio = this.audioService.initializeAudioFromFilePath(data.audioFilePathMp3);
               }
-            }
+            },
+            err => console.log(err)
           );
       }
       this.selectedLessonAssets[index] = assetForLine;
     });
-    console.log('Completed loading all lesson assets');
-    console.log(this.selectedLessonAssets);
   }
+
+  // CRUD
+
+  create(newLesson: Lesson): Observable<Lesson> {
+    return this.dataService.createLesson(newLesson);
+  }
+
+  get(id: string): Observable<Lesson> {
+    return this.dataService.getLesson(id);
+  }
+
+  getAll(): Observable<Lesson[]> {
+    return this.dataService.getAllLessons();
+  }
+
+  update(updatedLesson: Lesson): Observable<void> {
+    return this.dataService.updateLesson(updatedLesson);
+  }
+
+  delete(id: string): Observable<void> {
+    return this.dataService.deleteLesson(id);
+  }
+
+
 
 }

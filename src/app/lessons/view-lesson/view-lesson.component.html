@@ -1,18 +1,18 @@
 <section class="mat-typography frame" fxLayout="column" fxLayoutAlign="center center">
-  <div class="title-frame" *ngIf="currentLesson && titleDismissed === false">
+  <div class="title-frame" *ngIf="selectedLesson && titleDismissed === false">
     <button
       class="back-button"
       mat-icon-button
       fxFlexAlign="end end"
       routerLink="../"><mat-icon>arrow_back</mat-icon></button>
     <section class="title-content">
-      <h2 class="lesson-title">{{currentLesson.name}}</h2>
+      <h2 class="lesson-title">{{selectedLesson.name}}</h2>
       <p class="lesson-objective">In this lesson you will learn about polite verbs in Japanese.</p>
       <button class="begin-lesson-button" (click)="titleDismissed = true">Begin Lesson</button>
       <div class="illustration"><img src='../../assets/waddling-duck.png'></div>
     </section>
   </div>
-  <div class="lesson-frame" *ngIf="currentLesson && titleDismissed" fxLayout="column">
+  <div class="lesson-frame" *ngIf="selectedLesson && titleDismissed" fxLayout="column">
     <button
       class="previous-line-button"
       mat-icon-button
@@ -50,7 +50,7 @@
       </mat-progress-bar>
     </section>
   </div>
-  <div *ngIf="!currentLesson">
+  <div *ngIf="!selectedLesson">
     <mat-spinner></mat-spinner>
   </div>
 </section>

@@ -4,8 +4,6 @@ import { Router } from '@angular/router';
 
 import { Lesson } from '../lesson.model';
 import { LessonService } from '../lesson.service';
-import { DataService } from '../../shared/data.service';
-import { IdGenService } from '../../shared/id-gen.service';
 
 @Component({
   selector: 'app-add-lesson',
@@ -15,25 +13,21 @@ import { IdGenService } from '../../shared/id-gen.service';
 export class AddLessonComponent implements OnInit {
   possibleLessonTypes: string[];
 
-  constructor(private dataService: DataService,
-              private lessonService: LessonService,
-              private router: Router,
-              private uuidService: IdGenService) { }
+  constructor(private lessonService: LessonService,
+              private router: Router) { }
 
   ngOnInit() {
-    this.possibleLessonTypes = this.lessonService.getAllLessonTypes();
+    this.possibleLessonTypes = this.lessonService.lessonTypes;
   }
 
   onSubmit(form: NgForm) {
     const newLesson = new Lesson(form.form.value.name, form.form.value.type, []);
-    newLesson.id = this.uuidService.generateUniqueId();
-    this.dataService.createLesson(newLesson)
+    this.lessonService.create(newLesson)
       .subscribe(
         (data: Lesson) => {
-          this.router.navigate(['../lessons']);
+          this.router.navigate(['../lessons/' + data.id]);
         },
-        (err: any) => console.error(err),
-        () => console.log('')
+        (err: any) => console.error(err)
       );
 
   }

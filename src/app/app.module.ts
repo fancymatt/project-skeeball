@@ -20,7 +20,8 @@ import {
   MatProgressSpinnerModule,
   MatTabsModule,
   MatCardModule,
-  MatSidenavModule
+  MatDialogModule,
+  MatSidenavModule, MatDialog, MAT_DIALOG_DEFAULT_OPTIONS
 } from '@angular/material';
 
 import { AppComponent } from './app.component';
@@ -33,8 +34,6 @@ import { AddLessonComponent } from './lessons/add-lesson/add-lesson.component';
 import { EditLessonComponent } from './lessons/edit-lesson/edit-lesson.component';
 import { LessonShellComponent } from './lessons/lesson-shell/lesson-shell.component';
 import { LessonService } from './lessons/lesson.service';
-
-import { LinesComponent } from './lines/lines.component';
 import { LineListComponent } from './lines/line-list/line-list.component';
 import { AddLineComponent } from './lines/add-line/add-line.component';
 import { LineService } from './lines/line.service';
@@ -43,7 +42,7 @@ import { HttpCacheService } from './shared/http-cache.service';
 import { CacheInterceptor } from './shared/cache.interceptor';
 import { ViewLessonComponent } from './lessons/view-lesson/view-lesson.component';
 import { ViewExplanationComponent } from './lines/view-explanation/view-explanation.component';
-import { ViewExampleComponent } from './lines/view-example/view-example.component';
+import { DialogChildVocabComponent, ViewExampleComponent } from './lines/view-example/view-example.component';
 import { ViewQuestionMcComponent } from './lines/view-question-mc/view-question-mc.component';
 import { AudioService } from './shared/audio.service';
 import { AddVocabComponent } from './vocab/add-vocab/add-vocab.component';
@@ -76,7 +75,6 @@ const appRoutes: Routes = [
     AddLessonComponent,
     EditLessonComponent,
     LessonShellComponent,
-    LinesComponent,
     LineListComponent,
     AddLineComponent,
     ViewLessonComponent,
@@ -88,7 +86,8 @@ const appRoutes: Routes = [
     ViewVocabComponent,
     AdminDashboardComponent,
     VocabShellComponent,
-    ViewFreeAnswerComponent
+    ViewFreeAnswerComponent,
+    DialogChildVocabComponent
   ],
   imports: [
     BrowserModule,
@@ -113,6 +112,7 @@ const appRoutes: Routes = [
     MatTabsModule,
     MatCardModule,
     MatSidenavModule,
+    MatDialogModule,
     RouterModule.forRoot(appRoutes)
   ],
   providers: [
@@ -123,7 +123,9 @@ const appRoutes: Routes = [
     LineService,
     AudioService,
     LessonListResolverService,
-    HttpCacheService],
+    HttpCacheService
+  ],
+  entryComponents: [DialogChildVocabComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {

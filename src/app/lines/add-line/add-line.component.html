@@ -44,7 +44,7 @@
         placeholder="MP3 File"
         name="audioMp3"
         id="audioMp3"
-        (change)="fileEvent($event)">
+        (change)="onFileUpload($event)">
     </div>
     <mat-form-field *ngIf="selectedLineType=='Example'">
       <mat-select

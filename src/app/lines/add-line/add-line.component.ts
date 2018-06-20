@@ -1,12 +1,13 @@
-import {Component, OnInit} from '@angular/core';
-import {LineService} from '../line.service';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
-import {LessonService} from '../../lessons/lesson.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import {Line} from '../line.model';
-import { DataService } from '../../shared/data.service';
-import * as AWS from 'aws-sdk';
-import {Vocab} from '../../vocab/vocab.model';
+
+import { LineService } from '../line.service';
+import { LessonService } from '../../lessons/lesson.service';
+import { Line } from '../line.model';
+import { Vocab } from '../../vocab/vocab.model';
+import { VocabService } from '../../vocab/vocab.service';
+import { FileStorageService } from '../../shared/file-storage.service';
 
 @Component({
   selector: 'app-add-line',
@@ -22,18 +23,19 @@ export class AddLineComponent implements OnInit {
   freeVocabReference: Vocab;
 
   constructor(private lineService: LineService,
+              private vocabService: VocabService,
               private lessonService: LessonService,
+              private fileUploadService: FileStorageService,
               private activatedRoute: ActivatedRoute,
-              private router: Router,
-              private dataService: DataService) { }
+              private router: Router) {
+  }
 
   ngOnInit() {
-    this.possibleLineTypes = this.lineService.getAllLineTypes();
-    this.dataService.getAllVocabs()
+    this.possibleLineTypes = this.lineService.lineTypes;
+    this.vocabService.getAll()
       .subscribe(
         (data) => this.vocabList = data,
-        (err) => console.log(err),
-        () => console.log('Completed fetching vocab list')
+        (err) => console.error(err)
       );
   }
 
@@ -42,7 +44,7 @@ export class AddLineComponent implements OnInit {
     newLine.explanationAudioScript = form.form.value.scriptAudio;
     newLine.explanationVideoScript = form.form.value.scriptVideo;
     newLine.explanationAudioMp3 = this.audioFilePath;
-    newLine.exampleVocabReference = form.form.value.vocabReference;
+    newLine.exampleVocabReference = form.form.value.selectedVocabReference;
     newLine.mcQuestion = form.form.value.mcQuestion;
     newLine.mcAnswerCorrect = form.form.value.mcAnswerCorrect;
     newLine.mcAnswerIncorrect1 = form.form.value.mcAnswerIncorrect1;
@@ -52,47 +54,16 @@ export class AddLineComponent implements OnInit {
     newLine.freeVocabReference = form.form.value.freeVocabReference;
 
     this.lessonService.selectedLesson.lines.push(newLine);
-    this.dataService.updateLesson(this.lessonService.selectedLesson)
+    this.lessonService.update(this.lessonService.selectedLesson)
       .subscribe(
-        (data) => {
-          this.router.navigate(['/lessons', this.lessonService.selectedLesson.id]);
-        },
-        (err) => console.error(err),
-        () => console.log('completed')
+        () => this.router.navigate(['/lessons', this.lessonService.selectedLesson.id]),
+        (err) => console.error(err)
       );
   }
 
-  fileEvent(fileInput: any) {
-    const AWSService = AWS;
-    const region = 'us-west-2';
-    const bucketName = 'project-skeeball-audio';
-    const identityPoolId = 'us-west-2:034ba2bf-7d4d-43de-abb4-d4db07137c58';
-    const file = fileInput.target.files[0];
-
-    AWSService.config.update({
-      region: region,
-      credentials: new AWSService.CognitoIdentityCredentials({
-        IdentityPoolId: identityPoolId
-      })
-    });
-
-    const s3 = new AWSService.S3({
-      apiVersion: '2006-03-01',
-      params: { Bucket: bucketName }
-    });
-
-    this.audioFilePath = file.name;
-
-    console.log(AWSService);
-    s3.upload({Key: file.name, Bucket: bucketName, Body: file, ACL: 'public-read'}, function (err, data) {
-      if (err) {
-        console.log(err, 'there was an error uploading your file');
-      }
-      if (data) {
-        console.log('Upload successful!');
-        console.log(data);
-      }
-    });
+  onFileUpload(fileInput: any) {
+    this.fileUploadService.upload(fileInput);
+    this.audioFilePath = fileInput.target.files[0].name;
   }
 
 }

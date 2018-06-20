@@ -1,16 +1,15 @@
 import { Injectable } from '@angular/core';
+
 import { Line } from './line.model';
 
 @Injectable()
 export class LineService {
-  private lines: Line[] = [];
-
-  private lineTypes: string[] = [
+  private _lineTypes: string[] = [
     'Explanation', 'Example', 'Multiple Choice', 'Free Answer'
   ];
 
-  getAllLineTypes() {
-    return this.lineTypes;
+  get lineTypes(): string[] {
+    return this._lineTypes;
   }
 
 }

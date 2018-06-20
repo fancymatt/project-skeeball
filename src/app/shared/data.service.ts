@@ -7,21 +7,19 @@ import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { Lesson } from '../lessons/lesson.model';
 import {SkeeballError} from './skeeballError';
 import {Vocab} from '../vocab/vocab.model';
+import {IdGenService} from './id-gen.service';
 
 @Injectable()
 export class DataService {
   private apiEndpoint = 'https://9ygt6xpwi7.execute-api.us-west-1.amazonaws.com/dev/';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private uuidService: IdGenService) { }
 
   // Lessons
 
-  getAllLessons(): Observable<Lesson[] | SkeeballError> {
+  getAllLessons(): Observable<Lesson[]> {
     const url = this.apiEndpoint + 'lessons';
-    return this.http.get<Lesson[]>(url)
-      .pipe(
-        catchError(err => this.handleHttpError(err))
-      );
+    return this.http.get<Lesson[]>(url);
   }
 
   getLesson(id: string): Observable<Lesson> {
@@ -31,6 +29,7 @@ export class DataService {
 
   createLesson(newLesson: Lesson): Observable<Lesson> {
     const url = this.apiEndpoint + 'lessons';
+    newLesson.id = this.uuidService.generateUniqueId();
     return this.http.post<Lesson>(url, newLesson);
   }
 
@@ -39,8 +38,8 @@ export class DataService {
     return this.http.put<void>(url, updatedLesson);
   }
 
-  deleteLesson(deletedLesson: Lesson): Observable<void> {
-    const url = this.apiEndpoint + 'lessons/' + deletedLesson.id;
+  deleteLesson(deletedLessonId: string): Observable<void> {
+    const url = this.apiEndpoint + 'lessons/' + deletedLessonId;
     return this.http.delete<void>(url);
   }
 
@@ -58,7 +57,6 @@ export class DataService {
 
   getVocab(id: string): Observable<Vocab> {
     const url = this.apiEndpoint + 'vocabs/' + id;
-    console.log('Someone called getVocab with an id of ' + id);
     return this.http.get<Vocab>(url);
   }
 

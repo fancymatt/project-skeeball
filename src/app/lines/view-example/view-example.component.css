@@ -5,6 +5,10 @@
   text-align: center;
 }
 
+.example-target {
+  font-family: 'Noto Sans Japanese', sans-serif;
+}
+
 .present-text {
   font-size: 24px;
   margin: 20px;
@@ -18,6 +22,7 @@
   text-decoration: underline;
   color: #00aced;
   font-weight: bold;
+  cursor: pointer;
 }
 
 .line-content {

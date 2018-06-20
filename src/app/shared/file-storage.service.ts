@@ -5,9 +5,9 @@ import * as AWS from 'aws-sdk';
   providedIn: 'root'
 })
 export class FileStorageService {
-  region = 'us-west-2';
-  bucketName = 'project-skeeball-audio';
-  identityPoolId = 'us-west-2:034ba2bf-7d4d-43de-abb4-d4db07137c58';
+  private region = 'us-west-2';
+  private bucketName = 'project-skeeball-audio';
+  private identityPoolId = 'us-west-2:034ba2bf-7d4d-43de-abb4-d4db07137c58';
 
   constructor() { }
 
@@ -26,14 +26,16 @@ export class FileStorageService {
       params: { Bucket: this.bucketName }
     });
 
-    s3.upload({Key: file.name, Bucket: this.bucketName, Body: file, ACL: 'public-read'}, function (err, data) {
-      if (err) {
-        console.log(err, 'there was an error uploading your file');
-      }
-      if (data) {
-        console.log('Upload successful!');
-        console.log(data);
-      }
+    const uploadParams = {
+      Key: file.name,
+      Bucket: this.bucketName,
+      Body: file,
+      ACL: 'public-read'
+    };
+
+    s3.upload(uploadParams, (err, data) => {
+      if (err) { console.error(err); }
+      if (data) { console.log(data); }
     });
   }
 

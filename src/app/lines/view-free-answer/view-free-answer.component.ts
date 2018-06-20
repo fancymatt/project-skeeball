@@ -70,7 +70,7 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
       })),
       state('end', style({
         opacity: 0
-      }),
+      })),
       transition('* => *', animate('100ms ease'))
     ])
   ]

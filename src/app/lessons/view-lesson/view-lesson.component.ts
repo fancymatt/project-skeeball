@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {Lesson} from '../lesson.model';
-import {LessonService} from '../lesson.service';
-import {Line} from '../../lines/line.model';
+
+import { Lesson } from '../lesson.model';
+import { LessonService } from '../lesson.service';
+import { Line } from '../../lines/line.model';
 
 @Component({
   selector: 'app-view-lesson',
@@ -9,25 +10,27 @@ import {Line} from '../../lines/line.model';
   styleUrls: ['./view-lesson.component.css']
 })
 export class ViewLessonComponent implements OnInit {
-  currentLesson: Lesson;
+  currentLine: Line;
   currentLineIndex: number;
   titleDismissed = false;
   totalLines: number;
-  currentLine: Line;
 
   constructor(private lessonService: LessonService) { }
 
+  get selectedLesson(): Lesson {
+    return this.lessonService.selectedLesson;
+  }
+
   ngOnInit() {
-    this.currentLesson = this.lessonService.selectedLesson;
     this.currentLineIndex = 0;
     this.currentLine = this.lessonService.selectedLesson.lines[this.currentLineIndex];
-    this.totalLines = this.currentLesson.lines.length;
+    this.totalLines = this.selectedLesson.lines.length;
   }
 
   transitionToLine(nextLineIndex: number) {
     if (nextLineIndex >= 0 && nextLineIndex < this.totalLines) {
       this.currentLineIndex = nextLineIndex;
-      this.currentLine = this.currentLesson.lines[nextLineIndex];
+      this.currentLine = this.selectedLesson.lines[nextLineIndex];
     }
   }
 

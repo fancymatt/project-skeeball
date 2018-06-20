@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+
 import { Lesson } from '../lesson.model';
 import { LessonService } from '../lesson.service';
-import { DataService } from '../../shared/data.service';
-import { AudioService } from '../../shared/audio.service';
 
 @Component({
   selector: 'app-edit-lesson',
@@ -11,11 +10,11 @@ import { AudioService } from '../../shared/audio.service';
   styleUrls: ['./edit-lesson.component.css']
 })
 export class EditLessonComponent implements OnInit {
-  selectedLesson: Lesson;
+  get selectedLesson(): Lesson {
+    return this.lessonService.selectedLesson;
+  }
 
   constructor(private activatedRoute: ActivatedRoute,
-              private dataService: DataService,
-              private audioService: AudioService,
               private lessonService: LessonService,
               private router: Router) { }
 
@@ -24,11 +23,10 @@ export class EditLessonComponent implements OnInit {
   }
 
   loadLesson(id: string) {
-    this.dataService.getLesson(id)
+    this.lessonService.get(id)
       .subscribe(
         (data: Lesson) => {
           this.lessonService.selectedLesson = data;
-          this.selectedLesson = this.lessonService.selectedLesson;
         },
         (err: any) => console.error(err)
       );
@@ -36,9 +34,9 @@ export class EditLessonComponent implements OnInit {
   }
 
   onDelete() {
-    this.dataService.deleteLesson(this.selectedLesson)
+    this.lessonService.delete(this.selectedLesson.id)
       .subscribe(
-        (data) => {
+        () => {
           this.router.navigate(['../lessons']);
         },
         (err) => console.error(err)
@@ -46,7 +44,7 @@ export class EditLessonComponent implements OnInit {
   }
 
   onSave() {
-    this.dataService.updateLesson(this.selectedLesson)
+    this.lessonService.update(this.selectedLesson)
       .subscribe(
         (data) => console.log(data),
         (err) => console.error(err),
