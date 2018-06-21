@@ -19,7 +19,7 @@
 }
 
 .clickable {
-  text-decoration: underline;
+  border-bottom: 1px #00aced dotted;
   color: #00aced;
   font-weight: bold;
   cursor: pointer;

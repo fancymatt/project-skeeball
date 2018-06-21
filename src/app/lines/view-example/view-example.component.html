@@ -4,11 +4,9 @@
     <span *ngIf="targetTextElements">
       <span *ngFor="let el of targetTextElements"
             [class.clickable]="el.clickable"
-            (click)="onClickChildVocab(el.vocabRef)">
-        {{el.text}}
-      </span>
+            (click)="onClickChildVocab(el.vocabRef)">{{el.text}}</span>
     </span>
-    <span *ngIf="!targetTextElements">
+    <span *ngIf="targetTextElements.length < 1">
       {{vocab.target}}
     </span>
   </div>

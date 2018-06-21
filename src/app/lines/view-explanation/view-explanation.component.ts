@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
+
 import { Line } from '../line.model';
 import { LineExplanation } from '../line-explanation';
 import { AudioService } from '../../shared/audio.service';
@@ -62,22 +63,27 @@ export class ViewExplanationComponent implements OnInit, OnChanges {
   currentLine: LineExplanation = new LineExplanation();
   textAnimationState: string;
   buttonAnimationState: string;
+  autoplay = true;
 
   constructor(private audioService: AudioService, private lessonService: LessonService) { }
 
   ngOnInit() {
-    this.initializeExplanation();
+    this.initialize();
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.initializeExplanation();
+    this.initialize();
   }
 
-  initializeExplanation() {
+  initialize() {
+    this.initializeLine();
+    this.initializeAnimation();
+  }
+
+  initializeLine() {
     this.currentLine.videoScript = this.genericLine.explanationVideoScript;
     this.currentLine.audioScript = this.genericLine.explanationAudioScript;
     this.currentLine.audioNarration = this.lessonService.selectedLessonAssets[this.currentLineIndex].audio;
-    this.initializeAnimation();
   }
 
   initializeAnimation() {
@@ -116,14 +122,23 @@ export class ViewExplanationComponent implements OnInit, OnChanges {
       this.currentLine.audioNarration.pause(); // workaround for iOS bug
       this.currentLine.audioNarration.play();
       this.currentLine.audioNarration.on('end', () => {
-        this.displayNextButton();
+        this.autoplay ? this.advanceToNextLine() : this.displayNextButton();
       });
     } else {
       setTimeout(() => {
-        this.displayNextButton();
+        this.autoplay ? this.advanceToNextLine() : this.displayNextButton();
       }, 2000);
 
     }
+  }
+
+  advanceToNextLine() {
+    this.textAnimationState = 'end';
+    this.buttonAnimationState = 'end';
+    setTimeout(() => {
+      this.dismissLine.emit(true);
+    }, 1000);
+
   }
 
 }

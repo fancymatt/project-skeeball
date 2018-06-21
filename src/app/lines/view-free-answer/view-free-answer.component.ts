@@ -1,9 +1,10 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {AudioService} from '../../shared/audio.service';
-import {LineFreeAnswer} from '../line-free-answer';
-import {Line} from '../line.model';
-import {DataService} from '../../shared/data.service';
-import {animate, state, style, transition, trigger} from '@angular/animations';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+
+import { AudioService } from '../../shared/audio.service';
+import { LineFreeAnswer } from '../line-free-answer';
+import { Line } from '../line.model';
+import { VocabService } from '../../vocab/vocab.service';
 
 @Component({
   selector: 'app-view-free-answer',
@@ -24,7 +25,7 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
         transform: 'translateY(-10px)'
       })),
       transition('start => presented', animate('300ms ease-out')),
-      transition('presented => end' , animate('100ms ease-out'))
+      transition('presented => end', animate('100ms ease-out'))
     ]),
     trigger('secondaryTextState', [
       state('start', style({
@@ -37,7 +38,7 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
         opacity: 0
       })),
       transition('start => presented', animate('100ms 300ms ease-out')),
-      transition('presented => end' , animate('100ms ease-out'))
+      transition('presented => end', animate('100ms ease-out'))
     ]),
     trigger('buttonState', [
       state('start', style({
@@ -50,7 +51,7 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
         opacity: 0
       })),
       transition('start => presented', animate('100ms ease-out')),
-      transition('presented => end' , animate('100ms ease-out'))
+      transition('presented => end', animate('100ms ease-out'))
     ]),
     trigger('textFieldState', [
       state('start', style({
@@ -58,14 +59,17 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
       })),
       state('empty', style({
         background: '#fff',
+        opacity: 1,
         padding: '2px'
       })),
       state('filled', style({
         background: '#ffe',
+        opacity: 1,
         padding: '2px 10px'
       })),
       state('correct', style({
         background: 'aliceblue',
+        opacity: 1,
         border: '2px solid black'
       })),
       state('end', style({
@@ -80,30 +84,42 @@ export class ViewFreeAnswerComponent implements OnInit, OnChanges {
   @Input('line') genericLine: Line;
   @Input() currentLineIndex: number;
   line: LineFreeAnswer = new LineFreeAnswer();
+  answerAudio: Howl;
   studentAnswer: string;
   textAnimationState: string;
   textFieldAnimationState: string;
   buttonAnimationState: string;
   @Output() dismissLine: EventEmitter<boolean> = new EventEmitter<boolean>(false);
 
-  constructor(private audioService: AudioService, private dataService: DataService) { }
+  constructor(private audioService: AudioService, private vocabService: VocabService) { }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.initializeQuestion();
+    this.initialize();
   }
 
   ngOnInit() {
-    this.initializeQuestion();
+    this.initialize();
   }
 
-  initializeQuestion() {
+  initialize() {
+    this.initializeLine();
+    this.initializeAnimation();
+  }
+
+  initializeLine() {
     this.line.prompt = this.genericLine.freePrompt;
-    this.dataService.getVocab(this.genericLine.freeVocabReference)
+    this.vocabService.get(this.genericLine.freeVocabReference)
       .subscribe(
-        data => this.line.answer = data,
+        data => {
+          this.line.answer = data;
+          this.initializeAudio();
+        },
         err => console.log(err)
       );
-    this.initializeAnimation();
+  }
+
+  initializeAudio() {
+    this.answerAudio = this.audioService.initializeAudioFromFilePath(this.line.answer.audioFilePathMp3);
   }
 
   initializeAnimation() {
@@ -129,6 +145,8 @@ export class ViewFreeAnswerComponent implements OnInit, OnChanges {
     }
     if (this.studentAnswer === this.line.answer.targetRomanization) {
       this.textFieldAnimationState = 'correct';
+      this.answerAudio.pause();
+      this.answerAudio.play();
       this.showNextButton();
     }
   }

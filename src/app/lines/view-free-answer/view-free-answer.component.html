@@ -1,4 +1,4 @@
-<section class="line-content">
+<section class="line-content" *ngIf="line.answer">
   <div class="present-text"
        [@primaryTextState]="textAnimationState">
     <span>{{line.prompt}}</span>

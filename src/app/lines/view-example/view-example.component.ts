@@ -76,20 +76,19 @@ export class ViewExampleComponent implements OnInit, OnChanges {
               public childVocabDialog: MatDialog) {
   }
 
+  ngOnInit() {
+    this.initialize();
+  }
+
   ngOnChanges(changes: SimpleChanges) {
     if (!changes.genericLine.firstChange) {
       this.initialize();
     }
   }
 
-  ngOnInit() {
-    this.initialize();
-  }
-
   initialize() {
     this.initializeLine();
     this.initializeVocabulary();
-    this.initializeAudio();
     this.initializeAnimation();
   }
 
@@ -102,7 +101,6 @@ export class ViewExampleComponent implements OnInit, OnChanges {
       .subscribe(
         data => {
           this.vocab = data;
-          console.log(this.vocab);
           if (this.vocab.childVocabs) {
             this.initializeChildVocabs(this.vocab.childVocabs);
           }
@@ -116,6 +114,7 @@ export class ViewExampleComponent implements OnInit, OnChanges {
     this.buttonAnimationState = 'start';
     setTimeout(() => {
       this.animateIn();
+      this.initializeAudio();
     }, 1000);
   }
 
@@ -155,7 +154,7 @@ export class ViewExampleComponent implements OnInit, OnChanges {
         this.targetTextElements.push({
           clickable: false,
           text: this.vocab.target.slice().substring(lastIndex, vocab.startChar),
-          vocabRef: ''
+          vocabRef: undefined
         });
       }
       this.targetTextElements.push({
@@ -169,7 +168,7 @@ export class ViewExampleComponent implements OnInit, OnChanges {
       this.targetTextElements.push({
         clickable: false,
         text: this.vocab.target.slice().substring(lastIndex, this.vocab.target.length),
-        vocabRef: ''
+        vocabRef: undefined
       });
     }
   }
@@ -188,12 +187,7 @@ export class ViewExampleComponent implements OnInit, OnChanges {
   selector: 'app-dialog-child-vocab',
   templateUrl: '../../vocab/dialog-child-vocab/dialog-child-vocab.html'
 })
-export class DialogChildVocabComponent implements OnInit {
+export class DialogChildVocabComponent {
   constructor(public dialogRef: MatDialogRef<DialogChildVocabComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any) { }
-
-  ngOnInit() {
-    console.log('Presented modal');
-    console.log(this.data);
-  }
 }

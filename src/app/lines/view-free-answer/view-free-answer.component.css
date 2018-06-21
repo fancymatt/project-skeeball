@@ -33,6 +33,7 @@
   right: 0;
   margin: auto;
   cursor: pointer;
+  opacity: 0;
 }
 
 .answer-input {
@@ -42,4 +43,6 @@
   font-size: 30px;
   font-family: serif;
   background: #ffe;
+  text-align: center;
+  opacity: 0;
 }

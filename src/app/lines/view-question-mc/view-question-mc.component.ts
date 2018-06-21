@@ -1,9 +1,9 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+
 import { Line } from '../line.model';
 import { LineQuestionMc } from '../line-question-mc';
-import {animate, state, style, transition, trigger} from '@angular/animations';
-import {Howl} from "howler";
-import {AudioService} from '../../shared/audio.service';
+import { AudioService } from '../../shared/audio.service';
 
 @Component({
   selector: 'app-view-question-mc',
@@ -24,7 +24,7 @@ import {AudioService} from '../../shared/audio.service';
         transform: 'translateY(-10px)'
       })),
       transition('start => presented', animate('300ms ease-out')),
-      transition('presented => end' , animate('100ms ease-out'))
+      transition('presented => end', animate('100ms ease-out'))
     ]),
     trigger('secondaryTextState', [
       state('start', style({
@@ -37,7 +37,7 @@ import {AudioService} from '../../shared/audio.service';
         opacity: 0
       })),
       transition('start => presented', animate('100ms 300ms ease-out')),
-      transition('presented => end' , animate('100ms ease-out'))
+      transition('presented => end', animate('100ms ease-out'))
     ]),
     trigger('buttonState', [
       state('start', style({
@@ -50,7 +50,7 @@ import {AudioService} from '../../shared/audio.service';
         opacity: 0
       })),
       transition('start => presented', animate('100ms 1500ms ease-out')),
-      transition('presented => end' , animate('100ms ease-out'))
+      transition('presented => end', animate('100ms ease-out'))
     ])
   ]
 })
@@ -59,29 +59,34 @@ export class ViewQuestionMcComponent implements OnInit, OnChanges {
   @Input('line') genericLine: Line;
   @Input() currentLineIndex: number;
   line: LineQuestionMc = new LineQuestionMc();
-  options: {text: string, correct: boolean, selected: boolean}[];
+  options: { text: string, correct: boolean, selected: boolean }[];
   animationState: string;
   @Output() dismissLine: EventEmitter<boolean> = new EventEmitter<boolean>(false);
 
-  constructor(private audioService: AudioService) { }
+  constructor(private audioService: AudioService) {
+  }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.initializeQuestion();
+    this.initialize();
   }
 
   ngOnInit() {
-    this.initializeQuestion();
+    this.initialize();
   }
 
-  initializeQuestion() {
+  initialize() {
+    this.initializeLine();
+    this.initializeOptions();
+    this.initializeAnimation();
+  }
+
+  initializeLine() {
     this.line.question = this.genericLine.mcQuestion;
     this.line.answerCorrect = this.genericLine.mcAnswerCorrect;
     this.line.answerIncorrect = [];
     this.line.answerIncorrect.push(this.genericLine.mcAnswerIncorrect1);
     this.line.answerIncorrect.push(this.genericLine.mcAnswerIncorrect2);
     this.line.answerIncorrect.push(this.genericLine.mcAnswerIncorrect3);
-    this.initializeOptions();
-    this.initializeAnimation();
   }
 
   initializeOptions(): void {
@@ -93,7 +98,7 @@ export class ViewQuestionMcComponent implements OnInit, OnChanges {
     this.shuffleArray(this.options);
   }
 
-  onClickOption(selectedOption: {text: string, correct: boolean, selected: boolean}): void {
+  onClickOption(selectedOption: { text: string, correct: boolean, selected: boolean }): void {
     if (selectedOption.correct) {
       this.options = [];
       this.animateOut();
@@ -127,7 +132,6 @@ export class ViewQuestionMcComponent implements OnInit, OnChanges {
     setTimeout(() => {
       this.dismissLine.emit(true);
     }, 1000);
-
   }
 
   playSuccessSound() {

@@ -11,7 +11,9 @@ export class FileStorageService {
 
   constructor() { }
 
-  upload(file) {
+  upload(filePayload): any {
+    const file = filePayload.target.files[0];
+
     const AWSService = AWS;
 
     AWSService.config.update({
@@ -34,8 +36,14 @@ export class FileStorageService {
     };
 
     s3.upload(uploadParams, (err, data) => {
-      if (err) { console.error(err); }
-      if (data) { console.log(data); }
+      if (err) {
+        console.error(err);
+        return '';
+      }
+      if (data) {
+        console.log(data);
+        return file.name;
+      }
     });
   }
 

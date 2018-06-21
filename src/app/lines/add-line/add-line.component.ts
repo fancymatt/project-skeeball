@@ -62,8 +62,8 @@ export class AddLineComponent implements OnInit {
   }
 
   onFileUpload(fileInput: any) {
-    this.fileUploadService.upload(fileInput);
     this.audioFilePath = fileInput.target.files[0].name;
+    this.fileUploadService.upload(fileInput);
   }
 
 }

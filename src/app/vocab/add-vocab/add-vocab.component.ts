@@ -3,9 +3,8 @@ import { NgForm } from '@angular/forms';
 import { Vocab } from '../vocab.model';
 import { IdGenService } from '../../shared/id-gen.service';
 import { Router } from '@angular/router';
-import {DataService} from '../../shared/data.service';
-import * as AWS from 'aws-sdk';
-import {FileStorageService} from '../../shared/file-storage.service';
+import { DataService } from '../../shared/data.service';
+import { FileStorageService } from '../../shared/file-storage.service';
 
 @Component({
   selector: 'app-add-vocab',
@@ -18,7 +17,8 @@ export class AddVocabComponent implements OnInit {
   constructor(private uuidService: IdGenService,
               private dataService: DataService,
               private fileStorageService: FileStorageService,
-              private router: Router) { }
+              private router: Router) {
+  }
 
   ngOnInit() {
   }
@@ -36,15 +36,13 @@ export class AddVocabComponent implements OnInit {
         () => {
           this.router.navigate(['/vocabulary']);
         },
-        (err: any) => console.error(err),
-        () => console.log('Completed creating vocabulary item.')
+        (err: any) => console.error(err)
       );
   }
 
   onSelectFile(fileInput: any) {
-    const file = fileInput.target.files[0];
-    this.fileStorageService.upload(file);
-    this.audioFilePathMp3 = file.name;
+    this.fileStorageService.upload(fileInput);
+    this.audioFilePathMp3 = fileInput.target.files[0].name;
   }
 
 }
