@@ -24,7 +24,7 @@ import { LessonService } from '../../lessons/lesson.service';
         opacity: 0,
         transform: 'translateY(-10px)'
       })),
-      transition('start => presented', animate('300ms ease-out')),
+      transition('start => presented', animate('100ms ease-out')),
       transition('presented => end' , animate('100ms ease-out'))
     ]),
     trigger('secondaryTextState', [
@@ -37,7 +37,7 @@ import { LessonService } from '../../lessons/lesson.service';
       state('end', style({
         opacity: 0
       })),
-      transition('start => presented', animate('100ms 300ms ease-out')),
+      transition('start => presented', animate('100ms ease-out')),
       transition('presented => end' , animate('100ms ease-out'))
     ]),
     trigger('buttonState', [
@@ -50,7 +50,7 @@ import { LessonService } from '../../lessons/lesson.service';
       state('end', style({
         opacity: 0
       })),
-      transition('start => presented', animate('300ms 200ms ease-out')),
+      transition('start => presented', animate('100ms ease-out')),
       transition('presented => end' , animate('100ms ease-out'))
     ])
   ]
@@ -101,7 +101,7 @@ export class ViewExplanationComponent implements OnInit, OnChanges {
     this.playButtonClickSound();
     setTimeout(() => {
       this.dismissLine.emit(true);
-    }, 1000);
+    }, 2000);
   }
 
   displayNextButton() {

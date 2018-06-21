@@ -24,7 +24,7 @@ import { VocabService } from '../../vocab/vocab.service';
         opacity: 0,
         transform: 'translateY(-10px)'
       })),
-      transition('start => presented', animate('300ms ease-out')),
+      transition('start => presented', animate('100ms ease-out')),
       transition('presented => end', animate('100ms ease-out'))
     ]),
     trigger('secondaryTextState', [
@@ -37,7 +37,7 @@ import { VocabService } from '../../vocab/vocab.service';
       state('end', style({
         opacity: 0
       })),
-      transition('start => presented', animate('100ms 300ms ease-out')),
+      transition('start => presented', animate('100ms ease-out')),
       transition('presented => end', animate('100ms ease-out'))
     ]),
     trigger('buttonState', [

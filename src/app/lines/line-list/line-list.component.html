@@ -9,7 +9,7 @@
     <div class="line-content">
       <span class="line-type">{{line.type}}</span>
       <span *ngIf="line.type === 'Explanation'">{{line.explanationAudioScript}}</span>
-      <span *ngIf="line.type === 'Free Answer'">{{line.freePrompt}} => </span>
+      <span *ngIf="line.type === 'Free Answer'">{{line.freePrompt}} ➡️ </span>
       <span *ngIf="selectedLessonAssets[i].vocabulary">{{selectedLessonAssets[i].vocabulary.target}}</span>
     </div>
   </div>

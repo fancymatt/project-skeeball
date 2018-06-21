@@ -28,7 +28,7 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
         opacity: 0,
         transform: 'translateY(-10px)'
       })),
-      transition('start => presented', animate('300ms ease-out')),
+      transition('start => presented', animate('100ms ease-out')),
       transition('presented => end', animate('100ms ease-out'))
     ]),
     trigger('secondaryTextAnimationState', [
@@ -41,7 +41,7 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
       state('end', style({
         opacity: 0
       })),
-      transition('start => presented', animate('100ms 300ms ease-out')),
+      transition('start => presented', animate('100ms ease-out')),
       transition('presented => end', animate('100ms ease-out'))
     ]),
     trigger('buttonAnimationState', [
