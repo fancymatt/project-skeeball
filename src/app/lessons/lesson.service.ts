@@ -55,6 +55,18 @@ export class LessonService {
             err => console.log(err)
           );
       }
+      if (line.freeVocabReference) {
+        this.dataService.getVocab(line.freeVocabReference)
+          .subscribe(
+            data => {
+              assetForLine.vocabulary = data;
+              if (data.audioFilePathMp3) {
+                assetForLine.audio = this.audioService.initializeAudioFromFilePath(data.audioFilePathMp3);
+              }
+            },
+            err => console.log(err)
+          );
+      }
       this.selectedLessonAssets[index] = assetForLine;
     });
   }
