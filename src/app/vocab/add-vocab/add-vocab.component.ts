@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Vocab } from '../vocab.model';
-import { IdGenService } from '../../shared/id-gen.service';
 import { Router } from '@angular/router';
-import { DataService } from '../../shared/data.service';
+
+import { Vocab } from '../vocab.model';
 import { FileStorageService } from '../../shared/file-storage.service';
+import { VocabService } from '../vocab.service';
 
 @Component({
   selector: 'app-add-vocab',
@@ -14,8 +14,7 @@ import { FileStorageService } from '../../shared/file-storage.service';
 export class AddVocabComponent implements OnInit {
   audioFilePathMp3: string;
 
-  constructor(private uuidService: IdGenService,
-              private dataService: DataService,
+  constructor(private vocabService: VocabService,
               private fileStorageService: FileStorageService,
               private router: Router) {
   }
@@ -29,9 +28,8 @@ export class AddVocabComponent implements OnInit {
       form.form.value.targetKana,
       form.form.value.targetRomanization,
       form.form.value.english);
-    newVocab.id = this.uuidService.generateUniqueId();
     newVocab.audioFilePathMp3 = this.audioFilePathMp3;
-    this.dataService.createVocab(newVocab)
+    this.vocabService.create(newVocab)
       .subscribe(
         () => {
           this.router.navigate(['/vocabulary']);

@@ -50,9 +50,10 @@ export class DataService {
     return this.http.get<Vocab[]>(url);
   }
 
-  createVocab(newVocab: Vocab): Observable<void> {
+  createVocab(newVocab: Vocab): Observable<Vocab> {
     const url = this.apiEndpoint + 'vocabs';
-    return this.http.post<void>(url, newVocab);
+    newVocab.id = this.uuidService.generateUniqueId();
+    return this.http.post<Vocab>(url, newVocab);
   }
 
   getVocab(id: string): Observable<Vocab> {
@@ -60,10 +61,10 @@ export class DataService {
     return this.http.get<Vocab>(url);
   }
 
-  updateVocab(updatedVocab: Vocab): Observable<Vocab> {
+  updateVocab(updatedVocab: Vocab): Observable<void> {
     const url = this.apiEndpoint + 'vocabs/' + updatedVocab.id;
     console.log(updatedVocab);
-    return this.http.put<Vocab>(url, updatedVocab);
+    return this.http.put<void>(url, updatedVocab);
   }
 
   deleteVocab(deletedVocab: Vocab): Observable<void> {

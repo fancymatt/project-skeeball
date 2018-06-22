@@ -3,9 +3,9 @@ import { FormGroup, FormControl, FormBuilder, FormArray } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { Vocab } from '../vocab.model';
-import { DataService } from '../../shared/data.service';
 import { AudioService } from '../../shared/audio.service';
 import { FileStorageService } from '../../shared/file-storage.service';
+import { VocabService } from '../vocab.service';
 
 @Component({
   selector: 'app-view-vocab',
@@ -23,19 +23,19 @@ export class ViewVocabComponent implements OnInit, OnChanges {
     return <FormArray>this.vocabForm.get('childVocabs');
   }
 
-  constructor(private dataService: DataService,
-              private router: Router,
+  constructor(private router: Router,
+              private vocabService: VocabService,
               private fileStorageService: FileStorageService,
               private formBuilder: FormBuilder,
-              private audioService: AudioService) { }
+              private audioService: AudioService) {
+  }
 
   ngOnInit() {
     this.initializeForm();
-    this.dataService.getAllVocabs()
+    this.vocabService.getAll()
       .subscribe(
-        (data) => this.vocabList = data,
-        (err) => console.log(err),
-        () => console.log('Finished fetching vocab list')
+        data => this.vocabList = data,
+        err => console.error(err)
       );
   }
 
@@ -48,11 +48,10 @@ export class ViewVocabComponent implements OnInit, OnChanges {
     this.selectedVocab.audioFilePathMp3 = this.audioFilePathMp3;
     console.log(this.childVocabs.value);
     this.selectedVocab.childVocabs = this.childVocabs.value;
-    this.dataService.updateVocab(this.selectedVocab)
+    this.vocabService.update(this.selectedVocab)
       .subscribe(
         () => this.router.navigate(['..']),
-        (err) => console.log(err),
-        () => 'Finished updating vocab'
+        err => console.error(err)
       );
   }
 
@@ -69,24 +68,15 @@ export class ViewVocabComponent implements OnInit, OnChanges {
   }
 
   onDelete() {
-    this.dataService.deleteVocab(this.selectedVocab)
+    this.vocabService.delete(this.selectedVocab)
       .subscribe(
-        () => {
-          this.router.navigate(['..']);
-        },
-        (err) => console.log(err),
-        () => console.log('Completed deleting vocab')
+        () => this.router.navigate(['..']),
+        err => console.error(err)
       );
   }
 
   onPlayAudio() {
     this.audioService.playVocabularyAudio(this.selectedVocab);
-  }
-
-  onSelectFile(fileInput: any) {
-    const file = fileInput.target.files[0];
-    this.fileStorageService.upload(file);
-    this.audioFilePathMp3 = file.name;
   }
 
   buildChildVocab(): FormGroup {
@@ -102,7 +92,7 @@ export class ViewVocabComponent implements OnInit, OnChanges {
   }
 
   populateChildVocabs(): FormArray {
-    let array = this.formBuilder.array([]);
+    const array = this.formBuilder.array([]);
 
     if (this.selectedVocab.childVocabs) {
       for (let i = 0; i < this.selectedVocab.childVocabs.length; i++) {
@@ -113,15 +103,7 @@ export class ViewVocabComponent implements OnInit, OnChanges {
         }));
       }
     }
-
     return array;
   }
 
 }
-
-// TODO
-// 4) Change vocabulary data structure to allow children vocabulary items and positions
-// 5) Change view example line ui to play child vocabulary audio on click
-// 6) Create lightbox to display within view example line ui when child vocabulary is clicked
-// X) Should have option to add any entries to wordbank, but examples should be added automatically
-
