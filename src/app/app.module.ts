@@ -51,6 +51,9 @@ import { ViewVocabComponent } from './vocab/view-vocab/view-vocab.component';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 import { VocabShellComponent } from './vocab/vocab-shell/vocab-shell.component';
 import { ViewFreeAnswerComponent } from './lines/view-free-answer/view-free-answer.component';
+import { ObjectiveShellComponent } from './objectives/objective-shell/objective-shell.component';
+import { AddObjectiveComponent } from './objectives/add-objective/add-objective.component';
+import { BrowseObjectivesComponent } from './objectives/browse-objectives/browse-objectives.component';
 
 const appRoutes: Routes = [
   {path: '', component: AdminDashboardComponent, pathMatch: 'full'},
@@ -64,6 +67,10 @@ const appRoutes: Routes = [
   {path: 'vocabulary', component: VocabShellComponent, children: [
       {path: '', component: BrowseVocabComponent, pathMatch: 'full'},
       {path: 'add', component: AddVocabComponent}
+    ]},
+  {path: 'objectives', component: ObjectiveShellComponent, children: [
+      {path: '', component: BrowseObjectivesComponent, pathMatch: 'full'},
+      {path: 'add', component: AddObjectiveComponent}
     ]}
   ];
 
@@ -87,7 +94,10 @@ const appRoutes: Routes = [
     AdminDashboardComponent,
     VocabShellComponent,
     ViewFreeAnswerComponent,
-    DialogChildVocabComponent
+    DialogChildVocabComponent,
+    ObjectiveShellComponent,
+    AddObjectiveComponent,
+    BrowseObjectivesComponent
   ],
   imports: [
     BrowserModule,
