@@ -1,0 +1,14 @@
+<p>Task List</p>
+<div *ngFor="let task of tasks">
+  <div class="task-item">
+    <a routerLink="{{task.id}}">
+      <p class="task-name">{{task.name}}</p>
+    </a>
+    <p class="pattern">
+      <span *ngFor="let patternItem of task.pattern">
+        <span *ngIf="patternItem.type === 'Slot'" class="slot">item</span>
+        <span *ngIf="patternItem.type === 'Static'" class="static">おねがいします</span>
+      </span>
+    </p>
+  </div>
+</div>

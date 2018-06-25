@@ -1,0 +1,16 @@
+<div class="parent">
+  <section class="objective-list">
+    <div class="section-header">
+      <p>{{selectedObjective.name}}</p>
+    </div>
+    <div class="section-content">
+      <mat-form-field>
+        <input type="text" matInput placeholder="Name" [(ngModel)]="selectedObjective.name" name="objectiveName">
+      </mat-form-field>
+      <div *ngFor="let level of selectedObjective.levels">
+        <app-manage-level-list [level]="level"></app-manage-level-list>
+      </div>
+    </div>
+  </section>
+  <router-outlet></router-outlet>
+</div>

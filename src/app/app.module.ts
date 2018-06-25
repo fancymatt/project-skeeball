@@ -54,6 +54,10 @@ import { ViewFreeAnswerComponent } from './lines/view-free-answer/view-free-answ
 import { ObjectiveShellComponent } from './objectives/objective-shell/objective-shell.component';
 import { AddObjectiveComponent } from './objectives/add-objective/add-objective.component';
 import { BrowseObjectivesComponent } from './objectives/browse-objectives/browse-objectives.component';
+import { ViewObjectiveComponent } from './objectives/view-objective/view-objective.component';
+import { ManageTaskListComponent } from './objectives/manage-task-list/manage-task-list.component';
+import { ManageLevelListComponent } from './objectives/manage-level-list/manage-level-list.component';
+import { ViewTaskComponent } from './objectives/view-task/view-task.component';
 
 const appRoutes: Routes = [
   {path: '', component: AdminDashboardComponent, pathMatch: 'full'},
@@ -63,14 +67,17 @@ const appRoutes: Routes = [
       {path: ':id', component: EditLessonComponent},
       {path: ':id/add-line', component: AddLineComponent},
       {path: ':id/preview', component: ViewLessonComponent}
-    ]},
+  ]},
   {path: 'vocabulary', component: VocabShellComponent, children: [
       {path: '', component: BrowseVocabComponent, pathMatch: 'full'},
       {path: 'add', component: AddVocabComponent}
-    ]},
+  ]},
   {path: 'objectives', component: ObjectiveShellComponent, children: [
       {path: '', component: BrowseObjectivesComponent, pathMatch: 'full'},
-      {path: 'add', component: AddObjectiveComponent}
+      {path: 'add', component: AddObjectiveComponent},
+      {path: ':id', component: ViewObjectiveComponent, children: [
+        {path: ':id', component: ViewTaskComponent}
+      ]}
     ]}
   ];
 
@@ -97,7 +104,11 @@ const appRoutes: Routes = [
     DialogChildVocabComponent,
     ObjectiveShellComponent,
     AddObjectiveComponent,
-    BrowseObjectivesComponent
+    BrowseObjectivesComponent,
+    ViewObjectiveComponent,
+    ManageTaskListComponent,
+    ManageLevelListComponent,
+    ViewTaskComponent
   ],
   imports: [
     BrowserModule,
