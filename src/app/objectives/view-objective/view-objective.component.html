@@ -1,5 +1,5 @@
 <div class="parent">
-  <section class="objective-list">
+  <section class="objective-list" *ngIf="selectedObjective">
     <div class="section-header">
       <p>{{selectedObjective.name}}</p>
     </div>
@@ -11,6 +11,9 @@
         <app-manage-level-list [level]="level"></app-manage-level-list>
       </div>
     </div>
+  </section>
+  <section *ngIf="!selectedObjective">
+    <mat-spinner></mat-spinner>
   </section>
   <router-outlet></router-outlet>
 </div>

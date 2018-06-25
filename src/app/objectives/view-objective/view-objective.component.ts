@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { Objective } from '../objective.model';
 import { ObjectiveService } from '../objective.service';
 
 @Component({
@@ -10,12 +9,16 @@ import { ObjectiveService } from '../objective.service';
   styleUrls: ['./view-objective.component.css']
 })
 export class ViewObjectiveComponent implements OnInit {
-  selectedObjective: Objective;
+  get selectedObjective() {
+    return this.objectiveService.selectedObjective;
+  }
 
-  constructor(private activatedRoute: ActivatedRoute, private objectiveService: ObjectiveService) { }
+  constructor(private activatedRoute: ActivatedRoute,
+              private objectiveService: ObjectiveService) { }
 
   ngOnInit() {
-    this.selectedObjective = this.objectiveService.get(this.activatedRoute.snapshot.params.id);
+    this.objectiveService.get(this.activatedRoute.snapshot.params.id)
+      .subscribe(data => this.objectiveService.selectedObjective = data);
   }
 
 }

@@ -6,12 +6,5 @@ export class Task {
   pattern: PatternItem[];
 
   constructor(name: string) {
-    this.name = name;
-    this.id = 'theid';
-    this.pattern = [
-      new PatternItem('Slot'),
-      new PatternItem('Slot'),
-      new PatternItem('Static')
-    ];
   }
 }

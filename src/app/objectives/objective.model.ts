@@ -6,8 +6,5 @@ export class Objective {
   public levels: Level[];
 
   constructor(name: string) {
-    this.name = name;
-    this.id = 'one';
-    this.levels = [new Level('Beginner'), new Level('Intermediate')];
   }
 }

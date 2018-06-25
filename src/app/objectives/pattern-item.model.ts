@@ -9,10 +9,5 @@ export class PatternItem {
   lessons: Lesson[];
 
   constructor(type: string) {
-    if (type === 'Slot' || type === 'Static') {
-      this.type = type;
-    } else {
-      this.type = 'Static';
-    }
   }
 }

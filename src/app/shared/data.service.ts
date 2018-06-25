@@ -89,7 +89,7 @@ export class DataService {
   }
 
   getObjective(id: string): Observable<Objective> {
-    const url = this.apiEndpoint + 'objectives';
+    const url = this.apiEndpoint + 'objectives/' + id;
     return this.http.get<Objective>(url);
   }
 
