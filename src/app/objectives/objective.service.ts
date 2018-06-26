@@ -3,13 +3,14 @@ import { Observable } from 'rxjs';
 
 import { Objective } from './objective.model';
 import { DataService } from '../shared/data.service';
+import { Task } from './task.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ObjectiveService {
-  objectivesList: Objective[];
   selectedObjective: Objective;
+  selectedTask: Task = new Task('Task not found');
 
   constructor(private dataService: DataService) {
   }
@@ -20,6 +21,10 @@ export class ObjectiveService {
 
   possiblePublishStatus(): string[] {
     return ['Draft', 'Beta', 'Published'];
+  }
+
+  patternItemTypes(): string[] {
+    return ['Static', 'Slot'];
   }
 
   get(id: string): Observable<Objective> {

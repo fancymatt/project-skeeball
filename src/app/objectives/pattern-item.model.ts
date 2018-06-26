@@ -9,5 +9,6 @@ export class PatternItem {
   lessons: Lesson[];
 
   constructor(type: string) {
+    this.type = type;
   }
 }

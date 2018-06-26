@@ -1,6 +1,60 @@
-<section class="task-list">
+<section class="task-list" *ngIf="selectedTask">
   <div class="section-header">
-    Task
+    {{selectedTask.name}}
+  </div>
+  <div class="section-content">
+    <mat-form-field>
+      <input type="text" matInput placeholder="Name" [(ngModel)]="selectedTask.name" name="taskName">
+    </mat-form-field>
+    <div>
+      <p class="pattern-preview" *ngIf="selectedTask.pattern">
+        <span *ngFor="let patternItem of selectedTask.pattern">
+          <span *ngIf="patternItem.type === 'Slot'" class="slot">{{patternItem.slotName}}</span>
+          <span *ngIf="patternItem.type === 'Static'" class="static">STATIC</span>
+        </span>
+      </p>
+    </div>
+    <div class="pattern-editor">
+      <p>Pattern</p>
+      <div *ngIf="selectedTask.pattern">
+        <div *ngFor="let pattern of selectedTask.pattern" class="pattern-item">
+          <mat-form-field>
+            <mat-select
+              placeholder="Pattern Item Type"
+              [(ngModel)]="pattern.type">
+              <mat-option *ngFor="let type of patternItemTypes" [value]="type">
+                {{type}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field *ngIf="pattern.type === 'Static'">
+            <mat-select
+              placeholder="Referenced Vocabulary"
+              [(ngModel)]="pattern.staticVocabRef">
+              <mat-option
+                *ngFor="let vocab of vocabList"
+                [value]="vocab.id">
+                {{vocab.target}} ({{vocab.english}})
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field *ngIf="pattern.type === 'Slot'">
+            <input type="text" matInput placeholder="Slot Name" [(ngModel)]="pattern.slotName">
+          </mat-form-field>
+          <div *ngIf="pattern.type === 'Slot'">
+            Word Bank
+          </div>
+          <div>
+            Lessons
+          </div>
+        </div>
+      </div>
+      <button
+        mat-raised-button
+        color="primary"
+        type="button"
+        (click)="addPatternItem()">Add Pattern Item</button>
+    </div>
   </div>
   <router-outlet></router-outlet>
 </section>

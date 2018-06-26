@@ -1,13 +1,11 @@
 <p>Task List</p>
 <div *ngFor="let task of tasks">
-  <div class="task-item">
-    <a routerLink="{{task.id}}">
-      <p class="task-name">{{task.name}}</p>
-    </a>
+  <div class="task-item" (click)="loadTask(task)">
+    <p class="task-name">{{task.name}}</p>
     <p class="pattern">
       <span *ngFor="let patternItem of task.pattern">
-        <span *ngIf="patternItem.type === 'Slot'" class="slot">item</span>
-        <span *ngIf="patternItem.type === 'Static'" class="static">おねがいします</span>
+        <span *ngIf="patternItem.type === 'Slot'" class="slot">{{patternItem.slotName}}</span>
+        <span *ngIf="patternItem.type === 'Static'" class="static">STATIC</span>
       </span>
     </p>
   </div>
