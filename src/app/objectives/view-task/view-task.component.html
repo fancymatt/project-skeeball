@@ -17,37 +17,7 @@
     <div class="pattern-editor">
       <p>Pattern</p>
       <div *ngIf="selectedTask.pattern">
-        <div *ngFor="let pattern of selectedTask.pattern" class="pattern-item">
-          <mat-form-field>
-            <mat-select
-              placeholder="Pattern Item Type"
-              [(ngModel)]="pattern.type">
-              <mat-option *ngFor="let type of patternItemTypes" [value]="type">
-                {{type}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-          <mat-form-field *ngIf="pattern.type === 'Static'">
-            <mat-select
-              placeholder="Referenced Vocabulary"
-              [(ngModel)]="pattern.staticVocabRef">
-              <mat-option
-                *ngFor="let vocab of vocabList"
-                [value]="vocab.id">
-                {{vocab.target}} ({{vocab.english}})
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-          <mat-form-field *ngIf="pattern.type === 'Slot'">
-            <input type="text" matInput placeholder="Slot Name" [(ngModel)]="pattern.slotName">
-          </mat-form-field>
-          <div *ngIf="pattern.type === 'Slot'">
-            Word Bank
-          </div>
-          <div>
-            Lessons
-          </div>
-        </div>
+        <app-edit-pattern-item *ngFor="let pattern of selectedTask.pattern" [patternItem]="pattern"></app-edit-pattern-item>
       </div>
       <button
         mat-raised-button

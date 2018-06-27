@@ -1,0 +1,71 @@
+<div class="pattern-item">
+  <mat-form-field>
+    <mat-select
+      placeholder="Pattern Item Type"
+      [(ngModel)]="patternItem.type">
+      <mat-option *ngFor="let type of patternItemTypes" [value]="type">
+        {{type}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field *ngIf="patternItem.type === 'Static'">
+    <mat-select
+      placeholder="Referenced Vocabulary"
+      [(ngModel)]="patternItem.staticVocabRef">
+      <mat-option
+        *ngFor="let vocab of vocabList"
+        [value]="vocab.id">
+        {{vocab.target}} ({{vocab.english}})
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field *ngIf="patternItem.type === 'Slot'">
+    <input type="text" matInput placeholder="Slot Name" [(ngModel)]="patternItem.slotName">
+  </mat-form-field>
+  <div *ngIf="patternItem.type === 'Slot' && vocabList">
+    Word Bank
+    <div *ngFor="let vocabId of patternItem.wordBank; let i = index" class="line-container">
+      <div class="line-options">
+        <span>❎</span>
+      </div>
+      <div class="line-number">{{i + 1}} </div>
+      <div class="line-content">
+        <span class="line-type">{{vocabForId(vocabId).target}}</span>
+      </div>
+    </div>
+    <br>
+    <div class="button-row">
+      <mat-form-field>
+        <mat-select placeholder="Add a Vocab" [(value)]="selectedVocabId">
+          <mat-option *ngFor="let vocab of vocabList" [value]="vocab.id">
+            {{vocab.target}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button mat-mini-fab color="primary" (click)="addVocabToPatternItem()">+</button>
+    </div>
+  </div>
+  <div *ngIf="lessonList">
+    Lessons
+    <div *ngFor="let lessonId of patternItem.lessons; let i = index" class="line-container">
+      <div class="line-options">
+        <span>❎</span>
+      </div>
+      <div class="line-number">{{i + 1}} </div>
+      <div class="line-content">
+        <span class="line-type">{{lessonForId(lessonId).name}}</span>
+      </div>
+    </div>
+    <br>
+    <div class="button-row">
+      <mat-form-field>
+        <mat-select placeholder="Add a Lesson" [(value)]="selectedLessonId">
+          <mat-option *ngFor="let lesson of lessonList" [value]="lesson.id">
+            {{lesson.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button mat-mini-fab color="primary" (click)="addLessonToPatternItem()">+</button>
+    </div>
+  </div>
+</div>

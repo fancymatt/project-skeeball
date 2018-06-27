@@ -4,7 +4,7 @@ export class Lesson {
   public id: string;
   public name: string;
   public type: string;
-  public lines: Line[]
+  public lines: Line[];
 
   constructor(name: string,
               type: string,

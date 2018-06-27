@@ -1,14 +1,13 @@
-import { Lesson } from '../lessons/lesson.model';
-import { Vocab } from '../vocab/vocab.model';
-
 export class PatternItem {
   type: string;
   slotName: string;
-  staticVocabRef: Vocab;
-  wordBank: Vocab[];
-  lessons: Lesson[];
+  staticVocabRef: string;
+  wordBank: string[];
+  lessons: string[];
 
   constructor(type: string) {
     this.type = type;
+    this.wordBank = [];
+    this.lessons = [];
   }
 }

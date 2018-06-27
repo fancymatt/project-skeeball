@@ -58,6 +58,7 @@ import { ViewObjectiveComponent } from './objectives/view-objective/view-objecti
 import { ManageTaskListComponent } from './objectives/manage-task-list/manage-task-list.component';
 import { ManageLevelListComponent } from './objectives/manage-level-list/manage-level-list.component';
 import { ViewTaskComponent } from './objectives/view-task/view-task.component';
+import { EditPatternItemComponent } from './objectives/edit-pattern-item/edit-pattern-item.component';
 
 const appRoutes: Routes = [
   {path: '', component: AdminDashboardComponent, pathMatch: 'full'},
@@ -108,7 +109,8 @@ const appRoutes: Routes = [
     ViewObjectiveComponent,
     ManageTaskListComponent,
     ManageLevelListComponent,
-    ViewTaskComponent
+    ViewTaskComponent,
+    EditPatternItemComponent
   ],
   imports: [
     BrowserModule,

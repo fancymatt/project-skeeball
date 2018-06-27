@@ -21,4 +21,10 @@ export class ViewObjectiveComponent implements OnInit {
       .subscribe(data => this.objectiveService.selectedObjective = data);
   }
 
+  saveObjective() {
+    this.objectiveService.update(this.selectedObjective)
+      .subscribe(data => console.log('Finished saving'),
+        err => console.error(err));
+  }
+
 }

@@ -4,16 +4,28 @@ import { Observable } from 'rxjs';
 import { Objective } from './objective.model';
 import { DataService } from '../shared/data.service';
 import { Task } from './task.model';
+import { Vocab } from '../vocab/vocab.model';
+import { VocabService } from '../vocab/vocab.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ObjectiveService {
-  selectedObjective: Objective;
+  _selectedObjective: Objective;
   selectedTask: Task = new Task('Task not found');
+  selectedObjectiveVocabulary: Vocab[];
 
-  constructor(private dataService: DataService) {
+  get selectedObjective() {;
+    return this._selectedObjective;
   }
+
+  set selectedObjective(obj: Objective) {
+    this._selectedObjective = obj;
+  }
+
+  constructor(private dataService: DataService, private vocabService: VocabService) {
+  }
+
 
   possibleObjectiveLevels(): string[] {
     return ['Beginner', 'Intermediate', 'Advanced'];

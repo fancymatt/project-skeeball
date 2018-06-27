@@ -10,6 +10,13 @@
       <div *ngFor="let level of selectedObjective.levels">
         <app-manage-level-list [level]="level"></app-manage-level-list>
       </div>
+      <div>
+        <button
+          mat-raised-button
+          color="primary"
+          type="button"
+          (click)="saveObjective()">Save Objective</button>
+      </div>
     </div>
   </section>
   <section *ngIf="!selectedObjective">

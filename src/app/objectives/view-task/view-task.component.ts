@@ -7,16 +7,15 @@ import { Objective } from '../objective.model';
 import { PatternItem } from '../pattern-item.model';
 import { VocabService } from '../../vocab/vocab.service';
 import { Vocab } from '../../vocab/vocab.model';
+import { Lesson } from '../../lessons/lesson.model';
+import { LessonService } from '../../lessons/lesson.service';
 
 @Component({
   selector: 'app-view-task',
   templateUrl: './view-task.component.html',
   styleUrls: ['./view-task.component.css']
 })
-export class ViewTaskComponent implements OnInit, OnChanges {
-  vocabList: Vocab[];
-  patternItemTypes: string[];
-
+export class ViewTaskComponent implements OnInit {
 
   get selectedObjective(): Objective {
     return this.objectiveService.selectedObjective;
@@ -32,20 +31,11 @@ export class ViewTaskComponent implements OnInit, OnChanges {
 
   constructor(private objectiveService: ObjectiveService,
               private vocabService: VocabService,
+              private lessonService: LessonService,
               private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
     this.initializeSelectedTask();
-    this.vocabService.getAll()
-      .subscribe(
-        data => this.vocabList = data,
-        err => console.error(err)
-      );
-    this.patternItemTypes = this.objectiveService.patternItemTypes();
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    console.log(changes);
   }
 
   initializeSelectedTask() {
