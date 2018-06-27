@@ -11,3 +11,47 @@
 .pattern-item mat-form-field {
   width: 360px;
 }
+
+.button-row {
+  margin: 10px;
+}
+
+.line-number {
+  float: left;
+  display: inline-block;
+  width: 25px;
+  font-style: italic;
+  font-weight: bold;
+  color: darkgrey;
+  height: 100%;
+  vertical-align: top;
+}
+
+.line-type {
+  font-weight: bold;
+  color: black;
+  height: 100%;
+  vertical-align: top;
+  margin-right: 7px;
+  margin-left: 7px;
+}
+
+.line-content {
+  display: inline-block;
+  white-space: normal;
+}
+
+.line-options {
+  display: inline-block;
+  text-align: right;
+  height: 100%;
+  vertical-align: top;
+}
+
+.line-options span {
+  cursor: pointer;
+}
+
+.line-container {
+  white-space: nowrap;
+}

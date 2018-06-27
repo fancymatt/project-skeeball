@@ -1,0 +1,14 @@
+<div *ngIf="taskVocabulary">
+  <h2>{{challengingTask.name}}</h2>
+  <h3>Question</h3>
+  <p *ngFor="let q of currentQuestion">
+    <span>{{q.english}}</span>
+  </p>
+  <h3>Answer</h3>
+  <p>{{currentAnswer}}</p>
+  <button (click)="createRandomQuestion()">Generate</button>
+</div>
+<div *ngIf="!taskVocabulary">
+  <p>Loading task...</p>
+  <mat-spinner></mat-spinner>
+</div>

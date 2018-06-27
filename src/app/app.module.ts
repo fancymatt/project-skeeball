@@ -59,6 +59,7 @@ import { ManageTaskListComponent } from './objectives/manage-task-list/manage-ta
 import { ManageLevelListComponent } from './objectives/manage-level-list/manage-level-list.component';
 import { ViewTaskComponent } from './objectives/view-task/view-task.component';
 import { EditPatternItemComponent } from './objectives/edit-pattern-item/edit-pattern-item.component';
+import { ChallengeTaskComponent } from './objectives/challenge-task/challenge-task.component';
 
 const appRoutes: Routes = [
   {path: '', component: AdminDashboardComponent, pathMatch: 'full'},
@@ -79,7 +80,8 @@ const appRoutes: Routes = [
       {path: ':id', component: ViewObjectiveComponent, children: [
         {path: ':id', component: ViewTaskComponent}
       ]}
-    ]}
+    ]},
+  {path: 'challenge/:obj_id/:task_id', component: ChallengeTaskComponent}
   ];
 
 @NgModule({
@@ -110,7 +112,8 @@ const appRoutes: Routes = [
     ManageTaskListComponent,
     ManageLevelListComponent,
     ViewTaskComponent,
-    EditPatternItemComponent
+    EditPatternItemComponent,
+    ChallengeTaskComponent
   ],
   imports: [
     BrowserModule,

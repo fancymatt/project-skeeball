@@ -26,11 +26,11 @@
     Word Bank
     <div *ngFor="let vocabId of patternItem.wordBank; let i = index" class="line-container">
       <div class="line-options">
-        <span>❎</span>
+        <span (click)="remove">❎</span>
       </div>
       <div class="line-number">{{i + 1}} </div>
       <div class="line-content">
-        <span class="line-type">{{vocabForId(vocabId).target}}</span>
+        <span class="line-type">{{vocabForId(vocabId).target}} ({{vocabForId(vocabId).targetKana}})</span>
       </div>
     </div>
     <br>
@@ -38,7 +38,7 @@
       <mat-form-field>
         <mat-select placeholder="Add a Vocab" [(value)]="selectedVocabId">
           <mat-option *ngFor="let vocab of vocabList" [value]="vocab.id">
-            {{vocab.target}}
+            {{vocab.target}} ({{vocab.targetKana}})
           </mat-option>
         </mat-select>
       </mat-form-field>
