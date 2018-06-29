@@ -4,7 +4,6 @@ import { ActivatedRoute } from '@angular/router';
 import { Task } from '../task.model';
 import { Objective } from '../objective.model';
 import { ObjectiveService } from '../objective.service';
-import { Vocab } from '../../vocab/vocab.model';
 import { VocabService } from '../../vocab/vocab.service';
 
 @Component({
@@ -18,6 +17,8 @@ export class ChallengeTaskComponent implements OnInit {
   taskVocabulary: any[];
   currentQuestion: any[];
   currentAnswer: string;
+  studentAnswer: string;
+  isCorrect = false;
 
   constructor(private activatedRoute: ActivatedRoute,
               private vocabService: VocabService,
@@ -66,6 +67,8 @@ export class ChallengeTaskComponent implements OnInit {
   }
 
   createRandomQuestion() {
+    this.studentAnswer = '';
+    this.isCorrect = false;
     this.currentQuestion = [];
     this.taskVocabulary.forEach((patternItem, index) => {
       if (patternItem.length > 1) { // static only has 1 length
@@ -86,6 +89,16 @@ export class ChallengeTaskComponent implements OnInit {
       this.currentAnswer += ' ';
     });
 
+  }
+
+  evaluateStudentAnswer() {
+    const guess = this.studentAnswer.replace(/\s/g, '');
+    const actual = this.currentAnswer.replace(/\s/g, '');
+    if (guess === actual) {
+      this.isCorrect = true;
+    } else {
+      this.isCorrect = false;
+    }
   }
 
 }

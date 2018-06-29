@@ -1,14 +1,23 @@
-<div *ngIf="taskVocabulary">
-  <h2>{{challengingTask.name}}</h2>
-  <h3>Question</h3>
-  <p *ngFor="let q of currentQuestion">
-    <span>{{q.english}}</span>
-  </p>
-  <h3>Answer</h3>
-  <p>{{currentAnswer}}</p>
-  <button (click)="createRandomQuestion()">Generate</button>
-</div>
-<div *ngIf="!taskVocabulary">
+<section class="line-content" *ngIf="taskVocabulary">
+  <div class="present-text">
+    <span>{{challengingTask.name}}</span>
+  </div>
+  <div class="subtitle-text">
+    <p *ngFor="let q of currentQuestion">
+      <span>{{q.english}}</span>
+    </p>
+  </div>
+  <div>
+    <input class="answer-input"
+           [(ngModel)]="studentAnswer"
+           (keyup)="evaluateStudentAnswer()"
+           type="text" />
+  </div>
+  <button class="next-button">Next</button>
+  <button (click)="createRandomQuestion()">Generate New Question</button>
+  <p>{{isCorrect | json}}</p>
+</section>
+<section class="line-content" *ngIf="!taskVocabulary">
   <p>Loading task...</p>
   <mat-spinner></mat-spinner>
-</div>
+</section>
