@@ -60,9 +60,12 @@ import { ManageLevelListComponent } from './objectives/manage-level-list/manage-
 import { ViewTaskComponent } from './objectives/view-task/view-task.component';
 import { EditPatternItemComponent } from './objectives/edit-pattern-item/edit-pattern-item.component';
 import { ChallengeTaskComponent } from './objectives/challenge-task/challenge-task.component';
+import { StandardButtonComponent } from './shared/ui/standard-button/standard-button.component';
+import { PlayerComponent } from './player/player/player.component';
 
 const appRoutes: Routes = [
   {path: '', component: AdminDashboardComponent, pathMatch: 'full'},
+  {path: 'player', component: PlayerComponent},
   {path: 'lessons', component: LessonShellComponent, children: [
       {path: '', component: LessonListComponent, pathMatch: 'full', resolve: { resolvedLessons: LessonListResolverService }},
       {path: 'add', component: AddLessonComponent},
@@ -113,7 +116,9 @@ const appRoutes: Routes = [
     ManageLevelListComponent,
     ViewTaskComponent,
     EditPatternItemComponent,
-    ChallengeTaskComponent
+    ChallengeTaskComponent,
+    StandardButtonComponent,
+    PlayerComponent
   ],
   imports: [
     BrowserModule,

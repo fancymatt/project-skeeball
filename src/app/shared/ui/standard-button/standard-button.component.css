@@ -1,0 +1,15 @@
+.standard-button {
+  background-color: white;
+  border: 2px #006fde solid;
+  border-radius: 35px;
+  padding: 17px 43px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 24px;
+  color: #006fde;
+  cursor: pointer;
+}
+
+.standard-button:hover {
+  background-color: #d3f1ff;
+}

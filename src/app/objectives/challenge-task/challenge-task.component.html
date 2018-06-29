@@ -13,8 +13,8 @@
            (keyup)="evaluateStudentAnswer()"
            type="text" />
   </div>
-  <button class="next-button">Next</button>
-  <button (click)="createRandomQuestion()">Generate New Question</button>
+  <app-standard-button>Next</app-standard-button>
+  <app-standard-button (click)="createRandomQuestion()">Generate New Question</app-standard-button>
   <p>{{isCorrect | json}}</p>
 </section>
 <section class="line-content" *ngIf="!taskVocabulary">
