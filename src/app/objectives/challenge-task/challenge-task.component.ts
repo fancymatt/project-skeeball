@@ -2,9 +2,10 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angu
 import { ActivatedRoute } from '@angular/router';
 
 import { Task } from '../task.model';
-import { Objective } from '../objective.model';
-import { ObjectiveService } from '../objective.service';
 import { VocabService } from '../../vocab/vocab.service';
+import { interval, Observable } from 'rxjs';
+import 'rxjs-compat/add/operator/takeWhile';
+import { ISubscription } from 'rxjs-compat/Subscription';
 
 @Component({
   selector: 'app-challenge-task',
@@ -20,7 +21,10 @@ export class ChallengeTaskComponent implements OnInit, OnChanges {
   studentAnswer: string;
   toLoad: number;
   loaded: number;
-  isCorrect = false;
+  fullyLoaded: boolean;
+  isCorrect: boolean;
+  isSubmitted: boolean;
+  loopSubscription: ISubscription;
 
   constructor(private activatedRoute: ActivatedRoute,
               private vocabService: VocabService) { }
@@ -36,10 +40,15 @@ export class ChallengeTaskComponent implements OnInit, OnChanges {
   initialize() {
     this.toLoad = 0;
     this.loaded = 0;
+    this.isCorrect = false;
+    this.fullyLoaded = false;
+    this.isSubmitted = false;
     this.populateTaskVocabulary();
     this.studentAnswer = '';
     this.correctAnswer = '';
-
+    this.loopSubscription = interval(100)
+      .takeWhile(() => !this.fullyLoaded)
+      .subscribe(() => this.checkLoadStatus());
   }
 
   populateTaskVocabulary() {
@@ -98,7 +107,16 @@ export class ChallengeTaskComponent implements OnInit, OnChanges {
     });
   }
 
-  evaluateStudentAnswer() {
+  checkLoadStatus() {
+    if (this.loaded >= this.toLoad) {
+      this.fullyLoaded = true;
+      this.loopSubscription
+      this.initializeQuestion();
+    }
+  }
+
+  checkAnswer() {
+    this.isSubmitted = true;
     const guess = this.studentAnswer.replace(/\s/g, '');
     const actual = this.correctAnswer.replace(/\s/g, '');
     if (guess === actual) {

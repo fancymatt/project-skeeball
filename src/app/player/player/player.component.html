@@ -1,7 +1,7 @@
 <section class="mat-typography frame" fxLayout="column" fxLayoutAlign="center center">
   <div class="lesson-frame" fxLayout="column">
-    <div *ngIf="contentsLoaded">
-      <div class="progress">{{currentItem + 1}} / {{playerContents.length + 1}}</div>
+    <div *ngIf="contentsLoaded && !done">
+      <div class="progress">{{currentItem + 1}} / {{playerContents.length}}</div>
       <app-view-explanation
         *ngIf="playerContents[currentItem].type === 'lineExplanation'"
         [line]="playerContents[currentItem].content"
@@ -22,6 +22,9 @@
     <div *ngIf="!contentsLoaded">
       <mat-spinner></mat-spinner>
       <p>Loading Contents...</p>
+    </div>
+    <div *ngIf="done">
+      <p>You're done.</p>
     </div>
   </div>
 </section>

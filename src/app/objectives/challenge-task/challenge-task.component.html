@@ -1,4 +1,4 @@
-<section class="line-content" *ngIf="taskVocabulary">
+<section class="line-content" *ngIf="fullyLoaded">
   <div class="present-text">
     <span>{{task.name}}</span>
   </div>
@@ -10,16 +10,21 @@
   <div>
     <input class="answer-input"
            [(ngModel)]="studentAnswer"
-           (keyup)="evaluateStudentAnswer()"
            type="text" />
   </div>
-  <app-standard-button (click)="onDismissTask()">Next</app-standard-button>
-  <app-standard-button (click)="initializeQuestion()">Generate New Question</app-standard-button>
-  <p>{{isCorrect | json}}</p>
+  <br />
+  <app-standard-button
+    (click)="checkAnswer()">Check Answer</app-standard-button>
+  <div *ngIf="isSubmitted && isCorrect">
+    <p>You are correct!</p>
+    <app-standard-button
+      *ngIf="isCorrect"
+      (click)="onDismissTask()">Next</app-standard-button>
+  </div>
+  <div *ngIf="isSubmitted && !isCorrect">
+    Sorry, try again.
+  </div>
 </section>
-Load Progress: {{loaded}} / {{toLoad}}
-
-<section class="line-content" *ngIf="!taskVocabulary">
-  <p>Loading task...</p>
-  <mat-spinner></mat-spinner>
+<section class="line-content" *ngIf="!fullyLoaded">
+  <p>Loading task... ({{loaded}} of {{toLoad}})</p>
 </section>

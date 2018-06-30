@@ -25,6 +25,7 @@ export class PlayerComponent implements OnInit {
   contentsLoaded = false;
   private listenToAdvanceEvent = true;
   private nextTask = 0;
+  done = false;
   private loopSubscription: ISubscription;
 
   constructor(private lessonService: LessonService,
@@ -38,6 +39,10 @@ export class PlayerComponent implements OnInit {
         type: 'objective',
         objectiveId: 'obj_0.8847845107569265',
         levelId: '1'
+      },
+      {
+        type: 'lesson',
+        id: 'ba65d69b-2d9b-44a2-ad81-e17519eecf06'
       }
     ];
     this.initializeContent();
@@ -150,12 +155,16 @@ export class PlayerComponent implements OnInit {
   }
 
   onAdvance(): void {
+    if (this.currentItem >= this.playerContents.length - 1) {
+      this.done = true;
+      return;
+    }
     if (this.listenToAdvanceEvent) { // prevents event bubbling
       this.listenToAdvanceEvent = false;
       this.currentItem++;
       setTimeout(() => {
         this.listenToAdvanceEvent = true;
-      }, 100)
+      }, 100);
     }
   }
 
