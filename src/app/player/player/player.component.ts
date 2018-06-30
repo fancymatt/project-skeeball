@@ -34,17 +34,6 @@ export class PlayerComponent implements OnInit {
               private objectiveService: ObjectiveService) { }
 
   ngOnInit() {
-    this.content = [
-      {
-        type: 'objective',
-        objectiveId: 'obj_0.8847845107569265',
-        levelId: '1'
-      },
-      {
-        type: 'lesson',
-        id: 'ba65d69b-2d9b-44a2-ad81-e17519eecf06'
-      }
-    ];
     this.initializeContent();
   }
 
@@ -126,10 +115,12 @@ export class PlayerComponent implements OnInit {
   }
 
   initializeObjective(objectiveId: string, levelId: string) {
+    console.log('We made it into initializeObjective');
     if (objectiveId) {
       this.objectiveService.get(objectiveId)
         .subscribe(
           objective => {
+            console.log(objective);
             const matchedLevel: Level = objective.levels.find(level => level.id === levelId);
             matchedLevel.tasks.forEach(task => {
               this.playerContents.push({type: 'task', content: task, parentObjective: objective});

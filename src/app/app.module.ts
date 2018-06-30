@@ -41,16 +41,16 @@ import { IdGenService } from './shared/id-gen.service';
 import { HttpCacheService } from './shared/http-cache.service';
 import { CacheInterceptor } from './shared/cache.interceptor';
 import { ViewLessonComponent } from './lessons/view-lesson/view-lesson.component';
-import { ViewExplanationComponent } from './lines/view-explanation/view-explanation.component';
-import { DialogChildVocabComponent, ViewExampleComponent } from './lines/view-example/view-example.component';
-import { ViewQuestionMcComponent } from './lines/view-question-mc/view-question-mc.component';
+import { ViewExplanationComponent } from './player/view-explanation/view-explanation.component';
+import { DialogChildVocabComponent, ViewExampleComponent } from './player/view-example/view-example.component';
+import { ViewQuestionMcComponent } from './player/view-question-mc/view-question-mc.component';
 import { AudioService } from './shared/audio.service';
 import { AddVocabComponent } from './vocab/add-vocab/add-vocab.component';
 import { BrowseVocabComponent } from './vocab/browse-vocab/browse-vocab.component';
 import { ViewVocabComponent } from './vocab/view-vocab/view-vocab.component';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 import { VocabShellComponent } from './vocab/vocab-shell/vocab-shell.component';
-import { ViewFreeAnswerComponent } from './lines/view-free-answer/view-free-answer.component';
+import { ViewFreeAnswerComponent } from './player/view-free-answer/view-free-answer.component';
 import { ObjectiveShellComponent } from './objectives/objective-shell/objective-shell.component';
 import { AddObjectiveComponent } from './objectives/add-objective/add-objective.component';
 import { BrowseObjectivesComponent } from './objectives/browse-objectives/browse-objectives.component';
@@ -59,13 +59,16 @@ import { ManageTaskListComponent } from './objectives/manage-task-list/manage-ta
 import { ManageLevelListComponent } from './objectives/manage-level-list/manage-level-list.component';
 import { ViewTaskComponent } from './objectives/view-task/view-task.component';
 import { EditPatternItemComponent } from './objectives/edit-pattern-item/edit-pattern-item.component';
-import { ChallengeTaskComponent } from './objectives/challenge-task/challenge-task.component';
+import { ChallengeTaskComponent } from './player/challenge-task/challenge-task.component';
 import { StandardButtonComponent } from './shared/ui/standard-button/standard-button.component';
 import { PlayerComponent } from './player/player/player.component';
+import { PreviewTaskComponent } from './objectives/preview-task/preview-task.component';
+import { PreviewObjectiveComponent } from './objectives/preview-objective/preview-objective.component';
 
 const appRoutes: Routes = [
   {path: '', component: AdminDashboardComponent, pathMatch: 'full'},
-  {path: 'player', component: PlayerComponent},
+  {path: 'preview/lesson/:id', component: ViewLessonComponent},
+  {path: 'preview/objective/:obj_id/:lev_id', component: PreviewObjectiveComponent},
   {path: 'lessons', component: LessonShellComponent, children: [
       {path: '', component: LessonListComponent, pathMatch: 'full', resolve: { resolvedLessons: LessonListResolverService }},
       {path: 'add', component: AddLessonComponent},
@@ -83,8 +86,7 @@ const appRoutes: Routes = [
       {path: ':id', component: ViewObjectiveComponent, children: [
         {path: ':id', component: ViewTaskComponent}
       ]}
-    ]},
-  {path: 'challenge/:obj_id/:task_id', component: ChallengeTaskComponent}
+    ]}
   ];
 
 @NgModule({
@@ -118,7 +120,9 @@ const appRoutes: Routes = [
     EditPatternItemComponent,
     ChallengeTaskComponent,
     StandardButtonComponent,
-    PlayerComponent
+    PlayerComponent,
+    PreviewTaskComponent,
+    PreviewObjectiveComponent
   ],
   imports: [
     BrowserModule,

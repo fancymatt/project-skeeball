@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 
-import { LineExplanation } from '../line-explanation';
+import { LineExplanation } from '../../lines/line-explanation';
 import { AudioService } from '../../shared/audio.service';
 
 @Component({

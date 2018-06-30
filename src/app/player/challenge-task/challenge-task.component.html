@@ -17,8 +17,11 @@
     (click)="checkAnswer()">Check Answer</app-standard-button>
   <div *ngIf="isSubmitted && isCorrect">
     <p>You are correct!</p>
+    <app-standard-button *ngIf="successesEarned < successesRequired"
+                         (click)="initializeQuestion()">Next Question</app-standard-button>
+    <p>{{successesEarned}} of {{successesRequired}}</p>
     <app-standard-button
-      *ngIf="isCorrect"
+      *ngIf="successesEarned >= successesRequired"
       (click)="onDismissTask()">Next</app-standard-button>
   </div>
   <div *ngIf="isSubmitted && !isCorrect">

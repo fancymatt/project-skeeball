@@ -3,7 +3,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
 import { Howl } from 'howler';
 
-import { LineExample } from '../line-example';
+import { LineExample } from '../../lines/line-example';
 import { AudioService } from '../../shared/audio.service';
 import { LessonService } from '../../lessons/lesson.service';
 import { VocabService } from '../../vocab/vocab.service';
@@ -82,7 +82,6 @@ export class ViewExampleComponent implements OnInit, OnChanges {
   initialize() {
     this.initializeVocabulary();
     this.initializeAnimation();
-
   }
 
   initializeVocabulary() {

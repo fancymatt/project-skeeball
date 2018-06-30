@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { Task } from '../task.model';
+import { Task } from '../../objectives/task.model';
 import { VocabService } from '../../vocab/vocab.service';
 import { interval, Observable } from 'rxjs';
 import 'rxjs-compat/add/operator/takeWhile';
@@ -19,6 +19,8 @@ export class ChallengeTaskComponent implements OnInit, OnChanges {
   currentQuestion: any[];
   correctAnswer: string;
   studentAnswer: string;
+  successesRequired: number;
+  successesEarned: number;
   toLoad: number;
   loaded: number;
   fullyLoaded: boolean;
@@ -43,7 +45,13 @@ export class ChallengeTaskComponent implements OnInit, OnChanges {
     this.isCorrect = false;
     this.fullyLoaded = false;
     this.isSubmitted = false;
+    this.successesEarned = 0;
     this.populateTaskVocabulary();
+    if (this.taskVocabulary.length > 1) {
+      this.successesRequired = 3;
+    } else {
+      this.successesRequired = 1;
+    }
     this.studentAnswer = '';
     this.correctAnswer = '';
     this.loopSubscription = interval(100)
@@ -86,6 +94,8 @@ export class ChallengeTaskComponent implements OnInit, OnChanges {
 
   initializeQuestion() {
     this.isCorrect = false;
+    this.isSubmitted = false;
+    this.studentAnswer = '';
     this.currentQuestion = [];
     this.taskVocabulary.forEach((patternItem, index) => {
       if (patternItem.length > 1) { // static only has 1 length
@@ -110,7 +120,6 @@ export class ChallengeTaskComponent implements OnInit, OnChanges {
   checkLoadStatus() {
     if (this.loaded >= this.toLoad) {
       this.fullyLoaded = true;
-      this.loopSubscription
       this.initializeQuestion();
     }
   }
@@ -120,6 +129,7 @@ export class ChallengeTaskComponent implements OnInit, OnChanges {
     const guess = this.studentAnswer.replace(/\s/g, '');
     const actual = this.correctAnswer.replace(/\s/g, '');
     if (guess === actual) {
+      this.successesEarned++;
       this.isCorrect = true;
     } else {
       this.isCorrect = false;

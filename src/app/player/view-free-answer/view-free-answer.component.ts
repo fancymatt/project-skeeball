@@ -2,8 +2,8 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 import { animate, state, style, transition, trigger } from '@angular/animations';
 
 import { AudioService } from '../../shared/audio.service';
-import { LineFreeAnswer } from '../line-free-answer';
-import { Line } from '../line.model';
+import { LineFreeAnswer } from '../../lines/line-free-answer';
+import { Line } from '../../lines/line.model';
 import { VocabService } from '../../vocab/vocab.service';
 
 @Component({
