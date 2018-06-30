@@ -1,5 +1,7 @@
-import {Vocab} from '../vocab/vocab.model';
+import { Vocab } from '../vocab/vocab.model';
 
 export class LineExample {
-  public vocabReference: string;
+  vocabReference: string;
+  vocab: Vocab;
 }
+

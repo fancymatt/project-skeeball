@@ -1,4 +1,4 @@
-<section class="line-content" *ngIf="vocab">
+<section class="line-content" *ngIf="line.vocab">
   <div class="example-target present-text"
        [@primaryTextAnimationState]="textAnimationState">
     <span *ngIf="targetTextElements">
@@ -7,20 +7,20 @@
             (click)="onClickChildVocab(el.vocabRef)">{{el.text}}</span>
     </span>
     <span *ngIf="targetTextElements.length < 1">
-      {{vocab.target}}
+      {{line.vocab.target}}
     </span>
   </div>
   <div class="example-target subtitle-text"
        [@secondaryTextAnimationState]="textAnimationState">
-    <span>{{vocab.targetKana}}</span>
+    <span>{{line.vocab.targetKana}}</span>
   </div>
   <div class="example-target subtitle-text"
        [@secondaryTextAnimationState]="textAnimationState">
-    <span>{{vocab.targetRomanization}}</span>
+    <span>{{line.vocab.targetRomanization}}</span>
   </div>
   <div class="present-text"
        [@secondaryTextAnimationState]="textAnimationState">
-    <span>{{vocab.english}}</span>
+    <span>{{line.vocab.english}}</span>
   </div>
   <br />
   <app-standard-button (click)="animateOut()">Next</app-standard-button>

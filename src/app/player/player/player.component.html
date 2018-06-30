@@ -1,8 +1,27 @@
-<h2>Queue</h2>
-<pre>{{queue | json}}</pre>
-<h2>Content passed in</h2>
-<pre>{{content | json}}</pre>
-<br />
-<h2>Content after processing</h2>
-<pre>{{playerContents | json}}</pre>
-
+<section class="mat-typography frame" fxLayout="column" fxLayoutAlign="center center">
+  <div class="lesson-frame" fxLayout="column">
+    <div *ngIf="contentsLoaded">
+      <div class="progress">{{currentItem + 1}} / {{playerContents.length + 1}}</div>
+      <app-view-explanation
+        *ngIf="playerContents[currentItem].type === 'lineExplanation'"
+        [line]="playerContents[currentItem].content"
+        (dismissLine)="onAdvance()"></app-view-explanation>
+      <app-view-example
+        *ngIf="playerContents[currentItem].type === 'lineExample'"
+        [line]="playerContents[currentItem].content"
+        (dismissLine)="onAdvance()"></app-view-example>
+      <app-view-question-mc
+        *ngIf="playerContents[currentItem].type === 'lineMultipleChoice'"
+        [line]="playerContents[currentItem].content"
+        (dismissLine)="onAdvance()"></app-view-question-mc>
+      <app-challenge-task
+        *ngIf="playerContents[currentItem].type === 'task'"
+        [task]="playerContents[currentItem].content"
+        (dismissTask)="onAdvance()"></app-challenge-task>
+    </div>
+    <div *ngIf="!contentsLoaded">
+      <mat-spinner></mat-spinner>
+      <p>Loading Contents...</p>
+    </div>
+  </div>
+</section>

@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 
-import { Line } from '../line.model';
 import { LineQuestionMc } from '../line-question-mc';
 import { AudioService } from '../../shared/audio.service';
 
@@ -56,9 +55,7 @@ import { AudioService } from '../../shared/audio.service';
 })
 export class ViewQuestionMcComponent implements OnInit, OnChanges {
 
-  @Input('line') genericLine: Line;
-  @Input() currentLineIndex: number;
-  line: LineQuestionMc = new LineQuestionMc();
+  @Input() line: LineQuestionMc;
   options: { text: string, correct: boolean, selected: boolean }[];
   animationState: string;
   @Output() dismissLine: EventEmitter<boolean> = new EventEmitter<boolean>(false);
@@ -75,18 +72,8 @@ export class ViewQuestionMcComponent implements OnInit, OnChanges {
   }
 
   initialize() {
-    this.initializeLine();
     this.initializeOptions();
     this.initializeAnimation();
-  }
-
-  initializeLine() {
-    this.line.question = this.genericLine.mcQuestion;
-    this.line.answerCorrect = this.genericLine.mcAnswerCorrect;
-    this.line.answerIncorrect = [];
-    this.line.answerIncorrect.push(this.genericLine.mcAnswerIncorrect1);
-    this.line.answerIncorrect.push(this.genericLine.mcAnswerIncorrect2);
-    this.line.answerIncorrect.push(this.genericLine.mcAnswerIncorrect3);
   }
 
   initializeOptions(): void {

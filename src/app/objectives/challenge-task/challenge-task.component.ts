@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Task } from '../task.model';
@@ -11,94 +11,105 @@ import { VocabService } from '../../vocab/vocab.service';
   templateUrl: './challenge-task.component.html',
   styleUrls: ['./challenge-task.component.css']
 })
-export class ChallengeTaskComponent implements OnInit {
-  @Input() challengingObjective: Objective;
-  @Input() challengingTask: Task;
+export class ChallengeTaskComponent implements OnInit, OnChanges {
+  @Input() task: Task;
+  @Output() dismissTask: EventEmitter<boolean> = new EventEmitter<boolean>(false);
   taskVocabulary: any[];
   currentQuestion: any[];
-  currentAnswer: string;
+  correctAnswer: string;
   studentAnswer: string;
+  toLoad: number;
+  loaded: number;
   isCorrect = false;
 
   constructor(private activatedRoute: ActivatedRoute,
-              private vocabService: VocabService,
-              private objectiveService: ObjectiveService) { }
+              private vocabService: VocabService) { }
 
   ngOnInit() {
-    this.initializeTask();
+    this.initialize();
   }
 
-  initializeTask() {
-    if (!this.challengingObjective) {
-      const objectiveId = this.activatedRoute.snapshot.params.obj_id;
-      const taskId = this.activatedRoute.snapshot.params.task_id;
-      this.objectiveService.get(objectiveId)
-        .subscribe(data => {
-            this.challengingObjective = data;
-            this.challengingObjective.levels.forEach(level => {
-              level.tasks.forEach(task => {
-                if (task.id === taskId) {
-                  this.challengingTask = task;
-                  this.initializeTaskVocabulary();
-                }
-              });
-            });
-        },
-            err => console.error(err));
-    };
+  ngOnChanges() {
+    this.initialize();
   }
 
-  initializeTaskVocabulary() {
+  initialize() {
+    this.toLoad = 0;
+    this.loaded = 0;
+    this.populateTaskVocabulary();
+    this.studentAnswer = '';
+    this.correctAnswer = '';
+
+  }
+
+  populateTaskVocabulary() {
     this.taskVocabulary = [];
-    this.challengingTask.pattern.forEach((pattern, index) => {
+    this.task.pattern.forEach((pattern, index) => {
       this.taskVocabulary[index] = [];
       if (pattern.wordBank) {
-        pattern.wordBank.forEach(id => {
-          this.vocabService.get(id)
-            .subscribe(data => this.taskVocabulary[index].push(data),
-              err => console.error(err));
-        });
-      } else if (pattern.staticVocabRef) {
-        this.vocabService.get(pattern.staticVocabRef)
-          .subscribe(data => this.taskVocabulary[index].push(data),
-          err => console.error(err));
+        this.populateTaskVocabularyForSlot(index, pattern.wordBank);
+      }
+      if (pattern.staticVocabRef) {
+        this.populateTaskVocabularyForStatic(index, pattern.staticVocabRef);
       }
     });
   }
 
-  createRandomQuestion() {
-    this.studentAnswer = '';
+  populateTaskVocabularyForSlot(index: number, wordBank: string[]) {
+    this.toLoad += wordBank.length;
+    wordBank.forEach(id => {
+      this.vocabService.get(id)
+        .subscribe(data => {
+          this.taskVocabulary[index].push(data);
+          this.loaded += 1;
+        });
+    });
+  }
+
+  populateTaskVocabularyForStatic(index: number, id: string) {
+    this.toLoad += 1;
+    this.vocabService.get(id)
+      .subscribe(data => {
+        this.taskVocabulary[index][0] = data;
+        this.loaded += 1;
+      });
+  }
+
+  initializeQuestion() {
     this.isCorrect = false;
     this.currentQuestion = [];
     this.taskVocabulary.forEach((patternItem, index) => {
       if (patternItem.length > 1) { // static only has 1 length
         this.currentQuestion.push(patternItem[Math.floor(Math.random() * patternItem.length)]);
-      } else {
-        this.currentQuestion.push(['']);
       }
     });
+    this.initializeAnswer();
+  }
 
-    this.currentAnswer = '';
-    this.challengingTask.pattern.forEach((pattern, index) => {
-      if (pattern.type === 'Slot') {
-        this.currentAnswer += this.currentQuestion[index].targetRomanization;
-      }
+  initializeAnswer() {
+    this.correctAnswer = '';
+    this.task.pattern.forEach((pattern, index) => {
       if (pattern.type === 'Static') {
-        this.currentAnswer += this.taskVocabulary[index][0].targetRomanization;
+        this.correctAnswer += this.taskVocabulary[index][0].targetRomanization;
       }
-      this.currentAnswer += ' ';
+      if (pattern.type === 'Slot') {
+        this.correctAnswer += this.currentQuestion[index].targetRomanization;
+      }
     });
-
   }
 
   evaluateStudentAnswer() {
     const guess = this.studentAnswer.replace(/\s/g, '');
-    const actual = this.currentAnswer.replace(/\s/g, '');
+    const actual = this.correctAnswer.replace(/\s/g, '');
     if (guess === actual) {
       this.isCorrect = true;
     } else {
       this.isCorrect = false;
     }
+  }
+
+  onDismissTask() {
+    this.dismissTask.emit(true);
   }
 
 }

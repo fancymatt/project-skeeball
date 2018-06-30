@@ -1,4 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { interval } from 'rxjs';
+import { ISubscription } from 'rxjs-compat/Subscription';
+
 import { LessonService } from '../../lessons/lesson.service';
 import { Line } from '../../lines/line.model';
 import { LineExample } from '../../lines/line-example';
@@ -6,8 +9,8 @@ import { LineExplanation } from '../../lines/line-explanation';
 import { LineQuestionMc } from '../../lines/line-question-mc';
 import { ObjectiveService } from '../../objectives/objective.service';
 import { Level } from '../../objectives/level.model';
-import { interval } from 'rxjs';
-import { ISubscription } from 'rxjs-compat/Subscription';
+import { AudioService } from '../../shared/audio.service';
+import { VocabService } from '../../vocab/vocab.service';
 
 @Component({
   selector: 'app-player',
@@ -17,23 +20,20 @@ import { ISubscription } from 'rxjs-compat/Subscription';
 export class PlayerComponent implements OnInit {
   @Input() content: any[];
   playerContents: any[];
-  queue: string[];
-  nextTask = 0;
+  currentItem = 0;
+  private queue: string[];
+  contentsLoaded = false;
+  private listenToAdvanceEvent = true;
+  private nextTask = 0;
   private loopSubscription: ISubscription;
 
   constructor(private lessonService: LessonService,
+              private audioService: AudioService,
+              private vocabService: VocabService,
               private objectiveService: ObjectiveService) { }
 
   ngOnInit() {
     this.content = [
-      {
-        type: 'lesson',
-        id: 'ef6697f9-66d3-47ab-b56f-b57ced97aa7e'
-      },
-      {
-        type: 'lesson',
-        id: '15c74269-a838-48b3-8ee6-69e0e7bb8503'
-      },
       {
         type: 'objective',
         objectiveId: 'obj_0.8847845107569265',
@@ -94,11 +94,13 @@ export class PlayerComponent implements OnInit {
       case 'Example':
         const newExample = new LineExample();
         newExample.vocabReference = line.exampleVocabReference;
+        this.vocabService.get(line.exampleVocabReference)
+          .subscribe(data => newExample.vocab = data);
         this.playerContents.push({type: 'lineExample', content: newExample});
         break;
       case 'Explanation':
         const newExplanation = new LineExplanation();
-        newExplanation.audioNarrationUrl = line.explanationAudioMp3;
+        newExplanation.audioNarration = this.audioService.initializeAudioFromFilePath(line.explanationAudioMp3);
         newExplanation.audioScript = line.explanationAudioScript;
         newExplanation.videoScript = line.explanationVideoScript;
         this.playerContents.push({type: 'lineExplanation', content: newExplanation});
@@ -125,7 +127,7 @@ export class PlayerComponent implements OnInit {
           objective => {
             const matchedLevel: Level = objective.levels.find(level => level.id === levelId);
             matchedLevel.tasks.forEach(task => {
-              this.playerContents.push(task);
+              this.playerContents.push({type: 'task', content: task, parentObjective: objective});
             });
           },
           err => console.error('Error getting objective: ' + err),
@@ -142,7 +144,18 @@ export class PlayerComponent implements OnInit {
       this.nextTask++;
       this.queue[this.nextTask] = 'ready';
     } else {
+      this.contentsLoaded = true;
       this.loopSubscription.unsubscribe();
+    }
+  }
+
+  onAdvance(): void {
+    if (this.listenToAdvanceEvent) { // prevents event bubbling
+      this.listenToAdvanceEvent = false;
+      this.currentItem++;
+      setTimeout(() => {
+        this.listenToAdvanceEvent = true;
+      }, 100)
     }
   }
 

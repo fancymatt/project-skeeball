@@ -1,10 +1,8 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 
-import { Line } from '../line.model';
 import { LineExplanation } from '../line-explanation';
 import { AudioService } from '../../shared/audio.service';
-import { LessonService } from '../../lessons/lesson.service';
 
 @Component({
   selector: 'app-view-explanation',
@@ -57,15 +55,13 @@ import { LessonService } from '../../lessons/lesson.service';
 })
 
 export class ViewExplanationComponent implements OnInit, OnChanges {
-  @Input('line') genericLine: Line;
-  @Input() currentLineIndex: number;
+  @Input() line: LineExplanation;
   @Output() dismissLine: EventEmitter<boolean> = new EventEmitter<boolean>(false);
-  currentLine: LineExplanation = new LineExplanation();
   textAnimationState: string;
   buttonAnimationState: string;
   autoplay = true;
 
-  constructor(private audioService: AudioService, private lessonService: LessonService) { }
+  constructor(private audioService: AudioService) { }
 
   ngOnInit() {
     this.initialize();
@@ -76,14 +72,8 @@ export class ViewExplanationComponent implements OnInit, OnChanges {
   }
 
   initialize() {
-    this.initializeLine();
     this.initializeAnimation();
-  }
-
-  initializeLine() {
-    this.currentLine.videoScript = this.genericLine.explanationVideoScript;
-    this.currentLine.audioScript = this.genericLine.explanationAudioScript;
-    this.currentLine.audioNarration = this.lessonService.selectedLessonAssets[this.currentLineIndex].audio;
+    this.initializeAudio();
   }
 
   initializeAnimation() {
@@ -93,6 +83,13 @@ export class ViewExplanationComponent implements OnInit, OnChanges {
       this.animateTextIn();
       this.playNarration();
     }, 1000);
+  }
+
+  initializeAudio() {
+    if (!this.line.audioNarration) {
+      console.log('Audio for explanation line was not initialized. Initializing now...');
+      this.line.audioNarration = this.audioService.initializeAudioFromFilePath(this.line.audioNarrationUrl);
+    }
   }
 
   onDismissLine() {
@@ -118,10 +115,10 @@ export class ViewExplanationComponent implements OnInit, OnChanges {
   }
 
   playNarration() {
-    if (this.currentLine.audioNarration) {
-      this.currentLine.audioNarration.pause(); // workaround for iOS bug
-      this.currentLine.audioNarration.play();
-      this.currentLine.audioNarration.on('end', () => {
+    if (this.line.audioNarration) {
+      this.line.audioNarration.pause(); // workaround for iOS bug
+      this.line.audioNarration.play();
+      this.line.audioNarration.on('end', () => {
         this.autoplay ? this.advanceToNextLine() : this.displayNextButton();
       });
     } else {

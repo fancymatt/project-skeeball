@@ -1,14 +1,12 @@
 import { Component, EventEmitter, Inject, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
 import { Howl } from 'howler';
 
-import { Line } from '../line.model';
-import { Vocab } from '../../vocab/vocab.model';
 import { LineExample } from '../line-example';
 import { AudioService } from '../../shared/audio.service';
 import { LessonService } from '../../lessons/lesson.service';
 import { VocabService } from '../../vocab/vocab.service';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
 
 @Component({
   selector: 'app-view-example',
@@ -60,10 +58,7 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
   ]
 })
 export class ViewExampleComponent implements OnInit, OnChanges {
-  @Input('line') genericLine: Line;
-  @Input() currentLineIndex: number;
-  line: LineExample = new LineExample;
-  vocab: Vocab;
+  @Input() line: LineExample;
   targetTextElements: { clickable: boolean, text: string, vocabRef: string }[] = [];
   audio: Howl;
   textAnimationState: string;
@@ -81,32 +76,34 @@ export class ViewExampleComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (!changes.genericLine.firstChange) {
-      this.initialize();
-    }
+    this.initialize();
   }
 
   initialize() {
-    this.initializeLine();
     this.initializeVocabulary();
     this.initializeAnimation();
-  }
 
-  initializeLine() {
-    this.line.vocabReference = this.genericLine.exampleVocabReference;
   }
 
   initializeVocabulary() {
-    this.vocabService.get(this.line.vocabReference)
-      .subscribe(
-        data => {
-          this.vocab = data;
-          if (this.vocab.childVocabs) {
-            this.initializeChildVocabs(this.vocab.childVocabs);
-          }
-        },
-        err => console.error(err)
-      );
+    if (!this.line.vocab) {
+      this.vocabService.get(this.line.vocabReference)
+        .subscribe(
+          data => {
+            this.line.vocab = data;
+            if (this.line.vocab.childVocabs) {
+              this.initializeChildVocabs(this.line.vocab.childVocabs);
+            }
+            this.audio = this.audioService.initializeAudioFromFilePath(this.line.vocab.audioFilePathMp3);
+          },
+          err => console.error(err)
+        );
+    } else {
+      if (this.line.vocab.childVocabs) {
+        this.initializeChildVocabs(this.line.vocab.childVocabs);
+      }
+      this.audio = this.audioService.initializeAudioFromFilePath(this.line.vocab.audioFilePathMp3);
+    }
   }
 
   initializeAnimation() {
@@ -114,22 +111,14 @@ export class ViewExampleComponent implements OnInit, OnChanges {
     this.buttonAnimationState = 'start';
     setTimeout(() => {
       this.animateIn();
-      this.initializeAudio();
     }, 1000);
-  }
-
-  initializeAudio() {
-    const lessonAssets = this.lessonService.selectedLessonAssets;
-    if (lessonAssets[this.currentLineIndex].audio) {
-      this.audio = lessonAssets[this.currentLineIndex].audio;
-      this.audio.pause();
-      this.audio.play();
-    }
   }
 
   animateIn() {
     this.textAnimationState = 'presented';
     this.buttonAnimationState = 'presented';
+    this.audio.pause();
+    this.audio.play();
   }
 
   animateOut() {
@@ -147,29 +136,31 @@ export class ViewExampleComponent implements OnInit, OnChanges {
   }
 
   initializeChildVocabs(childVocabs: any[]) {
-    let lastIndex = 0;
-    this.targetTextElements = [];
-    childVocabs.forEach((vocab, index) => {
-      if (vocab.startChar > lastIndex) {
+    if (childVocabs) {
+      let lastIndex = 0;
+      this.targetTextElements = [];
+      childVocabs.forEach((vocab, index) => {
+        if (vocab.startChar > lastIndex) {
+          this.targetTextElements.push({
+            clickable: false,
+            text: this.line.vocab.target.slice().substring(lastIndex, vocab.startChar),
+            vocabRef: undefined
+          });
+        }
+        this.targetTextElements.push({
+          clickable: true,
+          text: this.line.vocab.target.slice().substring(vocab.startChar, vocab.endChar),
+          vocabRef: vocab.id
+        });
+        lastIndex = vocab.endChar;
+      });
+      if (lastIndex < this.line.vocab.target.length) {
         this.targetTextElements.push({
           clickable: false,
-          text: this.vocab.target.slice().substring(lastIndex, vocab.startChar),
+          text: this.line.vocab.target.slice().substring(lastIndex, this.line.vocab.target.length),
           vocabRef: undefined
         });
       }
-      this.targetTextElements.push({
-        clickable: true,
-        text: this.vocab.target.slice().substring(vocab.startChar, vocab.endChar),
-        vocabRef: vocab.id
-      });
-      lastIndex = vocab.endChar;
-    });
-    if (lastIndex < this.vocab.target.length) {
-      this.targetTextElements.push({
-        clickable: false,
-        text: this.vocab.target.slice().substring(lastIndex, this.vocab.target.length),
-        vocabRef: undefined
-      });
     }
   }
 
@@ -180,7 +171,6 @@ export class ViewExampleComponent implements OnInit, OnChanges {
         err => console.error(err)
       );
   }
-
 }
 
 @Component({

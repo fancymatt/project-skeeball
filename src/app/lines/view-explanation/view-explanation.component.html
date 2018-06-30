@@ -1,13 +1,12 @@
 <section class="line-content">
   <div class="videoScript present-text"
        [@primaryTextState]="textAnimationState">
-    <span>{{currentLine.videoScript}}</span>
+    <span>{{line.videoScript}}</span>
   </div>
   <div class="audioScript subtitle-text"
        [@secondaryTextState]="textAnimationState">
-    <span>{{currentLine.audioScript}}</span>
+    <span>{{line.audioScript}}</span>
   </div>
-  <button class="next-button"
-          (click)="onDismissLine()"
-          [@buttonState]="buttonAnimationState">Next</button>
+  <app-standard-button [@buttonState]="buttonAnimationState"
+    (click)="onDismissLine()">Next</app-standard-button>
 </section>

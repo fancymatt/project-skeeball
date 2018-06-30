@@ -1,6 +1,6 @@
 <section class="line-content" *ngIf="taskVocabulary">
   <div class="present-text">
-    <span>{{challengingTask.name}}</span>
+    <span>{{task.name}}</span>
   </div>
   <div class="subtitle-text">
     <p *ngFor="let q of currentQuestion">
@@ -13,10 +13,12 @@
            (keyup)="evaluateStudentAnswer()"
            type="text" />
   </div>
-  <app-standard-button>Next</app-standard-button>
-  <app-standard-button (click)="createRandomQuestion()">Generate New Question</app-standard-button>
+  <app-standard-button (click)="onDismissTask()">Next</app-standard-button>
+  <app-standard-button (click)="initializeQuestion()">Generate New Question</app-standard-button>
   <p>{{isCorrect | json}}</p>
 </section>
+Load Progress: {{loaded}} / {{toLoad}}
+
 <section class="line-content" *ngIf="!taskVocabulary">
   <p>Loading task...</p>
   <mat-spinner></mat-spinner>
