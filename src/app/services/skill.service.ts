@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { Skill } from './skill.model';
-import { DataService } from '../data.service';
-import { Task } from './task.model';
-import { VocabService } from '../vocab.service';
+import { Skill } from '../models/skill.model';
+import { DataService } from './data.service';
+import { Task } from '../models/task.model';
+import { VocabService } from './vocab.service';
 
 @Injectable({
   providedIn: 'root'

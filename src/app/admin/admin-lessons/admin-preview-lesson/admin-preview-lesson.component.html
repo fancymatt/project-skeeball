@@ -21,23 +21,23 @@
       fxFlexAlign="end end"
       routerLink="../"><mat-icon>arrow_back</mat-icon></button>
     <section class="lesson-content">
-      <app-view-explanation
+      <app-player-play-line-explanation
         *ngIf="currentLine.type == 'Explanation'"
         [(line)]="currentLine"
-        (dismissLine)="onLineDismissed($event)"></app-view-explanation>
-      <app-view-example
+        (dismissLine)="onLineDismissed($event)"></app-player-play-line-explanation>
+      <app-player-play-line-example
         *ngIf="currentLine.type == 'Example'"
         [(line)]="currentLine"
-        (dismissLine)="onLineDismissed($event)"></app-view-example>
-      <app-view-question-mc
+        (dismissLine)="onLineDismissed($event)"></app-player-play-line-example>
+      <app-player-play-line-question-mc
         *ngIf="currentLine.type == 'Multiple Choice'"
         [(line)]="currentLine"
-        (dismissLine)="onLineDismissed($event)"></app-view-question-mc>
-      <app-view-free-answer
+        (dismissLine)="onLineDismissed($event)"></app-player-play-line-question-mc>
+      <app-player-play-line-free-answer
         *ngIf="currentLine.type == 'Free Answer'"
         [(line)]="currentLine"
         [currentLineIndex]="currentLineIndex"
-        (dismissLine)="onLineDismissed($event)"></app-view-free-answer>
+        (dismissLine)="onLineDismissed($event)"></app-player-play-line-free-answer>
     </section>
     <section class="push-down"></section>
     <section class="progress-bar-section" fxLayoutAlign="end">

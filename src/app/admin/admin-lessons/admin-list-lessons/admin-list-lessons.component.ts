@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Lesson } from '../../../shared/lesson.model';
-import { LessonService } from '../../../shared/lesson.service';
+import { Lesson } from '../../../models/lesson.model';
+import { LessonService } from '../../../services/lesson.service';
 
 @Component({
   selector: 'app-admin-list-lessons',

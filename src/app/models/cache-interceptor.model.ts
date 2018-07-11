@@ -4,10 +4,10 @@ import { Observable } from 'rxjs/Observable';
 import { tap } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 
-import { HttpCacheService } from './http-cache.service';
+import { HttpCacheService } from '../services/http-cache.service';
 
 @Injectable()
-export class CacheInterceptor implements HttpInterceptor {
+export class CacheInterceptorModel implements HttpInterceptor {
 
   constructor(private cacheService: HttpCacheService) { }
 

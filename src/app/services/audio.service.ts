@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import { Howl } from 'howler';
-import {Lesson} from './lesson.model';
-import {Vocab} from './vocab.model';
-import {Line} from './lines/line.model';
+import {Lesson} from '../models/lesson.model';
+import {Vocab} from '../models/vocab.model';
+import {Line} from '../models/line.model';
 import {DataService} from './data.service';
 
 @Injectable({

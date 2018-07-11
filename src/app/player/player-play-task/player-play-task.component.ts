@@ -1,18 +1,18 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { Task } from '../../shared/skills/task.model';
-import { VocabService } from '../../shared/vocab.service';
+import { Task } from '../../models/task.model';
+import { VocabService } from '../../services/vocab.service';
 import { interval, Observable } from 'rxjs';
 import 'rxjs-compat/add/operator/takeWhile';
 import { ISubscription } from 'rxjs-compat/Subscription';
 
 @Component({
   selector: 'app-challenge-task',
-  templateUrl: './challenge-task.component.html',
-  styleUrls: ['./challenge-task.component.css']
+  templateUrl: './player-play-task.component.html',
+  styleUrls: ['./player-play-task.component.css']
 })
-export class ChallengeTaskComponent implements OnInit, OnChanges {
+export class PlayerPlayTaskComponent implements OnInit, OnChanges {
   @Input() task: Task;
   @Output() dismissTask: EventEmitter<boolean> = new EventEmitter<boolean>(false);
   taskVocabulary: any[];

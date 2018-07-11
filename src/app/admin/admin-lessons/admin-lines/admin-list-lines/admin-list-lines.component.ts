@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { LessonService } from '../../../../shared/lesson.service';
-import { Lesson } from '../../../../shared/lesson.model';
+import { LessonService } from '../../../../services/lesson.service';
+import { Lesson } from '../../../../models/lesson.model';
 
 @Component({
   selector: 'app-admin-list-lines',

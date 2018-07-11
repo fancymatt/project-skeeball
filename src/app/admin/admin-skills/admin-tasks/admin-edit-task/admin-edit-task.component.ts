@@ -1,14 +1,14 @@
 import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { SkillService } from '../../../../shared/skills/skill.service';
-import { Task } from '../../../../shared/skills/task.model';
-import { Skill } from '../../../../shared/skills/skill.model';
-import { PatternItem } from '../../../../shared/skills/pattern-item.model';
-import { VocabService } from '../../../../shared/vocab.service';
-import { Vocab } from '../../../../shared/vocab.model';
-import { Lesson } from '../../../../shared/lesson.model';
-import { LessonService } from '../../../../shared/lesson.service';
+import { SkillService } from '../../../../services/skill.service';
+import { Task } from '../../../../models/task.model';
+import { Skill } from '../../../../models/skill.model';
+import { PatternItem } from '../../../../models/pattern-item.model';
+import { VocabService } from '../../../../services/vocab.service';
+import { Vocab } from '../../../../models/vocab.model';
+import { Lesson } from '../../../../models/lesson.model';
+import { LessonService } from '../../../../services/lesson.service';
 
 @Component({
   selector: 'app-admin-edit-task',

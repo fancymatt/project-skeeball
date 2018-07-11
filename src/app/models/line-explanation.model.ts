@@ -1,6 +1,6 @@
 import { Howl } from 'howler';
 
-export class LineExplanation {
+export class LineExplanationModel {
   public videoScript: string;
   public audioScript: string;
   public audioNarrationUrl: string;

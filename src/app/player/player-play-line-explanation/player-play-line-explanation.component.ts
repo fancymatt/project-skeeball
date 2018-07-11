@@ -1,13 +1,13 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 
-import { LineExplanation } from '../../shared/lines/line-explanation';
-import { AudioService } from '../../shared/audio.service';
+import { LineExplanationModel } from '../../models/line-explanation.model';
+import { AudioService } from '../../services/audio.service';
 
 @Component({
   selector: 'app-view-explanation',
-  templateUrl: './view-explanation.component.html',
-  styleUrls: ['./view-explanation.component.css'],
+  templateUrl: './player-play-line-explanatio.component.html',
+  styleUrls: ['./player-play-line-explanation.component.css'],
   animations: [
     trigger('primaryTextState', [
       state('start', style({
@@ -54,8 +54,8 @@ import { AudioService } from '../../shared/audio.service';
   ]
 })
 
-export class ViewExplanationComponent implements OnInit, OnChanges {
-  @Input() line: LineExplanation;
+export class PlayerPlayLineExplanationComponent implements OnInit, OnChanges {
+  @Input() line: LineExplanationModel;
   @Output() dismissLine: EventEmitter<boolean> = new EventEmitter<boolean>(false);
   textAnimationState: string;
   buttonAnimationState: string;

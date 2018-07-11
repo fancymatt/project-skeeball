@@ -1,4 +1,4 @@
-export class SkeeballError {
+export class SkeeballErrorModel {
   errorNumber: number;
   message: string;
   friendlyMessage: string;

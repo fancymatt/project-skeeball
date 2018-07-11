@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Skill } from '../../../../shared/skills/skill.model';
-import { Task } from '../../../../shared/skills/task.model';
-import { SkillService } from '../../../../shared/skills/skill.service';
+import { Skill } from '../../../../models/skill.model';
+import { Task } from '../../../../models/task.model';
+import { SkillService } from '../../../../services/skill.service';
 
 @Component({
   selector: 'app-admin-list-tasks',
@@ -21,7 +21,7 @@ export class AdminListTasksComponent implements OnInit {
 
   loadTask(task: Task) {
     this.skillService.selectedTask = task;
-    const url = '/skills/' + this.skillService.selectedSkill.id + '/' + task.id;
+    const url = 'admin/skills/' + this.skillService.selectedSkill.id + '/' + task.id;
     this.router.navigateByUrl(url);
   }
 }

@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 
-import { LineService } from '../../../../shared/lines/line.service';
-import { LessonService } from '../../../../shared/lesson.service';
-import { Line } from '../../../../shared/lines/line.model';
-import { Vocab } from '../../../../shared/vocab.model';
-import { VocabService } from '../../../../shared/vocab.service';
-import { FileStorageService } from '../../../../shared/file-storage.service';
+import { LineService } from '../../../../services/line.service';
+import { LessonService } from '../../../../services/lesson.service';
+import { Line } from '../../../../models/line.model';
+import { Vocab } from '../../../../models/vocab.model';
+import { VocabService } from '../../../../services/vocab.service';
+import { FileStorageService } from '../../../../services/file-storage.service';
 
 @Component({
   selector: 'app-admin-create-line',

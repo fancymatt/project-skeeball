@@ -1,4 +1,4 @@
-import { Line } from './lines/line.model';
+import { Line } from './line.model';
 
 export class Lesson {
   public id: string;

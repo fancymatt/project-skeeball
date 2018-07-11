@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Howl } from 'howler';
 import { Observable } from 'rxjs';
 
-import { Lesson } from './lesson.model';
-import { Vocab } from './vocab.model';
+import { Lesson } from '../models/lesson.model';
+import { Vocab } from '../models/vocab.model';
 import { AudioService } from './audio.service';
 import { DataService } from './data.service';
 

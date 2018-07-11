@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { SkillService } from '../../../shared/skills/skill.service';
-import { Skill } from '../../../shared/skills/skill.model';
+import { SkillService } from '../../../services/skill.service';
+import { Skill } from '../../../models/skill.model';
 
 @Component({
   selector: 'app-admin-list-skills',

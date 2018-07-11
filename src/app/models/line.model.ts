@@ -1,4 +1,4 @@
-import {Vocab} from '../vocab.model';
+import {Vocab} from './vocab.model';
 
 export class Line {
 

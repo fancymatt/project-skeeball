@@ -3,11 +3,11 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 
-import { Lesson } from './lesson.model';
-import { SkeeballError } from './skeeballError';
-import { Vocab } from './vocab.model';
+import { Lesson } from '../models/lesson.model';
+import { SkeeballErrorModel } from '../models/skeeball-error.model';
+import { Vocab } from '../models/vocab.model';
 import { IdGenService } from './id-gen.service';
-import { Skill } from './skills/skill.model';
+import { Skill } from '../models/skill.model';
 
 @Injectable()
 export class DataService {
@@ -73,8 +73,8 @@ export class DataService {
   }
 
 
-  private handleHttpError(error: HttpErrorResponse): Observable<SkeeballError> {
-    const dataError = new SkeeballError();
+  private handleHttpError(error: HttpErrorResponse): Observable<SkeeballErrorModel> {
+    const dataError = new SkeeballErrorModel();
     dataError.errorNumber = 100;
     dataError.message = error.statusText;
     dataError.friendlyMessage = 'An error occurred retrieving data.';

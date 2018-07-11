@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { Vocab } from './vocab.model';
+import { Vocab } from '../models/vocab.model';
 import { DataService } from './data.service';
 
 @Injectable({

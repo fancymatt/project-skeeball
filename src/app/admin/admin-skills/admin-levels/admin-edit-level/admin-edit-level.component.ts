@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { SkillService } from '../../../../shared/skills/skill.service';
-import { Level } from '../../../../shared/skills/level.model';
+import { SkillService } from '../../../../services/skill.service';
+import { Level } from '../../../../models/level.model';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({

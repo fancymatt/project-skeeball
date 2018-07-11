@@ -1,4 +1,4 @@
-import { Task } from 'src/app/shared/skills/task.model';
+import { Task } from 'src/app/models/task.model';
 
 export class Level {
   id: string;

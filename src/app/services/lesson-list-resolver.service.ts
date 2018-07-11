@@ -4,12 +4,12 @@ import { Observable } from 'rxjs/Observable';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 
-import { Lesson } from './lesson.model';
-import { DataService } from '../shared/data.service';
-import { SkeeballError } from '../shared/skeeballError';
+import { Lesson } from '../models/lesson.model';
+import { DataService } from './data.service';
+import { SkeeballErrorModel } from '../models/skeeball-error.model';
 
 @Injectable()
-export class LessonListResolverService implements Resolve<Lesson[] | SkeeballError> {
+export class LessonListResolverService implements Resolve<Lesson[] | SkeeballErrorModel> {
 
   constructor(private dataService: DataService) { }
 

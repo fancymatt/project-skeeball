@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Lesson } from '../../../shared/lesson.model';
-import { LessonService } from '../../../shared/lesson.service';
+import { Lesson } from '../../../models/lesson.model';
+import { LessonService } from '../../../services/lesson.service';
 
 @Component({
   selector: 'app-admin-edit-lesson',

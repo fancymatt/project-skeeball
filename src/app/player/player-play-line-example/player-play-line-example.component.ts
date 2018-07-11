@@ -3,15 +3,15 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
 import { Howl } from 'howler';
 
-import { LineExample } from '../../shared/lines/line-example';
-import { AudioService } from '../../shared/audio.service';
-import { LessonService } from '../../shared/lesson.service';
-import { VocabService } from '../../shared/vocab.service';
+import { LineExampleModel } from '../../models/line-example.model';
+import { AudioService } from '../../services/audio.service';
+import { LessonService } from '../../services/lesson.service';
+import { VocabService } from '../../services/vocab.service';
 
 @Component({
   selector: 'app-view-example',
-  templateUrl: './view-example.component.html',
-  styleUrls: ['./view-example.component.css'],
+  templateUrl: './player-play-line-example.component.html',
+  styleUrls: ['./player-play-line-example.component.css'],
   animations: [
     trigger('primaryTextAnimationState', [
       state('start', style({
@@ -57,8 +57,8 @@ import { VocabService } from '../../shared/vocab.service';
     ])
   ]
 })
-export class ViewExampleComponent implements OnInit, OnChanges {
-  @Input() line: LineExample;
+export class PlayerPlayLineExampleComponent implements OnInit, OnChanges {
+  @Input() line: LineExampleModel;
   targetTextElements: { clickable: boolean, text: string, vocabRef: string }[] = [];
   audio: Howl;
   textAnimationState: string;
@@ -174,7 +174,7 @@ export class ViewExampleComponent implements OnInit, OnChanges {
 
 @Component({
   selector: 'app-dialog-child-vocab',
-  templateUrl: '../../shared/dialog-child-vocab/dialog-child-vocab.html'
+  templateUrl: '../../templates/dialog-child-vocab.html'
 })
 export class DialogChildVocabComponent {
   constructor(public dialogRef: MatDialogRef<DialogChildVocabComponent>,

@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { Vocab } from '../../../shared/vocab.model';
-import { FileStorageService } from '../../../shared/file-storage.service';
-import { VocabService } from '../../../shared/vocab.service';
+import { Vocab } from '../../../models/vocab.model';
+import { FileStorageService } from '../../../services/file-storage.service';
+import { VocabService } from '../../../services/vocab.service';
 
 @Component({
   selector: 'app-admin-create-vocab',

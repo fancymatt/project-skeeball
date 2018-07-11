@@ -1,13 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { PatternItem } from '../../../../shared/skills/pattern-item.model';
-import { Vocab } from '../../../../shared/vocab.model';
-import { Task } from '../../../../shared/skills/task.model';
-import { Skill } from '../../../../shared/skills/skill.model';
-import { SkillService } from '../../../../shared/skills/skill.service';
-import { VocabService } from '../../../../shared/vocab.service';
-import { Lesson } from '../../../../shared/lesson.model';
-import { LessonService } from '../../../../shared/lesson.service';
+import { PatternItem } from '../../../../models/pattern-item.model';
+import { Vocab } from '../../../../models/vocab.model';
+import { Task } from '../../../../models/task.model';
+import { Skill } from '../../../../models/skill.model';
+import { SkillService } from '../../../../services/skill.service';
+import { VocabService } from '../../../../services/vocab.service';
+import { Lesson } from '../../../../models/lesson.model';
+import { LessonService } from '../../../../services/lesson.service';
 
 @Component({
   selector: 'app-admin-edit-pattern-item',

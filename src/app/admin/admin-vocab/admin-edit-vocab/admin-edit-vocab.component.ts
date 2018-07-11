@@ -2,10 +2,10 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
 import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { Vocab } from '../../../shared/vocab.model';
-import { AudioService } from '../../../shared/audio.service';
-import { FileStorageService } from '../../../shared/file-storage.service';
-import { VocabService } from '../../../shared/vocab.service';
+import { Vocab } from '../../../models/vocab.model';
+import { AudioService } from '../../../services/audio.service';
+import { FileStorageService } from '../../../services/file-storage.service';
+import { VocabService } from '../../../services/vocab.service';
 
 @Component({
   selector: 'app-admin-edit-vocab',

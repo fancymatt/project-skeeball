@@ -2,15 +2,15 @@ import { Component, Input, OnInit } from '@angular/core';
 import { interval } from 'rxjs';
 import { ISubscription } from 'rxjs-compat/Subscription';
 
-import { LessonService } from '../../shared/lesson.service';
-import { Line } from '../../shared/lines/line.model';
-import { LineExample } from '../../shared/lines/line-example';
-import { LineExplanation } from '../../shared/lines/line-explanation';
-import { LineQuestionMc } from '../../shared/lines/line-question-mc';
-import { SkillService } from '../../shared/skills/skill.service';
-import { Level } from '../../shared/skills/level.model';
-import { AudioService } from '../../shared/audio.service';
-import { VocabService } from '../../shared/vocab.service';
+import { LessonService } from '../services/lesson.service';
+import { Line } from '../models/line.model';
+import { LineExampleModel } from '../models/line-example.model';
+import { LineExplanationModel } from '../models/line-explanation.model';
+import { LineQuestionMcModel } from '../models/line-question-mc.model';
+import { SkillService } from '../services/skill.service';
+import { Level } from '../models/level.model';
+import { AudioService } from '../services/audio.service';
+import { VocabService } from '../services/vocab.service';
 
 @Component({
   selector: 'app-player',
@@ -86,21 +86,21 @@ export class PlayerComponent implements OnInit {
   initializeLine(line: Line) {
     switch (line.type) {
       case 'Example':
-        const newExample = new LineExample();
+        const newExample = new LineExampleModel();
         newExample.vocabReference = line.exampleVocabReference;
         this.vocabService.get(line.exampleVocabReference)
           .subscribe(data => newExample.vocab = data);
         this.playerContents.push({type: 'lineExample', content: newExample});
         break;
       case 'Explanation':
-        const newExplanation = new LineExplanation();
+        const newExplanation = new LineExplanationModel();
         newExplanation.audioNarration = this.audioService.initializeAudioFromFilePath(line.explanationAudioMp3);
         newExplanation.audioScript = line.explanationAudioScript;
         newExplanation.videoScript = line.explanationVideoScript;
         this.playerContents.push({type: 'lineExplanation', content: newExplanation});
         break;
       case 'Multiple Choice':
-        const newMultipleChoice = new LineQuestionMc();
+        const newMultipleChoice = new LineQuestionMcModel();
         newMultipleChoice.question = line.mcQuestion;
         newMultipleChoice.answerCorrect = line.mcAnswerCorrect;
         newMultipleChoice.answerIncorrect = [];

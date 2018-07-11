@@ -1,15 +1,15 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 
-import { AudioService } from '../../shared/audio.service';
-import { LineFreeAnswer } from '../../shared/lines/line-free-answer';
-import { Line } from '../../shared/lines/line.model';
-import { VocabService } from '../../shared/vocab.service';
+import { AudioService } from '../../services/audio.service';
+import { LineFreeAnswerModel } from '../../models/line-free-answer.model';
+import { Line } from '../../models/line.model';
+import { VocabService } from '../../services/vocab.service';
 
 @Component({
   selector: 'app-view-free-answer',
-  templateUrl: './view-free-answer.component.html',
-  styleUrls: ['./view-free-answer.component.css'],
+  templateUrl: './player-play-line-free-answer.component.html',
+  styleUrls: ['./player-play-line-free-answer.component.css'],
   animations: [
     trigger('primaryTextState', [
       state('start', style({
@@ -79,11 +79,11 @@ import { VocabService } from '../../shared/vocab.service';
     ])
   ]
 })
-export class ViewFreeAnswerComponent implements OnInit, OnChanges {
+export class PlayerPlayLineFreeAnswerComponent implements OnInit, OnChanges {
 
   @Input('line') genericLine: Line;
   @Input() currentLineIndex: number;
-  line: LineFreeAnswer = new LineFreeAnswer();
+  line: LineFreeAnswerModel = new LineFreeAnswerModel();
   answerAudio: Howl;
   studentAnswer: string;
   textAnimationState: string;

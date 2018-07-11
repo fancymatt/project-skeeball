@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { VocabService } from '../../../shared/vocab.service';
-import { Vocab } from '../../../shared/vocab.model';
+import { VocabService } from '../../../services/vocab.service';
+import { Vocab } from '../../../models/vocab.model';
 
 @Component({
   selector: 'app-admin-list-vocab',

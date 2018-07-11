@@ -1,13 +1,13 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 
-import { LineQuestionMc } from '../../shared/lines/line-question-mc';
-import { AudioService } from '../../shared/audio.service';
+import { LineQuestionMcModel } from '../../models/line-question-mc.model';
+import { AudioService } from '../../services/audio.service';
 
 @Component({
   selector: 'app-view-question-mc',
-  templateUrl: './view-question-mc.component.html',
-  styleUrls: ['./view-question-mc.component.css'],
+  templateUrl: './player-play-line-question-mc.component.html',
+  styleUrls: ['./player-play-line-question-mc.component.css'],
   animations: [
     trigger('primaryTextState', [
       state('start', style({
@@ -53,9 +53,9 @@ import { AudioService } from '../../shared/audio.service';
     ])
   ]
 })
-export class ViewQuestionMcComponent implements OnInit, OnChanges {
+export class PlayerPlayLineQuestionMcComponent implements OnInit, OnChanges {
 
-  @Input() line: LineQuestionMc;
+  @Input() line: LineQuestionMcModel;
   options: { text: string, correct: boolean, selected: boolean }[];
   animationState: string;
   @Output() dismissLine: EventEmitter<boolean> = new EventEmitter<boolean>(false);
