@@ -68,12 +68,13 @@ import { PlayerComponent } from './player/player.component';
 import { UserHeaderComponent } from './frontend/user-header/user-header.component';
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
+import { AuthGuard } from './auth/auth.guard';
 
 const appRoutes: Routes = [
   { path: '', component: UserHeaderComponent, pathMatch: 'full', children: [] },
   { path: 'signup', component: SignupComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'admin', component: AdminHeaderComponent, children: [
+  { path: 'admin', component: AdminHeaderComponent, canActivate: [AuthGuard], children: [
       { path: '', component: AdminDashboardComponent, pathMatch: 'full' },
       { path: 'lessons', component: AdminLessonHeaderComponent, children: [
           { path: '', component: AdminListLessonsComponent, pathMatch: 'full' },
@@ -176,7 +177,8 @@ const appRoutes: Routes = [
     AudioService,
     AuthService,
     LessonListResolverService,
-    HttpCacheService
+    HttpCacheService,
+    AuthGuard
   ],
   entryComponents: [DialogChildVocabComponent],
   bootstrap: [AppComponent]

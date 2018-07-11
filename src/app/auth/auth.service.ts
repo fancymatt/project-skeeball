@@ -1,23 +1,24 @@
+import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 
 import { AuthData } from './auth-data.model';
 import { User } from './user.model';
 import { UuidService } from '../services/uuid.service';
-import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthService {
   authChange = new Subject<boolean>();
   private user: User;
 
-  constructor(private uuidService: UuidService) { }
+  constructor(private uuidService: UuidService, private router: Router) { }
 
   registerUser(authData: AuthData) {
     this.user = {
       email: authData.email,
       userId: this.uuidService.generateUniqueId()
     };
-    this.authChange.next(true);
+    this.authSuccessfully();
   }
 
   login(authData: AuthData) {
@@ -25,7 +26,12 @@ export class AuthService {
       email: authData.email,
       userId: this.uuidService.generateUniqueId()
     };
+    this.authSuccessfully();
+  }
+
+  private authSuccessfully() {
     this.authChange.next(true);
+    this.router.navigate(['/']);
   }
 
   logout() {
