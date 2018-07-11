@@ -11,7 +11,6 @@ export class StandardButtonComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log(this.buttonText);
     if (!this.buttonText) {
       this.buttonText = 'Unconfigured Button';
     }

@@ -1,0 +1,26 @@
+<div class="parent">
+  <section class="skill-list" *ngIf="selectedSkill">
+    <div class="section-header">
+      <p>{{selectedSkill.name}}</p>
+    </div>
+    <div class="section-content">
+      <mat-form-field>
+        <input type="text" matInput placeholder="Name" [(ngModel)]="selectedSkill.name" name="skillName">
+      </mat-form-field>
+      <div *ngFor="let level of selectedSkill.levels">
+        <app-admin-edit-level [level]="level"></app-admin-edit-level>
+      </div>
+      <div>
+        <button
+          mat-raised-button
+          color="primary"
+          type="button"
+          (click)="saveSkill()">Save Skill</button>
+      </div>
+    </div>
+  </section>
+  <section *ngIf="!selectedSkill">
+    <mat-spinner></mat-spinner>
+  </section>
+  <router-outlet></router-outlet>
+</div>

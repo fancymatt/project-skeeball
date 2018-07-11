@@ -2,9 +2,9 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 import { animate, state, style, transition, trigger } from '@angular/animations';
 
 import { AudioService } from '../../shared/audio.service';
-import { LineFreeAnswer } from '../../lines/line-free-answer';
-import { Line } from '../../lines/line.model';
-import { VocabService } from '../../vocab/vocab.service';
+import { LineFreeAnswer } from '../../shared/lines/line-free-answer';
+import { Line } from '../../shared/lines/line.model';
+import { VocabService } from '../../shared/vocab.service';
 
 @Component({
   selector: 'app-view-free-answer',

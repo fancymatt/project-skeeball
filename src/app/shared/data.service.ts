@@ -3,11 +3,11 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 
-import { Lesson } from '../lessons/lesson.model';
+import { Lesson } from './lesson.model';
 import { SkeeballError } from './skeeballError';
-import { Vocab } from '../vocab/vocab.model';
+import { Vocab } from './vocab.model';
 import { IdGenService } from './id-gen.service';
-import { Objective } from '../objectives/objective.model';
+import { Skill } from './skills/skill.model';
 
 @Injectable()
 export class DataService {
@@ -81,31 +81,31 @@ export class DataService {
     return ErrorObservable.create(dataError);
   }
 
-  // Objectives
+  // Skills
 
-  getAllObjectives(): Observable<Objective[]> {
+  getAllSkills(): Observable<Skill[]> {
     const url = this.apiEndpoint + 'objectives';
-    return this.http.get<Objective[]>(url);
+    return this.http.get<Skill[]>(url);
   }
 
-  getObjective(id: string): Observable<Objective> {
+  getSkill(id: string): Observable<Skill> {
     const url = this.apiEndpoint + 'objectives/' + id;
-    return this.http.get<Objective>(url);
+    return this.http.get<Skill>(url);
   }
 
-  createObjective(newObjective: Objective): Observable<Objective> {
+  createSkill(newSkill: Skill): Observable<Skill> {
     const url = this.apiEndpoint + 'objectives';
-    newObjective.id = this.uuidService.generateUniqueId();
-    return this.http.post<Objective>(url, newObjective);
+    newSkill.id = this.uuidService.generateUniqueId();
+    return this.http.post<Skill>(url, newSkill);
   }
 
-  updateObjective(updatedObjective: Objective): Observable<void> {
-    const url = this.apiEndpoint + 'objectives/' + updatedObjective.id;
-    return this.http.put<void>(url, updatedObjective);
+  updateSkill(updatedSkill: Skill): Observable<void> {
+    const url = this.apiEndpoint + 'objectives/' + updatedSkill.id;
+    return this.http.put<void>(url, updatedSkill);
   }
 
-  deleteObjective(deletedObjective: Objective): Observable<void> {
-    const url = this.apiEndpoint + 'objectives/' + deletedObjective.id;
+  deleteSkill(deletedSkill: Skill): Observable<void> {
+    const url = this.apiEndpoint + 'objectives/' + deletedSkill.id;
     return this.http.delete<void>(url);
   }
 

@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { Task } from '../../objectives/task.model';
-import { VocabService } from '../../vocab/vocab.service';
+import { Task } from '../../shared/skills/task.model';
+import { VocabService } from '../../shared/vocab.service';
 import { interval, Observable } from 'rxjs';
 import 'rxjs-compat/add/operator/takeWhile';
 import { ISubscription } from 'rxjs-compat/Subscription';

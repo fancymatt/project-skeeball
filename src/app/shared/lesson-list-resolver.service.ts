@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 
-import { Lesson } from '../lessons/lesson.model';
+import { Lesson } from './lesson.model';
 import { DataService } from '../shared/data.service';
 import { SkeeballError } from '../shared/skeeballError';
 

@@ -2,15 +2,15 @@ import { Component, Input, OnInit } from '@angular/core';
 import { interval } from 'rxjs';
 import { ISubscription } from 'rxjs-compat/Subscription';
 
-import { LessonService } from '../../lessons/lesson.service';
-import { Line } from '../../lines/line.model';
-import { LineExample } from '../../lines/line-example';
-import { LineExplanation } from '../../lines/line-explanation';
-import { LineQuestionMc } from '../../lines/line-question-mc';
-import { ObjectiveService } from '../../objectives/objective.service';
-import { Level } from '../../objectives/level.model';
+import { LessonService } from '../../shared/lesson.service';
+import { Line } from '../../shared/lines/line.model';
+import { LineExample } from '../../shared/lines/line-example';
+import { LineExplanation } from '../../shared/lines/line-explanation';
+import { LineQuestionMc } from '../../shared/lines/line-question-mc';
+import { SkillService } from '../../shared/skills/skill.service';
+import { Level } from '../../shared/skills/level.model';
 import { AudioService } from '../../shared/audio.service';
-import { VocabService } from '../../vocab/vocab.service';
+import { VocabService } from '../../shared/vocab.service';
 
 @Component({
   selector: 'app-player',
@@ -31,7 +31,7 @@ export class PlayerComponent implements OnInit {
   constructor(private lessonService: LessonService,
               private audioService: AudioService,
               private vocabService: VocabService,
-              private objectiveService: ObjectiveService) { }
+              private skillService: SkillService) { }
 
   ngOnInit() {
     this.initializeContent();
@@ -58,8 +58,8 @@ export class PlayerComponent implements OnInit {
       case 'lesson':
         this.initializeLesson(contentItem.id);
         break;
-      case 'objective':
-        this.initializeObjective(contentItem.objectiveId, contentItem.levelId);
+      case 'skill':
+        this.initializeSkill(contentItem.skillId, contentItem.levelId);
         break;
       default:
         console.error('Error initializing content: Item was an unknown type.');
@@ -114,19 +114,17 @@ export class PlayerComponent implements OnInit {
     }
   }
 
-  initializeObjective(objectiveId: string, levelId: string) {
-    console.log('We made it into initializeObjective');
-    if (objectiveId) {
-      this.objectiveService.get(objectiveId)
+  initializeSkill(skillId: string, levelId: string) {
+    if (skillId) {
+      this.skillService.get(skillId)
         .subscribe(
-          objective => {
-            console.log(objective);
-            const matchedLevel: Level = objective.levels.find(level => level.id === levelId);
+          skill => {
+            const matchedLevel: Level = skill.levels.find(level => level.id === levelId);
             matchedLevel.tasks.forEach(task => {
-              this.playerContents.push({type: 'task', content: task, parentObjective: objective});
+              this.playerContents.push({type: 'task', content: task, parentSkill: skill});
             });
           },
-          err => console.error('Error getting objective: ' + err),
+          err => console.error('Error getting skill: ' + err),
           () => this.enableNextTaskInQueue()
         );
     } else {

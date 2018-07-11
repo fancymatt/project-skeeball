@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 
-import { LineQuestionMc } from '../../lines/line-question-mc';
+import { LineQuestionMc } from '../../shared/lines/line-question-mc';
 import { AudioService } from '../../shared/audio.service';
 
 @Component({

@@ -1,0 +1,23 @@
+<section class="mat-typography">
+  <div class="edit-lesson">
+    <h2 class="subheading-1">
+      <span *ngIf="selectedLesson">{{selectedLesson.name}}</span><span *ngIf="!selectedLesson">Loading...</span>
+    </h2>
+    <div *ngIf="selectedLesson">
+      <mat-form-field>
+        <input type="text" matInput placeholder="Edit Name" [(ngModel)]="selectedLesson.name" name="lessonName">
+      </mat-form-field>
+      <app-admin-list-lines></app-admin-list-lines>
+      <br>
+      <div class="button-row">
+        <button mat-raised-button color="primary" routerLink="preview">Preview</button>
+        <button mat-raised-button color="accent" (click)="onSave()">Save</button>
+        <button mat-raised-button color="warn" (click)="onDelete()">Delete</button>
+      </div>
+    </div>
+    <div *ngIf="!selectedLesson">
+      <mat-spinner></mat-spinner>
+    </div>
+  </div>
+
+</section>

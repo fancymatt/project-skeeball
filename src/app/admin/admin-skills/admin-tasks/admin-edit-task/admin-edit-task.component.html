@@ -1,0 +1,29 @@
+<section class="task-list" *ngIf="selectedTask">
+  <div class="section-header">
+    {{selectedTask.name}}
+  </div>
+  <div class="section-content">
+    <mat-form-field>
+      <input type="text" matInput placeholder="Name" [(ngModel)]="selectedTask.name" name="taskName">
+    </mat-form-field>
+    <div>
+      <p class="pattern-preview" *ngIf="selectedTask.pattern">
+        <span *ngFor="let patternItem of selectedTask.pattern">
+          <span *ngIf="patternItem.type === 'Slot'" class="slot">{{patternItem.slotName}}</span>
+          <span *ngIf="patternItem.type === 'Static'" class="static">STATIC</span>
+        </span>
+      </p>
+    </div>
+    <div class="pattern-editor">
+      <p>Pattern</p>
+      <div *ngIf="selectedTask.pattern">
+        <app-admin-edit-pattern-item *ngFor="let pattern of selectedTask.pattern" [patternItem]="pattern"></app-admin-edit-pattern-item>
+      </div>
+      <button
+        mat-raised-button
+        color="primary"
+        type="button"
+        (click)="addPatternItem()">Add Pattern Item</button>
+    </div>
+  </div>
+</section>

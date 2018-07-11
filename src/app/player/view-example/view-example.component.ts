@@ -3,10 +3,10 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
 import { Howl } from 'howler';
 
-import { LineExample } from '../../lines/line-example';
+import { LineExample } from '../../shared/lines/line-example';
 import { AudioService } from '../../shared/audio.service';
-import { LessonService } from '../../lessons/lesson.service';
-import { VocabService } from '../../vocab/vocab.service';
+import { LessonService } from '../../shared/lesson.service';
+import { VocabService } from '../../shared/vocab.service';
 
 @Component({
   selector: 'app-view-example',
@@ -174,7 +174,7 @@ export class ViewExampleComponent implements OnInit, OnChanges {
 
 @Component({
   selector: 'app-dialog-child-vocab',
-  templateUrl: '../../vocab/dialog-child-vocab/dialog-child-vocab.html'
+  templateUrl: '../../shared/dialog-child-vocab/dialog-child-vocab.html'
 })
 export class DialogChildVocabComponent {
   constructor(public dialogRef: MatDialogRef<DialogChildVocabComponent>,
