@@ -29,9 +29,10 @@ import { DataService } from './services/data.service';
 import { LessonService } from './services/lesson.service';
 import { LessonListResolverService } from './services/lesson-list-resolver.service';
 import { LineService } from './services/line.service';
-import { IdGenService } from './services/id-gen.service';
+import { UuidService } from './services/uuid.service';
 import { HttpCacheService } from './services/http-cache.service';
 import { AudioService } from './services/audio.service';
+import { AuthService } from './auth/auth.service';
 import { CacheInterceptorModel } from './models/cache-interceptor.model';
 
 import { AdminHeaderComponent } from './admin/admin-header/admin-header.component';
@@ -64,10 +65,14 @@ import { PlayerPlayLineFreeAnswerComponent } from './player/player-play-line-fre
 import { PlayerPlayTaskComponent } from './player/player-play-task/player-play-task.component';
 import { StandardButtonComponent } from './ui-elements/standard-button/standard-button.component';
 import { PlayerComponent } from './player/player.component';
-import { FrontHeaderComponent } from './frontend/front-header/front-header.component';
+import { UserHeaderComponent } from './frontend/user-header/user-header.component';
+import { LoginComponent } from './auth/login/login.component';
+import { SignupComponent } from './auth/signup/signup.component';
 
 const appRoutes: Routes = [
-  { path: '', component: FrontHeaderComponent, pathMatch: 'full' },
+  { path: '', component: UserHeaderComponent, pathMatch: 'full', children: [] },
+  { path: 'signup', component: SignupComponent },
+  { path: 'login', component: LoginComponent },
   { path: 'admin', component: AdminHeaderComponent, children: [
       { path: '', component: AdminDashboardComponent, pathMatch: 'full' },
       { path: 'lessons', component: AdminLessonHeaderComponent, children: [
@@ -132,7 +137,9 @@ const appRoutes: Routes = [
     PlayerPlayTaskComponent,
     StandardButtonComponent,
     PlayerComponent,
-    FrontHeaderComponent
+    UserHeaderComponent,
+    LoginComponent,
+    SignupComponent
   ],
   imports: [
     BrowserModule,
@@ -163,10 +170,11 @@ const appRoutes: Routes = [
   providers: [
     DataService,
     { provide: HTTP_INTERCEPTORS, useClass: CacheInterceptorModel, multi: true},
-    IdGenService,
+    UuidService,
     LessonService,
     LineService,
     AudioService,
+    AuthService,
     LessonListResolverService,
     HttpCacheService
   ],

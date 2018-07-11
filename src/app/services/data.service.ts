@@ -6,14 +6,14 @@ import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { Lesson } from '../models/lesson.model';
 import { SkeeballErrorModel } from '../models/skeeball-error.model';
 import { Vocab } from '../models/vocab.model';
-import { IdGenService } from './id-gen.service';
+import { UuidService } from './uuid.service';
 import { Skill } from '../models/skill.model';
 
 @Injectable()
 export class DataService {
   private apiEndpoint = 'https://9ygt6xpwi7.execute-api.us-west-1.amazonaws.com/dev/';
 
-  constructor(private http: HttpClient, private uuidService: IdGenService) {
+  constructor(private http: HttpClient, private uuidService: UuidService) {
   }
 
   // Lessons
