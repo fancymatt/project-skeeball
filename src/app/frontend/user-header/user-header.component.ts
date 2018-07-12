@@ -9,12 +9,14 @@ import { AuthService } from '../../auth/auth.service';
 })
 export class UserHeaderComponent implements OnInit, OnDestroy {
   isAuth = false;
+  isAdmin = false;
   authSubscription: Subscription;
 
   constructor(private authService: AuthService) { }
 
   ngOnInit() {
     this.isAuth = this.authService.isAuth();
+    this.isAdmin = this.authService.isAdmin();
     this.authSubscription = this.authService.authChange.subscribe(authStatus => {
       this.isAuth = authStatus;
     });

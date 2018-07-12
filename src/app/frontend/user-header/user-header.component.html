@@ -8,7 +8,7 @@
       <li class="main-nav__item"><a routerLink="">Next</a></li>
       <li class="main-nav__item"><a routerLink="">Mission</a></li>
       <li class="main-nav__item"><a routerLink="">Progress</a></li>
-      <li class="main-nav__item"><a routerLink="admin">Admin</a></li>
+      <li class="main-nav__item" *ngIf="isAdmin"><a routerLink="admin">Admin</a></li>
       <li class="main-nav__item"><a routerLink="" (click)="onLogout()">Log out</a></li>
     </ul>
   </nav>

@@ -17,11 +17,9 @@ export class AuthService {
               private dataService: DataService) { }
 
   registerUser(authData: AuthData) {
-    const newUser = {
-      username: authData.username,
-      password: authData.password,
-      id: this.uuidService.generateUniqueId()
-    }
+    const newUser = new User(authData.username);
+    newUser.password = authData.password;
+    newUser.id = this.uuidService.generateUniqueId();
 
     this.dataService.registerUser(newUser)
       .subscribe(
@@ -64,5 +62,13 @@ export class AuthService {
 
   isAuth() {
     return this.user != null;
+  }
+
+  isAdmin() {
+    if (this.user) {
+      return this.user.isAdmin === true;
+    }
+    return false;
+
   }
 }
