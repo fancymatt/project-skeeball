@@ -8,6 +8,8 @@ import { SkeeballErrorModel } from '../models/skeeball-error.model';
 import { Vocab } from '../models/vocab.model';
 import { UuidService } from './uuid.service';
 import { Skill } from '../models/skill.model';
+import { User } from '../auth/user.model';
+import { AuthData } from '../auth/auth-data.model';
 
 @Injectable()
 export class DataService {
@@ -73,14 +75,6 @@ export class DataService {
   }
 
 
-  private handleHttpError(error: HttpErrorResponse): Observable<SkeeballErrorModel> {
-    const dataError = new SkeeballErrorModel();
-    dataError.errorNumber = 100;
-    dataError.message = error.statusText;
-    dataError.friendlyMessage = 'An error occurred retrieving data.';
-    return ErrorObservable.create(dataError);
-  }
-
   // Skills
 
   getAllSkills(): Observable<Skill[]> {
@@ -107,6 +101,19 @@ export class DataService {
   deleteSkill(deletedSkill: Skill): Observable<void> {
     const url = this.apiEndpoint + 'objectives/' + deletedSkill.id;
     return this.http.delete<void>(url);
+  }
+
+
+  // Users
+
+  registerUser(newUser: User) {
+    const url = this.apiEndpoint + 'register';
+    return this.http.post<User>(url, newUser);
+  }
+
+  loginUser(authData: AuthData) {
+    const url = this.apiEndpoint + 'authenticate';
+    return this.http.post<User>(url, authData);
   }
 
 }

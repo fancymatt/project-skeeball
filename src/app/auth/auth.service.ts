@@ -5,28 +5,47 @@ import { AuthData } from './auth-data.model';
 import { User } from './user.model';
 import { UuidService } from '../services/uuid.service';
 import { Router } from '@angular/router';
+import { DataService } from '../services/data.service';
 
 @Injectable()
 export class AuthService {
   authChange = new Subject<boolean>();
   private user: User;
 
-  constructor(private uuidService: UuidService, private router: Router) { }
+  constructor(private uuidService: UuidService,
+              private router: Router,
+              private dataService: DataService) { }
 
   registerUser(authData: AuthData) {
-    this.user = {
-      email: authData.email,
-      userId: this.uuidService.generateUniqueId()
-    };
-    this.authSuccessfully();
+    const newUser = {
+      username: authData.username,
+      password: authData.password,
+      id: this.uuidService.generateUniqueId()
+    }
+
+    this.dataService.registerUser(newUser)
+      .subscribe(
+        data => {
+          this.user = data;
+          this.authSuccessfully();
+        },
+        err => console.error(err)
+      );
   }
 
   login(authData: AuthData) {
-    this.user = {
-      email: authData.email,
-      userId: this.uuidService.generateUniqueId()
-    };
-    this.authSuccessfully();
+    this.dataService.loginUser(authData)
+      .subscribe(
+        data => {
+          if (data) {
+            this.user = data;
+            this.authSuccessfully();
+          } else {
+            this.user = null;
+          }
+        },
+        err => console.error(err)
+      );
   }
 
   private authSuccessfully() {
