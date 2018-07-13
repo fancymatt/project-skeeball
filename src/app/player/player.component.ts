@@ -12,6 +12,7 @@ import { Level } from '../models/level.model';
 import { AudioService } from '../services/audio.service';
 import { VocabService } from '../services/vocab.service';
 import { Router } from '@angular/router';
+import { Task } from '../models/task.model';
 
 @Component({
   selector: 'app-player',
@@ -20,6 +21,16 @@ import { Router } from '@angular/router';
 })
 export class PlayerComponent implements OnInit {
   @Input() content: any[];
+  /*
+  Expects array of lessons or skills in format
+  [
+    {'type': 'lesson', 'id': 'lesson_id'},
+    ...,
+    {'type': 'skill', 'skillId': 'skill_id', 'levelId': 'level_id'},
+    {'type': 'task', 'skillId': 'skill_id', 'levelId':, 'level_id', 'taskId': 'task_id}
+  ]
+   */
+
   playerContents: any[];
   currentItem = 0;
   private queue: string[];
@@ -64,6 +75,9 @@ export class PlayerComponent implements OnInit {
         break;
       case 'skill':
         this.initializeSkill(contentItem.skillId, contentItem.levelId);
+        break;
+      case 'task':
+        this.initializeTask(contentItem.skillId, contentItem.levelId, contentItem.taskId);
         break;
       default:
         console.error('Error initializing content: Item was an unknown type.');
@@ -133,6 +147,22 @@ export class PlayerComponent implements OnInit {
         );
     } else {
       console.error('Item did not have an id set.');
+    }
+  }
+
+  initializeTask(skillId: string, levelId: string, taskId: string) {
+    if (skillId && levelId && taskId) {
+      this.skillService.get(skillId)
+        .subscribe(
+          skill => {
+            const matchedLevel: Level = skill.levels.find(level => level.id === levelId);
+            const matchedTask: Task = matchedLevel.tasks.find(task => task.id === taskId);
+            this.playerContents.push({type: 'task', content: matchedTask, parentSkill: skill});
+          }, err => console.error('Error getting task: ' + err),
+          () => this.enableNextTaskInQueue()
+        );
+    } else {
+      console.error('Requested task but proper ids were not set.');
     }
   }
 

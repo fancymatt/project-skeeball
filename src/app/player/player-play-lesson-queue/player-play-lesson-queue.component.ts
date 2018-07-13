@@ -26,6 +26,7 @@ export class PlayerPlayLessonQueueComponent implements OnInit {
         const selectedLevel = data.levels.find(level => level.id === levelId);
         const selectedTask = selectedLevel.tasks.find(task => task.id === taskId);
         selectedTask.lessons.forEach(lesson => this.playerContent.push({'type': 'lesson', 'id': lesson}));
+        this.playerContent.push({'type': 'task', 'skillId': skillId, 'levelId': levelId, 'taskId': taskId});
         console.log(this.playerContent);
       },
         err => console.error(err));
