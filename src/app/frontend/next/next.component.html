@@ -1,0 +1,9 @@
+<app-user-header></app-user-header>
+<div class="next">
+  <p>Next</p>
+  <div class="task-list" *ngIf="nextSkillLevel">
+    <div *ngFor="let task of nextSkillLevel.tasks">
+      <p>{{task.id}}. {{task.name}} <app-standard-button routerLink="/player/lesson/{{nextSkill.id}}/{{nextSkillLevel.id}}/{{task.id}}">Begin Lesson</app-standard-button></p>
+    </div>
+  </div>
+</div>

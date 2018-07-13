@@ -45,27 +45,4 @@
       <button mat-mini-fab color="primary" (click)="addVocabToPatternItem()">+</button>
     </div>
   </div>
-  <div *ngIf="lessonList">
-    Lessons
-    <div *ngFor="let lessonId of patternItem.lessons; let i = index" class="line-container">
-      <div class="line-options">
-        <span>❎</span>
-      </div>
-      <div class="line-number">{{i + 1}} </div>
-      <div class="line-content">
-        <span class="line-type">{{lessonForId(lessonId).name}}</span>
-      </div>
-    </div>
-    <br>
-    <div class="button-row">
-      <mat-form-field>
-        <mat-select placeholder="Add a Lesson" [(value)]="selectedLessonId">
-          <mat-option *ngFor="let lesson of lessonList" [value]="lesson.id">
-            {{lesson.name}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <button mat-mini-fab color="primary" (click)="addLessonToPatternItem()">+</button>
-    </div>
-  </div>
 </div>

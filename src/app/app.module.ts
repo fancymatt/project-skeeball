@@ -69,11 +69,18 @@ import { UserHeaderComponent } from './frontend/user-header/user-header.componen
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { AuthGuard } from './auth/auth.guard';
+import { MissionComponent } from './frontend/mission/mission.component';
+import { SkillPreviewComponent } from './frontend/mission/skill-preview/skill-preview.component';
+import { NextComponent } from './frontend/next/next.component';
+import { PlayerPlayLessonQueueComponent } from './player/player-play-lesson-queue/player-play-lesson-queue.component';
 
 const appRoutes: Routes = [
-  { path: '', component: UserHeaderComponent, pathMatch: 'full', children: [] },
+  { path: '', component: UserHeaderComponent, pathMatch: 'full'},
+  { path: 'mission', component: MissionComponent },
+  { path: 'next', component: NextComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'player/lesson/:skill_id/:level_id/:task_id', component: PlayerPlayLessonQueueComponent },
   { path: 'admin', component: AdminHeaderComponent, canActivate: [AuthGuard], children: [
       { path: '', component: AdminDashboardComponent, pathMatch: 'full' },
       { path: 'lessons', component: AdminLessonHeaderComponent, children: [
@@ -140,7 +147,11 @@ const appRoutes: Routes = [
     PlayerComponent,
     UserHeaderComponent,
     LoginComponent,
-    SignupComponent
+    SignupComponent,
+    MissionComponent,
+    SkillPreviewComponent,
+    NextComponent,
+    PlayerPlayLessonQueueComponent
   ],
   imports: [
     BrowserModule,

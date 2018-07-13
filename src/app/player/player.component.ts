@@ -53,6 +53,8 @@ export class PlayerComponent implements OnInit {
   }
 
   performCurrentQueueItem() {
+    console.log('Here is the players content');
+    console.log(this.content);
     const contentItem = this.content[this.nextTask];
     switch (contentItem.type) {
       case 'lesson':

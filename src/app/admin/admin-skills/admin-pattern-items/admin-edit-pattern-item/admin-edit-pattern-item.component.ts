@@ -17,9 +17,7 @@ import { LessonService } from '../../../../services/lesson.service';
 export class AdminEditPatternItemComponent implements OnInit {
   @Input() patternItem: PatternItem;
   vocabList: Vocab[];
-  lessonList: Lesson[];
   patternItemTypes: string[];
-  selectedLessonId: string;
   selectedVocabId: string;
 
   get selectedSkill(): Skill {
@@ -40,11 +38,6 @@ export class AdminEditPatternItemComponent implements OnInit {
         data => this.vocabList = data,
         err => console.error(err)
       );
-    this.lessonService.getAll()
-      .subscribe(
-        data => this.lessonList = data,
-        err => console.error(err)
-      );
     this.patternItemTypes = this.skillService.patternItemTypes();
   }
 
@@ -54,24 +47,11 @@ export class AdminEditPatternItemComponent implements OnInit {
     });
   }
 
-  lessonForId(id: string): Lesson {
-    return this.lessonList.find(lesson => {
-      return lesson.id === id;
-    });
-  }
-
   addVocabToPatternItem(): void {
     if (!this.patternItem.wordBank) {
       this.patternItem.wordBank = [];
     }
     this.patternItem.wordBank.push(this.selectedVocabId);
-  }
-
-  addLessonToPatternItem(): void {
-    if (!this.patternItem.lessons) {
-      this.patternItem.lessons = [];
-    }
-    this.patternItem.lessons.push(this.selectedLessonId);
   }
 
 }

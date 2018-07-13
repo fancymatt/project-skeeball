@@ -5,8 +5,8 @@
   </div>
   <nav *ngIf="isAuth" class="main-nav">
     <ul class="main-nav__items">
-      <li class="main-nav__item"><a routerLink="">Next</a></li>
-      <li class="main-nav__item"><a routerLink="">Mission</a></li>
+      <li class="main-nav__item"><a routerLink="next">Next</a></li>
+      <li class="main-nav__item"><a routerLink="mission">Mission</a></li>
       <li class="main-nav__item"><a routerLink="">Progress</a></li>
       <li class="main-nav__item" *ngIf="isAdmin"><a routerLink="admin">Admin</a></li>
       <li class="main-nav__item"><a routerLink="" (click)="onLogout()">Log out</a></li>

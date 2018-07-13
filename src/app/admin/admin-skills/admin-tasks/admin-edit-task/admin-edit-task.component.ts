@@ -16,6 +16,8 @@ import { LessonService } from '../../../../services/lesson.service';
   styleUrls: ['./admin-edit-task.component.css']
 })
 export class AdminEditTaskComponent implements OnInit {
+  lessonList: Lesson[];
+  selectedLessonId: string;
 
   get selectedSkill(): Skill {
     return this.skillService.selectedSkill;
@@ -36,6 +38,11 @@ export class AdminEditTaskComponent implements OnInit {
 
   ngOnInit() {
     this.initializeSelectedTask();
+    this.lessonService.getAll()
+      .subscribe(
+        data => this.lessonList = data,
+        err => console.error(err)
+      );
   }
 
   initializeSelectedTask() {
@@ -57,6 +64,18 @@ export class AdminEditTaskComponent implements OnInit {
   addPatternItem() {
     const newPatternItem = new PatternItem('String');
     this.selectedTask.pattern.push(newPatternItem);
+  }
+
+  lessonForId(id: string) {
+    const matchedLesson = this.lessonList.find(lesson => lesson.id === id);
+    return matchedLesson.name;
+  }
+
+  addLessonToTask() {
+    if (!this.selectedTask.lessons) {
+      this.selectedTask.lessons = [];
+    }
+    this.selectedTask.lessons.push(this.selectedLessonId);
   }
 
 }
