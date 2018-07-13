@@ -11,7 +11,7 @@ import { Task } from '../../models/task.model';
 })
 export class NextComponent implements OnInit {
   skillList: Skill[];
-  nextSkill: Skill[];
+  nextSkill: Skill;
   nextSkillLevel: Level;
 
   constructor(private skillService: SkillService) { }

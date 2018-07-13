@@ -1,18 +1,17 @@
 .present-text {
-  font-size: 36px;
-  margin: 40px;
+  font-size: 50px;
+  font-weight: bold;
+  margin: 100px 0 50px 0;
 }
 
 .subtitle-text {
   font-size: 18px;
-  padding: 0px 100px;
+  padding: 0 100px;
 }
 
-.question-option {
-  margin: 10px;
-}
-
-.line-content {
-  position: relative;
-  height: 300px;
+app-standard-button {
+  position: absolute;
+  top: 425px;
+  left: 0;
+  width: 100%;
 }

@@ -1,3 +1,54 @@
 .next {
   background-color: white;
+  padding: 40px;
+}
+
+.skill {
+  text-align: center;
+}
+
+.skill-name {
+  font-size: 36px;
+  font-weight: bold;
+}
+
+.task-list {
+  text-align: center;
+  margin: 50px;
+}
+
+.task {
+  margin-bottom: 10px;
+}
+
+.task-name {
+  display: inline-block;
+  text-align: left;
+  width: 350px;
+  font-size: 20px;
+}
+
+.task-action {
+  display: inline-block;
+}
+
+.standard-colored-button {
+  background-color: #005bae;
+  border: none;
+  border-radius: 35px;
+  padding: 12px 18px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  color: white;
+  cursor: pointer;
+}
+
+.standard-colored-button:hover,
+.standard-colored-button:active {
+  background-color: #2943ae;
+}
+
+.standard-button:hover {
+  background-color: #d3f1ff;
 }

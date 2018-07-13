@@ -1,24 +1,39 @@
 <section class="mat-typography frame" fxLayout="column" fxLayoutAlign="center center">
-  <div class="lesson-frame" fxLayout="column">
-    <div *ngIf="contentsLoaded && !done">
-      <div class="progress">{{currentItem + 1}} / {{playerContents.length}}</div>
-      <app-view-explanation
-        *ngIf="playerContents[currentItem].type === 'lineExplanation'"
-        [line]="playerContents[currentItem].content"
-        (dismissLine)="onAdvance()"></app-view-explanation>
-      <app-view-example
-        *ngIf="playerContents[currentItem].type === 'lineExample'"
-        [line]="playerContents[currentItem].content"
-        (dismissLine)="onAdvance()"></app-view-example>
-      <app-view-question-mc
-        *ngIf="playerContents[currentItem].type === 'lineMultipleChoice'"
-        [line]="playerContents[currentItem].content"
-        (dismissLine)="onAdvance()"></app-view-question-mc>
-      <app-challenge-task
-        *ngIf="playerContents[currentItem].type === 'task'"
-        [task]="playerContents[currentItem].content"
-        (dismissTask)="onAdvance()"></app-challenge-task>
+  <div class="control-overlay">
+    <div class="side-icons">
+      <div class="home-button" routerLink="/next">
+        <i class="material-icons">home</i>
+      </div>
+      <div class="mute-button">
+        <i class="material-icons">volume_up</i>
+        <i *ngIf="false" class="material-icons">volume_mute</i>
+      </div>
     </div>
+    <div *ngIf="contentsLoaded" class="progress">
+      {{currentItem + 1}}/{{playerContents.length}}
+    </div>
+    <div class="time">
+      <span>09:36</span>
+    </div>
+
+  </div>
+  <div class="lesson-frame" fxLayout="column" *ngIf="contentsLoaded && !done">
+    <app-view-explanation
+      *ngIf="playerContents[currentItem].type === 'lineExplanation'"
+      [line]="playerContents[currentItem].content"
+      (dismissLine)="onAdvance()"></app-view-explanation>
+    <app-view-example
+      *ngIf="playerContents[currentItem].type === 'lineExample'"
+      [line]="playerContents[currentItem].content"
+      (dismissLine)="onAdvance()"></app-view-example>
+    <app-view-question-mc
+      *ngIf="playerContents[currentItem].type === 'lineMultipleChoice'"
+      [line]="playerContents[currentItem].content"
+      (dismissLine)="onAdvance()"></app-view-question-mc>
+    <app-challenge-task
+      *ngIf="playerContents[currentItem].type === 'task'"
+      [task]="playerContents[currentItem].content"
+      (dismissTask)="onAdvance()"></app-challenge-task>
     <div *ngIf="!contentsLoaded">
       <mat-spinner></mat-spinner>
       <p>Loading Contents...</p>

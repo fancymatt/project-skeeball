@@ -1,4 +1,5 @@
 <section class="line-content">
+  <app-standard-button (click)="onDismissLine()">Next</app-standard-button>
   <div class="videoScript present-text"
        [@primaryTextState]="textAnimationState">
     <span>{{line.videoScript}}</span>
@@ -7,5 +8,4 @@
        [@secondaryTextState]="textAnimationState">
     <span>{{line.audioScript}}</span>
   </div>
-  <app-standard-button (click)="onDismissLine()">Next</app-standard-button>
 </section>

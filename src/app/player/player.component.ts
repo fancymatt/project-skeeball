@@ -11,6 +11,7 @@ import { SkillService } from '../services/skill.service';
 import { Level } from '../models/level.model';
 import { AudioService } from '../services/audio.service';
 import { VocabService } from '../services/vocab.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-player',
@@ -31,7 +32,8 @@ export class PlayerComponent implements OnInit {
   constructor(private lessonService: LessonService,
               private audioService: AudioService,
               private vocabService: VocabService,
-              private skillService: SkillService) { }
+              private skillService: SkillService,
+              private router: Router) { }
 
   ngOnInit() {
     this.initializeContent();
@@ -148,6 +150,7 @@ export class PlayerComponent implements OnInit {
   onAdvance(): void {
     if (this.currentItem >= this.playerContents.length - 1) {
       this.done = true;
+      this.router.navigate(['/next']);
       return;
     }
     if (this.listenToAdvanceEvent) { // prevents event bubbling

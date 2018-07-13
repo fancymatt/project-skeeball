@@ -1,21 +1,10 @@
-.lesson-content {
-  min-height: 250px;
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-}
-
 .example-target {
   font-family: 'Noto Sans Japanese', sans-serif;
 }
 
 .present-text {
-  font-size: 24px;
-  margin: 20px;
-}
-
-.question-option {
-  margin: 10px;
+  font-size: 36px;
+  margin: 40px;
 }
 
 .clickable {
@@ -25,23 +14,9 @@
   cursor: pointer;
 }
 
-.line-content {
-  position: relative;
-  height: 300px;
-}
-
-.next-button {
+app-standard-button {
   position: absolute;
-  bottom: 10px;
-  background-color: white;
-  border: 2px #006fde solid;
-  border-radius: 25px;
-  height: 50px;
-  width: 100px;
-  font-size: 18px;
-  color: #006fde;
+  top: 425px;
   left: 0;
-  right: 0;
-  margin: auto;
-  cursor: pointer;
+  width: 100%;
 }

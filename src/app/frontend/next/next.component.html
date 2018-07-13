@@ -1,9 +1,16 @@
 <app-user-header></app-user-header>
-<div class="next">
-  <p>Next</p>
+<div class="next mat-typography">
+  <div *ngIf="nextSkill" class="skill">
+    <div class="skill-name">
+      {{nextSkill.name}}
+    </div>
+  </div>
   <div class="task-list" *ngIf="nextSkillLevel">
-    <div *ngFor="let task of nextSkillLevel.tasks">
-      <p>{{task.id}}. {{task.name}} <app-standard-button routerLink="/player/lesson/{{nextSkill.id}}/{{nextSkillLevel.id}}/{{task.id}}">Begin Lesson</app-standard-button></p>
+    <div class="task" *ngFor="let task of nextSkillLevel.tasks">
+      <div class="task-name">{{task.id}}. {{task.name}}</div>
+      <div class="task-action">
+        <button class="standard-colored-button" routerLink="/player/lesson/{{nextSkill.id}}/{{nextSkillLevel.id}}/{{task.id}}">Begin Lesson</button>
+      </div>
     </div>
   </div>
 </div>
