@@ -73,6 +73,8 @@ import { MissionComponent } from './frontend/mission/mission.component';
 import { SkillPreviewComponent } from './frontend/mission/skill-preview/skill-preview.component';
 import { NextComponent } from './frontend/next/next.component';
 import { PlayerPlayLessonQueueComponent } from './player/player-play-lesson-queue/player-play-lesson-queue.component';
+import { PlayerPlayLessonTitleComponent } from './player/player-play-lesson-title/player-play-lesson-title.component';
+import { PlayerPlayVocabularyQuizComponent } from './player/player-play-vocabulary-quiz/player-play-vocabulary-quiz.component';
 
 const appRoutes: Routes = [
   { path: '', component: UserHeaderComponent, pathMatch: 'full'},
@@ -151,7 +153,9 @@ const appRoutes: Routes = [
     MissionComponent,
     SkillPreviewComponent,
     NextComponent,
-    PlayerPlayLessonQueueComponent
+    PlayerPlayLessonQueueComponent,
+    PlayerPlayLessonTitleComponent,
+    PlayerPlayVocabularyQuizComponent
   ],
   imports: [
     BrowserModule,

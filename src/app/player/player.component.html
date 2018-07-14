@@ -8,9 +8,12 @@
         <i class="material-icons">volume_up</i>
         <i *ngIf="false" class="material-icons">volume_mute</i>
       </div>
+      <div class="back-button" (click)="onReverse()">
+        <i class="material-icons">keyboard_backspace</i>
+      </div>
     </div>
     <div *ngIf="contentsLoaded" class="progress">
-      {{currentItem + 1}}/{{playerContents.length}}
+      {{currentItem + 1}}/{{loadedPlayerContents.length}}
     </div>
     <div class="time">
       <span>09:36</span>
@@ -18,21 +21,29 @@
 
   </div>
   <div class="lesson-frame" fxLayout="column" *ngIf="contentsLoaded && !done">
+    <app-player-play-lesson-title
+      *ngIf="loadedPlayerContents[currentItem].type === 'lessonTitle'"
+      [lesson]="loadedPlayerContents[currentItem].content"
+      (dismissLine)="onAdvance()"></app-player-play-lesson-title>
+    <app-player-play-vocabulary-quiz
+      *ngIf="loadedPlayerContents[currentItem].type === 'vocabQuiz'"
+      [lesson]="loadedPlayerContents[currentItem].content"
+      (dismiss)="onAdvance()"></app-player-play-vocabulary-quiz>
     <app-view-explanation
-      *ngIf="playerContents[currentItem].type === 'lineExplanation'"
-      [line]="playerContents[currentItem].content"
+      *ngIf="loadedPlayerContents[currentItem].type === 'lineExplanation'"
+      [line]="loadedPlayerContents[currentItem].content"
       (dismissLine)="onAdvance()"></app-view-explanation>
     <app-view-example
-      *ngIf="playerContents[currentItem].type === 'lineExample'"
-      [line]="playerContents[currentItem].content"
+      *ngIf="loadedPlayerContents[currentItem].type === 'lineExample'"
+      [line]="loadedPlayerContents[currentItem].content"
       (dismissLine)="onAdvance()"></app-view-example>
     <app-view-question-mc
-      *ngIf="playerContents[currentItem].type === 'lineMultipleChoice'"
-      [line]="playerContents[currentItem].content"
+      *ngIf="loadedPlayerContents[currentItem].type === 'lineMultipleChoice'"
+      [line]="loadedPlayerContents[currentItem].content"
       (dismissLine)="onAdvance()"></app-view-question-mc>
     <app-challenge-task
-      *ngIf="playerContents[currentItem].type === 'task'"
-      [task]="playerContents[currentItem].content"
+      *ngIf="loadedPlayerContents[currentItem].type === 'task'"
+      [task]="loadedPlayerContents[currentItem].content"
       (dismissTask)="onAdvance()"></app-challenge-task>
     <div *ngIf="!contentsLoaded">
       <mat-spinner></mat-spinner>

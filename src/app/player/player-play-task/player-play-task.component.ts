@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-
-import { Task } from '../../models/task.model';
-import { VocabService } from '../../services/vocab.service';
 import { interval, Observable } from 'rxjs';
 import 'rxjs-compat/add/operator/takeWhile';
 import { ISubscription } from 'rxjs-compat/Subscription';
+
+import { Task } from '../../models/task.model';
+import { VocabService } from '../../services/vocab.service';
 
 @Component({
   selector: 'app-challenge-task',
@@ -48,7 +48,7 @@ export class PlayerPlayTaskComponent implements OnInit, OnChanges {
     this.successesEarned = 0;
     this.populateTaskVocabulary();
     if (this.taskVocabulary.length > 1) {
-      this.successesRequired = 5l;
+      this.successesRequired = 5;
     } else {
       this.successesRequired = 1;
     }

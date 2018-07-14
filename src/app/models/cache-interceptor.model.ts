@@ -14,7 +14,6 @@ export class CacheInterceptorModel implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
     if(req.method !== 'GET') {
-      console.log('Invalidating cache: ' + req.method + ' ' + req.url);
       this.cacheService.invalidateCache();
       return next.handle(req);
     }
@@ -22,7 +21,6 @@ export class CacheInterceptorModel implements HttpInterceptor {
     const cachedResponse: HttpResponse<any> = this.cacheService.get(req.url);
 
     if (cachedResponse) {
-      console.log('Returning a cached response: ' + cachedResponse.url);
       return of(cachedResponse);
     }
 
@@ -30,7 +28,6 @@ export class CacheInterceptorModel implements HttpInterceptor {
       .pipe(
         tap(event => {
           if (event instanceof HttpResponse) {
-            console.log('Adding items to cache: ' + req.url);
             this.cacheService.put(req.url, event);
           }
         })

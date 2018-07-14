@@ -1,0 +1,14 @@
+<section class="line-content" *ngIf="fullyLoaded">
+  <app-standard-button (click)="onDismiss()">Next</app-standard-button>
+  <div class="present-text">
+    <span>{{lesson.name}}</span> Vocabulary Quiz
+  </div>
+  <div class="subtitle-text">
+    <p *ngFor="let vocab of lessonVocabulary">
+      <span>{{vocab.targetRomanization}}: {{vocab.english}}</span>
+    </p>
+  </div>
+</section>
+<section class="line-content" *ngIf="!fullyLoaded">
+  <p>Loading task... ({{loaded}} of {{toLoad}})</p>
+</section>
