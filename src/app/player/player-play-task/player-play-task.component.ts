@@ -48,7 +48,7 @@ export class PlayerPlayTaskComponent implements OnInit, OnChanges {
     this.successesEarned = 0;
     this.populateTaskVocabulary();
     if (this.taskVocabulary.length > 1) {
-      this.successesRequired = 3;
+      this.successesRequired = 5l;
     } else {
       this.successesRequired = 1;
     }

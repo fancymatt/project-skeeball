@@ -56,7 +56,7 @@ export class AdminCreateLineComponent implements OnInit {
     this.lessonService.selectedLesson.lines.push(newLine);
     this.lessonService.update(this.lessonService.selectedLesson)
       .subscribe(
-        () => this.router.navigate(['/lessons', this.lessonService.selectedLesson.id]),
+        () => this.router.navigate(['/admin/lessons/', this.lessonService.selectedLesson.id]),
         (err) => console.error(err)
       );
   }

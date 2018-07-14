@@ -25,7 +25,7 @@ export class AdminCreateLessonComponent implements OnInit {
     this.lessonService.create(newLesson)
       .subscribe(
         (data: Lesson) => {
-          this.router.navigate(['../lessons/' + data.id]);
+          this.router.navigate(['/admin/lessons/' + data.id]);
         },
         (err: any) => console.error(err)
       );
