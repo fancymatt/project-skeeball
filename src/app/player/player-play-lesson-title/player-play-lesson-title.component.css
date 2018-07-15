@@ -3,8 +3,9 @@
 }
 
 .lesson-title {
-  margin: 150px 100px 30px 100px;
+  margin: 50px 100px 30px 100px;
   font-size: 60px;
+  line-height: 1.1em;
 }
 
 .lesson-subtitle {
@@ -13,7 +14,7 @@
 }
 
 .start-lesson-btn {
-  margin: 0 100px 50px 100px;
+  margin: 0 80px 50px 100px;
   border: none;
   padding: 20px 35px;
   font-size: 20px;

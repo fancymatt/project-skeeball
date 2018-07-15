@@ -8,6 +8,7 @@
   font-size: 24px;
   color: #006fde;
   cursor: pointer;
+  outline: 0;
 }
 
 .standard-button:hover {

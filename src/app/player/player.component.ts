@@ -14,11 +14,34 @@ import { AudioService } from '../services/audio.service';
 import { VocabService } from '../services/vocab.service';
 import { Task } from '../models/task.model';
 import { Lesson } from '../models/lesson.model';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-player',
   templateUrl: './player.component.html',
-  styleUrls: ['./player.component.css']
+  styleUrls: ['./player.component.css'],
+  animations: [
+    trigger('bgState', [
+      state('dark', style({
+        'color': '#fff',
+        'backgroundColor': '#006fde'
+      })),
+      state('light', style({
+        'color': '#000',
+        'backgroundColor': '#fff'
+      })),
+      transition('* => *', animate('100ms ease-out'))
+    ]),
+    trigger('controlsState', [
+      state('dark', style({
+        'color': '#fff',
+      })),
+      state('light', style({
+        'color': '#000',
+      })),
+      transition('* => *', animate('100ms ease-out'))
+    ])
+  ]
 })
 export class PlayerComponent implements OnInit {
   @Input() content: any[];
@@ -35,7 +58,7 @@ export class PlayerComponent implements OnInit {
   currentItem = 0;
   done = false;
   private nextTask = 0;
-  lightOnDarkStyle = false;
+  bgState: string;
   contentsLoaded = false;
   private queue: string[];
   private listenToAdvanceEvent = true;
@@ -241,9 +264,9 @@ export class PlayerComponent implements OnInit {
 
   checkStyles(): void {
     if (this.loadedPlayerContents[this.currentItem].type === 'lessonTitle') {
-      this.lightOnDarkStyle = true;
+      this.bgState = 'dark';
     } else {
-      this.lightOnDarkStyle = false;
+      this.bgState = 'light';
     }
   }
 
