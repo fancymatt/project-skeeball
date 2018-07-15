@@ -35,6 +35,7 @@ export class PlayerComponent implements OnInit {
   currentItem = 0;
   done = false;
   private nextTask = 0;
+  lightOnDarkStyle = false;
   contentsLoaded = false;
   private queue: string[];
   private listenToAdvanceEvent = true;
@@ -195,6 +196,7 @@ export class PlayerComponent implements OnInit {
       this.queue[this.nextTask] = 'ready';
     } else {
       this.contentsLoaded = true;
+      this.checkStyles();
       this.loopSubscription.unsubscribe();
     }
   }
@@ -215,6 +217,7 @@ export class PlayerComponent implements OnInit {
     if (this.listenToAdvanceEvent) { // prevents event bubbling
       this.listenToAdvanceEvent = false;
       this.currentItem++;
+      this.checkStyles();
       setTimeout(() => {
         this.listenToAdvanceEvent = true;
       }, 100);
@@ -229,11 +232,19 @@ export class PlayerComponent implements OnInit {
     if (this.listenToAdvanceEvent) {
       this.listenToAdvanceEvent = false;
       this.currentItem--;
+      this.checkStyles();
       setTimeout(() => {
         this.listenToAdvanceEvent = true;
       }, 100);
     }
+  }
 
+  checkStyles(): void {
+    if (this.loadedPlayerContents[this.currentItem].type === 'lessonTitle') {
+      this.lightOnDarkStyle = true;
+    } else {
+      this.lightOnDarkStyle = false;
+    }
   }
 
 }

@@ -1,5 +1,5 @@
 <section class="mat-typography frame" fxLayout="column" fxLayoutAlign="center center">
-  <div class="control-overlay">
+  <div class="control-overlay" [class.dark-bg]="lightOnDarkStyle">
     <div class="side-icons">
       <div class="home-button" routerLink="/next">
         <i class="material-icons">home</i>
@@ -18,9 +18,11 @@
     <div class="time">
       <span>09:36</span>
     </div>
-
   </div>
-  <div class="lesson-frame" fxLayout="column" *ngIf="contentsLoaded && !done">
+  <div class="lesson-frame"
+       fxLayout="column"
+       [class.dark-bg]="lightOnDarkStyle"
+       *ngIf="contentsLoaded && !done">
     <app-player-play-lesson-title
       *ngIf="loadedPlayerContents[currentItem].type === 'lessonTitle'"
       [lesson]="loadedPlayerContents[currentItem].content"

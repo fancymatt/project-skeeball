@@ -1,7 +1,12 @@
 <section class="line-content">
-  <app-standard-button (click)="onDismissLine()">Next</app-standard-button>
-  <div class="videoScript present-text"
+  <div class="lesson-title"
        [@primaryTextState]="textAnimationState">
     <span>{{lesson.name}}</span>
   </div>
+  <div class="lesson-subtitle" [@secondaryTextState]="textAnimationState">
+    <span>This is a summary of what you will learn in this lesson.</span>
+  </div>
+  <button class="start-lesson-btn"
+          (click)="onDismissLine()"
+          [@buttonState]="buttonAnimationState">Begin Lesson</button>
 </section>

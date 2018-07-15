@@ -89,7 +89,7 @@ export class PlayerPlayLessonTitleComponent implements OnInit, OnChanges {
     this.playButtonClickSound();
     setTimeout(() => {
       this.dismissLine.emit(true);
-    }, 2000);
+    }, 500);
   }
 
   displayNextButton() {
@@ -98,6 +98,7 @@ export class PlayerPlayLessonTitleComponent implements OnInit, OnChanges {
 
   animateTextIn() {
     this.textAnimationState = 'presented';
+    this.displayNextButton();
   }
 
   playButtonClickSound() {
