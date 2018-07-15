@@ -6,6 +6,7 @@ import { ISubscription } from 'rxjs-compat/Subscription';
 
 import { Task } from '../../models/task.model';
 import { VocabService } from '../../services/vocab.service';
+import { Vocab } from '../../models/vocab.model';
 
 @Component({
   selector: 'app-challenge-task',
@@ -18,6 +19,9 @@ export class PlayerPlayTaskComponent implements OnInit, OnChanges {
   taskVocabulary: any[];
   currentQuestion: any[];
   correctAnswer: string;
+  currentQuestionElements: Vocab[];
+  currentQuestionSlots: Vocab[];
+  currentQuestionFeedback: string[];
   studentAnswer: string;
   successesRequired: number;
   successesEarned: number;
@@ -97,10 +101,15 @@ export class PlayerPlayTaskComponent implements OnInit, OnChanges {
     this.isSubmitted = false;
     this.studentAnswer = '';
     this.currentQuestion = [];
-    this.taskVocabulary.forEach((patternItem, index) => {
-      if (patternItem.length > 1) { // static only has 1 length
-        this.currentQuestion.push(patternItem[Math.floor(Math.random() * patternItem.length)]);
+    this.currentQuestionElements = [];
+    this.currentQuestionSlots = [];
+    this.taskVocabulary.forEach((patternItem) => {
+      const randomIndex = Math.floor(Math.random() * patternItem.length);
+      if (patternItem.length > 1) {
+        this.currentQuestionSlots.push(patternItem[randomIndex]);
       }
+      this.currentQuestion.push(patternItem[randomIndex]); //remove this later
+      this.currentQuestionElements.push(patternItem[randomIndex]);
     });
     this.initializeAnswer();
   }
@@ -125,14 +134,27 @@ export class PlayerPlayTaskComponent implements OnInit, OnChanges {
   }
 
   checkAnswer() {
+    this.currentQuestionFeedback = [];
     this.isSubmitted = true;
-    const guess = this.studentAnswer.replace(/\s/g, '');
-    const actual = this.correctAnswer.replace(/\s/g, '');
-    if (guess === actual) {
-      this.successesEarned++;
-      this.isCorrect = true;
-    } else {
+    this.currentQuestionElements.forEach((el) => {
+      const cleanedResponse = this.studentAnswer.replace(/\s/g, '');
+      const cleanedAns = el.target.replace(/\s/g, '');
+      const cleanedAnsKana = el.targetKana.replace(/\s/g, '');
+      const cleanedAnsRomaji = el.targetRomanization.replace(/\s/g, '');
+
+      if (cleanedResponse.search(cleanedAns) >= 0) {
+      } else if (cleanedResponse.search(cleanedAnsKana) >= 0) {
+      } else if (cleanedResponse.search(cleanedAnsRomaji) >= 0) {
+      } else {
+        this.currentQuestionFeedback.push('Your entry for "' + el.english + '" is not correct. Please try again.');
+      }
+    });
+
+    if (this.currentQuestionFeedback.length > 0) {
       this.isCorrect = false;
+    } else {
+      this.isCorrect = true;
+      this.successesEarned++;
     }
   }
 

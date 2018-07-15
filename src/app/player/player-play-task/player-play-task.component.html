@@ -3,7 +3,7 @@
     <span>{{task.name}}</span>
   </div>
   <div class="subtitle-text">
-    <p *ngFor="let q of currentQuestion">
+    <p *ngFor="let q of currentQuestionSlots">
       <span>{{q.english}}</span>
     </p>
   </div>
@@ -28,7 +28,9 @@
       (click)="onDismissTask()">Next</app-standard-button>
   </div>
   <div *ngIf="isSubmitted && !isCorrect">
-    Sorry, try again.
+    <p *ngFor="let feedback of currentQuestionFeedback">
+      {{feedback}}
+    </p>
   </div>
 </section>
 <section class="line-content" *ngIf="!fullyLoaded">
