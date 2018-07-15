@@ -17,17 +17,18 @@ import { Vocab } from '../../models/vocab.model';
 export class PlayerPlayVocabularyQuizComponent implements OnInit, OnChanges {
   @Input() lesson: Lesson;
   @Output() dismiss: EventEmitter<boolean> = new EventEmitter<boolean>(false);
-  lessonVocabulary: Vocab[];
-  currentQuestion: any[];
-  correctAnswer: string;
+  requiredSuccessesPerVocab = 2;
+  lessonVocabulary: {vocab: Vocab, successes: number}[];
+  currentVocabulary: Vocab;
+  lastIndex: number;
+  currentIndex: number;
   studentAnswer: string;
-  successesRequired: number;
-  successesEarned: number;
+  isCorrect: boolean;
+  isSubmitted: boolean;
+  vocabQuizComplete: boolean;
   toLoad: number;
   loaded: number;
   fullyLoaded: boolean;
-  isCorrect: boolean;
-  isSubmitted: boolean;
   loopSubscription: ISubscription;
 
   constructor(private activatedRoute: ActivatedRoute,
@@ -44,18 +45,14 @@ export class PlayerPlayVocabularyQuizComponent implements OnInit, OnChanges {
   initialize() {
     this.toLoad = 0;
     this.loaded = 0;
+    this.currentIndex = -1;
+    this.lastIndex = -1;
+    this.vocabQuizComplete = false;
     this.isCorrect = false;
     this.fullyLoaded = false;
     this.isSubmitted = false;
-    this.successesEarned = 0;
     this.loadLessonVocabulary();
-    if (this.lessonVocabulary.length > 1) {
-      this.successesRequired = 5;
-    } else {
-      this.successesRequired = 1;
-    }
     this.studentAnswer = '';
-    this.correctAnswer = '';
     this.loopSubscription = interval(100)
       .takeWhile(() => !this.fullyLoaded)
       .subscribe(() => this.checkLoadStatus());
@@ -69,7 +66,7 @@ export class PlayerPlayVocabularyQuizComponent implements OnInit, OnChanges {
         this.vocabService.get(line.exampleVocabReference)
           .subscribe(
             data => {
-              this.lessonVocabulary.push(data);
+              this.lessonVocabulary.push({vocab: data, successes: 0});
               this.loaded++;
             },
             err => console.error(err)
@@ -78,18 +75,48 @@ export class PlayerPlayVocabularyQuizComponent implements OnInit, OnChanges {
     });
   }
 
+  chooseNewVocabulary() {
+    this.isSubmitted = false;
+    this.isCorrect = false;
+    this.studentAnswer = '';
+    this.lastIndex = this.currentIndex;
+    this.currentIndex = Math.floor(Math.random() * this.lessonVocabulary.length);
+
+    if (this.currentIndex === this.lastIndex) { this.chooseNewVocabulary(); }
+    if (this.lessonVocabulary[this.currentIndex].successes >= this.requiredSuccessesPerVocab) {
+      this.countSuccesses();
+      if (this.vocabQuizComplete) {
+        this.dismiss.emit(true);
+      } else {
+        this.chooseNewVocabulary();
+      }
+    }
+    this.currentVocabulary = this.lessonVocabulary[this.currentIndex].vocab;
+  }
+
   checkLoadStatus() {
     if (this.loaded >= this.toLoad) {
       this.fullyLoaded = true;
+      this.chooseNewVocabulary();
+    }
+  }
+
+  countSuccesses() {
+    let totalSuccesses = 0;
+    this.lessonVocabulary.forEach(vocab => {
+      totalSuccesses += vocab.successes;
+    });
+    if (totalSuccesses >= this.lessonVocabulary.length * this.requiredSuccessesPerVocab) {
+      this.vocabQuizComplete = true;
     }
   }
 
   checkAnswer() {
     this.isSubmitted = true;
     const guess = this.studentAnswer.replace(/\s/g, '');
-    const actual = this.correctAnswer.replace(/\s/g, '');
+    const actual = this.currentVocabulary.targetRomanization.replace(/\s/g, '');
     if (guess === actual) {
-      this.successesEarned++;
+      this.lessonVocabulary[this.currentIndex].successes++;
       this.isCorrect = true;
     } else {
       this.isCorrect = false;
@@ -97,6 +124,14 @@ export class PlayerPlayVocabularyQuizComponent implements OnInit, OnChanges {
   }
   onDismiss() {
     this.dismiss.emit(true);
+  }
+
+  handleEnterPress() {
+    if (this.isSubmitted) {
+      this.chooseNewVocabulary();
+    } else {
+      this.checkAnswer();
+    }
   }
 
 }

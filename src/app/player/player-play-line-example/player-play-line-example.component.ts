@@ -52,7 +52,7 @@ import { VocabService } from '../../services/vocab.service';
       state('end', style({
         opacity: 0
       })),
-      transition('start => presented', animate('100ms 1500ms ease-out')),
+      transition('start => presented', animate('100ms ease-out')),
       transition('presented => end', animate('100ms ease-out'))
     ])
   ]
@@ -108,9 +108,7 @@ export class PlayerPlayLineExampleComponent implements OnInit, OnChanges {
   initializeAnimation() {
     this.textAnimationState = 'start';
     this.buttonAnimationState = 'start';
-    setTimeout(() => {
-      this.animateIn();
-    }, 1000);
+    this.animateIn();
   }
 
   animateIn() {
@@ -126,7 +124,7 @@ export class PlayerPlayLineExampleComponent implements OnInit, OnChanges {
     this.playNeutralSound();
     setTimeout(() => {
       this.dismissLine.emit(true);
-    }, 1000);
+    }, 100);
   }
 
   playNeutralSound() {

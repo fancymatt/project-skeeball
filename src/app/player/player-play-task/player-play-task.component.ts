@@ -162,4 +162,20 @@ export class PlayerPlayTaskComponent implements OnInit, OnChanges {
     this.dismissTask.emit(true);
   }
 
+  handleEnterPress() {
+    if (this.isSubmitted) {
+      if (this.isCorrect) {
+        if (this.successesEarned >= this.successesRequired) {
+          this.onDismissTask();
+          return;
+        }
+        this.initializeQuestion();
+      } else {
+        this.checkAnswer();
+      }
+    } else {
+      this.checkAnswer();
+    }
+  }
+
 }

@@ -79,10 +79,10 @@ export class PlayerPlayLineExplanationComponent implements OnInit, OnChanges {
   initializeAnimation() {
     this.textAnimationState = 'start';
     this.buttonAnimationState = 'start';
+    this.animateTextIn();
     setTimeout(() => {
-      this.animateTextIn();
       this.playNarration();
-    }, 1000);
+    }, 100);
   }
 
   initializeAudio() {
@@ -98,7 +98,7 @@ export class PlayerPlayLineExplanationComponent implements OnInit, OnChanges {
     this.playButtonClickSound();
     setTimeout(() => {
       this.dismissLine.emit(true);
-    }, 2000);
+    }, 100);
   }
 
   displayNextButton() {
